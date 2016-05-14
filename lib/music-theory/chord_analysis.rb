@@ -9,7 +9,14 @@ module MusicTheory
       :augmented => [0,4,7],
       :major_seventh => [0,11],
       :split_third => [0,3,4]
-    }
+    }.freeze
+
+    INVERSION = {
+      [0] => 0,
+      [3, 4] => 1,
+      [5, 6] => 2,
+      [10, 11] => 3
+    }.freeze
 
     attr_reader :members
 
@@ -34,12 +41,7 @@ module MusicTheory
     end
 
     def inversion
-      case abs_members.first
-        when 0 then 0
-        when 3,4 then 1
-        when 5,6 then 2
-        when 10,11 then 3
-      end
+      INVERSION.find { |key, val| key.include?(abs_members.first) }.last
     end
 
     def abs_members
