@@ -3,6 +3,12 @@ module MusicTheory
   # an immutable note
   class Note
 
+    MATCHER = {
+      :accidental => /^[a,b,c,d,e,f,g]([#,b,s])/,
+      :name => /^[a,b,c,d,e,f,g]/,
+      :octave => /\d+$/
+    }.freeze
+
     attr_reader :accidental,
                 :id,
                 :name,
@@ -42,9 +48,10 @@ module MusicTheory
 
     def construct_id
       @id = ""
-      @id += @name unless @name.nil?
-      @id += @accidental unless @accidental.nil?
-      @id += @octave.to_s unless @octave.nil?
+      @id += @name.to_s
+      @id += @accidental.to_s
+      @id += @octave.to_s
+      @id
     end
 
     def process_integer(int)
@@ -59,16 +66,17 @@ module MusicTheory
     end
 
     def process_string(id)
-      regex = {
-        :accidental => /^[a,b,c,d,e,f,g]([#,b,s])/,
-        :name => /^[a,b,c,d,e,f,g]/,
-        :octave => /\d+$/
-      }
       id = id.downcase
-      @octave = id.match(regex[:octave])[0].to_i unless id.match(regex[:octave]).nil?
-      @name = id.match(regex[:name])[0].upcase.to_s unless id.match(regex[:name]).nil?
-      @accidental = id.match(regex[:accidental])[1].downcase.to_s unless id.match(regex[:accidental]).nil?
-      @accidental.gsub!(/s/, "#") unless @accidental.nil?
+      if id.match(MATCHER[:octave])
+        @octave = id.match(MATCHER[:octave])[0].to_i
+      end
+      if id.match(MATCHER[:name])
+        @name = id.match(MATCHER[:name])[0].upcase.to_s
+      end
+      if id.match(MATCHER[:accidental])
+        @accidental = id.match(MATCHER[:accidental])[1].downcase.to_s
+        @accidental.gsub!(/s/, "#")
+      end
     end
 
   end
