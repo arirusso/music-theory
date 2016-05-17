@@ -4,10 +4,9 @@
 #
 
 # modules
+require "music-theory/chord"
 
 # classes
-require "music-theory/chord"
-require "music-theory/chord_analysis"
 require "music-theory/note"
 require "music-theory/scale"
 
