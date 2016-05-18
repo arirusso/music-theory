@@ -39,7 +39,7 @@ module MusicTheory
       end
 
       def attributes
-        ATTRIBUTES.keys.map { |name| name if has_attribute?(name) }.compact
+        ATTRIBUTES.keys.select { |name| has_attribute?(name) }
       end
 
       def inversion
