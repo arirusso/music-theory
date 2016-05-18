@@ -5,10 +5,10 @@ module MusicTheory
     extend Forwardable
 
     attr_reader :members
-    def_delegators :@members, :size
+    def_delegators :@members, :size, :to_a
 
     def initialize(*members)
-      @members = members
+      @members = members.flatten
     end
 
     def interval(degree)
@@ -19,13 +19,28 @@ module MusicTheory
       @members.index(interval) + 1
     end
 
-    def collapsed
-      Scale::Degree.collapsed(@members)
+    def collapse
+      members = Scale::Degree.collapsed(@members)
+      Set.new(members)
     end
 
-    def normalized
-      Scale::Degree.normalized(@members)
+    def normalize
+      members = Scale::Degree.normalized(@members)
+      Set.new(members)
     end
+
+    def sort
+      Set.new(@members.sort)
+    end
+
+    def uniq
+      Set.new(@members.uniq)
+    end
+
+    def ==(o)
+      (o.class == self.class) && o.members == @members
+    end
+    alias_method :eql?, :==
 
   end
 
