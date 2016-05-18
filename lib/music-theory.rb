@@ -5,10 +5,12 @@
 
 # modules
 require "music-theory/chord"
+require "music-theory/scale"
 
 # classes
 require "music-theory/note"
-require "music-theory/scale"
+require "music-theory/set"
+
 
 module MusicTheory
 

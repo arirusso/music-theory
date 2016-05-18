@@ -15,9 +15,19 @@ module MusicTheory
       ]
 
       DIATONIC = {
-        :major => [0, 2, 4, 5, 7, 9, 11]
+        :major => [0, 2, 4, 5, 7, 9, 11],
+        :minor => []
       }
 
+      def initialize(set)
+        @set = set
+      end
+
+      def scale
+      end
+
+      def mode
+      end
 
     end
 
