@@ -48,16 +48,8 @@ module MusicTheory
       end
 
       def abs_members
-        collapsed_members = self.class.collapsed(@members)
-        self.class.normalized(collapsed_members)
-      end
-
-      def self.collapsed(collection)
-        collection.map { |m| m % 12 }
-      end
-
-      def self.normalized(collection)
-        collection.map { |m| m - collection.min }
+        collapsed_members = Scale::Degree.collapsed(@members)
+        Scale::Degree.normalized(collapsed_members)
       end
 
     end
