@@ -23,7 +23,11 @@ module MusicTheory
         @set = set
       end
 
-      def scale
+      def diatonic
+        # TODO make less strict ?
+        # if there are more than 7, try iterating thru, removing the extra ones
+        degrees = @set.collapse.normalize.uniq.sort
+        DIATONIC.key(degrees.to_a)
       end
 
       def mode
