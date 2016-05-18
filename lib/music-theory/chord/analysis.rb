@@ -9,14 +9,14 @@ module MusicTheory
         :minor => [0,3],
         :diminished => [0,3,5],
         :augmented => [0,4,7],
-        :major_seventh => [0,11],
-        :split_third => [0,3,4]
+        :minor_seventh => [0,10],
+        :major_seventh => [0,11]
       }.freeze
 
       INVERSION = {
         [0] => 0,
         [3, 4] => 1,
-        [5, 6] => 2,
+        [5, 7] => 2,
         [10, 11] => 3
       }.freeze
 
@@ -43,11 +43,13 @@ module MusicTheory
       end
 
       def inversion
-        INVERSION.find { |key, val| key.include?(abs_members.first) }.last
+        key = INVERSION.keys.find { |k| k.include?(abs_members.first) }
+        INVERSION[key]
       end
 
       def abs_members
-        self.class.normalized(self.class.collapsed(@members))
+        collapsed_members = self.class.collapsed(@members)
+        self.class.normalized(collapsed_members)
       end
 
       def self.collapsed(collection)
