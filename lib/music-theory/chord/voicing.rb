@@ -12,10 +12,6 @@ module MusicTheory
         process_args(*args)
       end
 
-      def self.[](*args)
-        new(*args)
-      end
-
       def attributes
         Analysis.find(*@members.map(&:midi_note_num)).attributes
       end

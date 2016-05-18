@@ -9,18 +9,13 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
     assert_equal "B", chord.members.last.name
   end
 
-  def test_chord_brackets
-    chord = MusicTheory::Chord::Voicing["a", "B"]
-    assert_equal 2, chord.members.size
-  end
-
   def test_chord_mixed
-    chord = MusicTheory::Chord::Voicing["a", :b]
+    chord = MusicTheory::Chord::Voicing.new("a", :b)
     assert_equal 2, chord.members.size
   end
 
   def test_chord_array
-    chord = MusicTheory::Chord::Voicing.new %w{a c d# f}
+    chord = MusicTheory::Chord::Voicing.new(%w{a c d# f})
     assert_equal 4, chord.members.size
   end
 
