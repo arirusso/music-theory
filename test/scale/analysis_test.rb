@@ -8,13 +8,17 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
 
       context "from major scale" do
 
-        setup do
-          @set = MusicTheory::Set.new(0, 2, 4, 5, 7, 9, 11)
-          @analysis = MusicTheory::Scale::Analysis.new(@set)
-        end
+        context "ionian" do
 
-        should "identify mode" do
-          #assert_equal :ionian, @analysis.mode
+          setup do
+            @set = MusicTheory::Set.new(0, 2, 4, 5, 7, 9, 11)
+            @analysis = MusicTheory::Scale::Analysis.new(@set)
+          end
+
+          should "identify mode" do
+            assert_equal :ionian, @analysis.mode
+          end
+
         end
 
       end
@@ -25,7 +29,7 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
 
     end
 
-    context "#diatonic" do
+    context "#scale" do
 
       context "major" do
 
@@ -35,12 +39,26 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
         end
 
         should "identify scale" do
-          assert_equal :major, @analysis.diatonic
+          assert_equal :major, @analysis.scale
         end
-        
+
       end
 
       context "minor" do
+
+        context "natural" do
+
+          setup do
+            @set = MusicTheory::Set.new(0, 2, 3, 5, 7, 8, 10)
+            @analysis = MusicTheory::Scale::Analysis.new(@set)
+          end
+
+          should "identify scale" do
+            assert_equal({ :minor => :natural }, @analysis.scale)
+          end
+
+        end
+
       end
 
     end

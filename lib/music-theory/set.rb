@@ -24,17 +24,33 @@ module MusicTheory
       Set.new(members)
     end
 
+    def collapse!
+      @members = collapse.members
+    end
+
     def normalize
       members = Scale::Degree.normalized(@members)
       Set.new(members)
+    end
+
+    def normalize!
+      @members = normalize.members
     end
 
     def sort
       Set.new(@members.sort)
     end
 
+    def sort!
+      @members = sort.members
+    end
+
     def uniq
       Set.new(@members.uniq)
+    end
+
+    def uniq!
+      @members = uniq.members
     end
 
     def ==(o)
