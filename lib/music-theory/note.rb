@@ -1,6 +1,6 @@
 module MusicTheory
 
-  # an immutable note
+  # An immutable note
   class Note
 
     NAME = {

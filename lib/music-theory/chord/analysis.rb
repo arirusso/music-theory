@@ -48,8 +48,8 @@ module MusicTheory
       end
 
       def abs_members
-        collapsed_members = Scale::Degree.collapsed(@members)
-        Scale::Degree.normalized(collapsed_members)
+        collapsed_members = Scale::Degree.collapse_all(@members)
+        Scale::Degree.normalize(collapsed_members)
       end
 
     end
