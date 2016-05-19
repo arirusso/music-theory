@@ -3,11 +3,26 @@ module MusicTheory
   # an immutable note
   class Note
 
-    MATCHER = {
-      :accidental => /^[a,b,c,d,e,f,g]([#,b,s])/,
-      :name => /^[a,b,c,d,e,f,g]/,
+    NAME = {
+      :c => "c",
+      :d => "d",
+      :e => "e",
+      :f => "f",
+      :g => "g",
+      :a => "a",
+      :b => "b"
+    }.freeze
+
+    SHARP = "#".freeze
+    FLAT = "b".freeze
+
+    MATCH = {
+      :accidental => /^[#{NAME.values.join(',')}]([#{SHARP},#{FLAT},s]+)/,
+      :name => /^[#{NAME.values.join(',')}]/,
       :octave => /\d+$/
     }.freeze
+
+    DEFAULT_SCALE = %w{c c# d d# e f f# g g# a bb b}.freeze
 
     attr_reader :accidental,
                 :id,
@@ -25,19 +40,22 @@ module MusicTheory
     end
 
     def midi_note_num(options = {})
-      base = options[:octave] || 0
-      interval = %{c d e f g a b}.index(@name.downcase)
-      octave_start = @octave.nil? ? base : (12 * @octave) + 12
-      octave_start + interval + mod
+      octave = options[:octave] || @octave
+      unless octave.nil?
+        octave_start = (12 * octave) + 12
+        octave_start + interval_above_c + mod
+      end
     end
 
+    # The intervalic value of this note's accidental
+    # @return [Fixnum]
     def mod
       mod = 0
       unless @accidental.nil?
         @accidental.each_char do |char|
           mod += case char
-            when "#" then 1
-            when "b" then -1
+          when SHARP then 1
+          when FLAT then -1
           end
         end
       end
@@ -45,6 +63,13 @@ module MusicTheory
     end
 
     private
+
+    # The interval of this note above C (in C Major)
+    # @return [Fixnum]
+    def interval_above_c
+      scale_degree = NAME.keys.index(@name.downcase.to_sym)
+      Scale::Analysis::SCALE[:major][scale_degree]
+    end
 
     def construct_id
       @id = ""
@@ -56,7 +81,7 @@ module MusicTheory
 
     def process_integer(int)
       octave, note = *int.divmod(12)
-      name = %w{c c# d d# e f f# g g# a bb b}.at(note)
+      name = DEFAULT_SCALE.at(note)
       process_string("#{name}#{(octave - 1)}")
     end
 
@@ -67,15 +92,15 @@ module MusicTheory
 
     def process_string(id)
       id = id.downcase
-      if id.match(MATCHER[:octave])
-        @octave = id.match(MATCHER[:octave])[0].to_i
+      if id.match(MATCH[:octave])
+        @octave = id.match(MATCH[:octave])[0].to_i
       end
-      if id.match(MATCHER[:name])
-        @name = id.match(MATCHER[:name])[0].upcase.to_s
+      if id.match(MATCH[:name])
+        @name = id.match(MATCH[:name])[0].upcase.to_s
       end
-      if id.match(MATCHER[:accidental])
-        @accidental = id.match(MATCHER[:accidental])[1].downcase.to_s
-        @accidental.gsub!(/s/, "#")
+      if id.match(MATCH[:accidental])
+        @accidental = id.match(MATCH[:accidental])[1].downcase.to_s
+        @accidental.gsub!(/s/, SHARP)
       end
     end
 
