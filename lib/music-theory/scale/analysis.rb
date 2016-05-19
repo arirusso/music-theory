@@ -19,7 +19,10 @@ module MusicTheory
         :minor => {
           :natural => [0, 2, 3, 5, 7, 8, 10],
           :harmonic => [0, 2, 3, 5, 7, 8, 11],
-          :melodic => []
+          :melodic => [
+            [],
+            []
+          ]
         },
         :pentatonic => {
           :major => [],

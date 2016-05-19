@@ -5,12 +5,30 @@ module MusicTheory
     class Analysis
 
       ATTRIBUTES = {
-        :major => [0,4],
-        :minor => [0,3],
-        :diminished => [0,3,5],
-        :augmented => [0,4,7],
-        :minor_seventh => [0,10],
-        :major_seventh => [0,11]
+        :major => {
+          :abbrev => :maj,
+          :intervals => [0,4]
+        },
+        :minor => {
+          :abbrev => :min,
+          :intervals => [0,3]
+        },
+        :diminished => {
+          :abbrev => :dim,
+          :intervals => [0,3,5]
+        },
+        :augmented => {
+          :abbrev => :aug,
+          :intervals => [0,4,8]
+        },
+        :minor_seventh => {
+          :abbrev => :min7,
+          :intervals => [0,10]
+        },
+        :major_seventh => {
+          :abbrev => :maj7,
+          :intervals => [0,11]
+        }
       }.freeze
 
       INVERSION = {
@@ -34,7 +52,7 @@ module MusicTheory
           root = nil
           i = 0
           while root.nil? && i < members.size
-            identifiers = ATTRIBUTES.values
+            identifiers = ATTRIBUTES.values.map { |attr| attr[:intervals] }
             if identifiers.any? { |identifier| identifier == members[0..identifier.size-1] }
               root = members[0]
             else
@@ -53,15 +71,15 @@ module MusicTheory
       # Get the name of the chord
       # @return [Symbol]
       def name
-        root.name
+        attr = ATTRIBUTES[attributes.first]
+        type = attr[:abbrev].to_s
+        type[0] = type[0].upcase
+        (root.name + type).to_sym
       end
 
       def has_attribute?(name)
         attribute = ATTRIBUTES[name.to_sym]
-        case attribute
-        when Proc then attribute.call(self)
-        else (attribute & abs_members) == attribute
-        end
+        (attribute[:intervals] & abs_members) == attribute[:intervals]
       end
 
       def attributes

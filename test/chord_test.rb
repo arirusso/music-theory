@@ -8,8 +8,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       should "identify triad" do
         @chord = MusicTheory::Chord.identify(%w{d f# a})
-        assert_equal "D", @chord.name
-        #assert_equal :DMaj, @chord.name
+        assert_equal :DMaj, @chord.name
       end
 
       should "identify extended" do
