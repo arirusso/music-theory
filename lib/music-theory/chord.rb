@@ -6,9 +6,15 @@ module MusicTheory
   module Chord
 
     def self.new(*args)
-      MusicTheory::Chord::Voicing.new(*args)
+      Voicing.new(*args)
     end
-    
+
+    def self.identify(*notes)
+      notes = [notes].flatten
+      notes = notes.map { |note| note.kind_of?(Note) ? note : Note.new(note) }
+      Voicing.analyze(notes)
+    end
+
   end
 
 end

@@ -22,12 +22,38 @@ module MusicTheory
 
       attr_reader :members
 
-      def self.find(*args)
-        new(*args)
-      end
-
       def initialize(*args)
         @members = args
+      end
+
+      # Get the root member of the chord
+      # @return [Note]
+      def root
+        if @root.nil?
+          members = abs_members.sort
+          root = nil
+          i = 0
+          while root.nil? && i < members.size
+            identifiers = ATTRIBUTES.values
+            if identifiers.any? { |identifier| identifier == members[0..identifier.size-1] }
+              root = members[0]
+            else
+              members.rotate!
+              i += 1
+            end
+          end
+          unless root.nil?
+            index = abs_members.index(root)
+            @root = @members[index]
+          end
+        end
+        @root
+      end
+
+      # Get the name of the chord
+      # @return [Symbol]
+      def name
+        root.name
       end
 
       def has_attribute?(name)
@@ -48,7 +74,8 @@ module MusicTheory
       end
 
       def abs_members
-        collapsed_members = Scale::Degree.collapse_all(@members)
+        numbers = @members.map { |note| note.midi_note_num || note.interval_above_c }
+        collapsed_members = Scale::Degree.collapse_all(numbers)
         Scale::Degree.normalize(collapsed_members)
       end
 

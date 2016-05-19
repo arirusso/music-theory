@@ -30,11 +30,7 @@ module MusicTheory
                 :octave
 
     def initialize(id, options = {})
-      case id
-        when Integer then process_integer(id)
-        when String then process_string(id)
-        when Symbol then process_string(id.to_s)
-      end
+      id = parse_id(id)
       process_options(options)
       construct_id
     end
@@ -43,7 +39,7 @@ module MusicTheory
       octave = options[:octave] || @octave
       unless octave.nil?
         octave_start = (12 * octave) + 12
-        octave_start + interval_above_c + mod
+        octave_start + interval_above_c
       end
     end
 
@@ -62,11 +58,24 @@ module MusicTheory
       mod
     end
 
+    def interval_above_c
+      as_c_major_scale_degree + mod
+    end
+
     private
+
+    def parse_id(id)
+      case id
+        when Array then id.map { |member| parse_id(member) }
+        when Integer then process_integer(id)
+        when String then process_string(id)
+        when Symbol then process_string(id.to_s)
+      end
+    end
 
     # The interval of this note above C (in C Major)
     # @return [Fixnum]
-    def interval_above_c
+    def as_c_major_scale_degree
       scale_degree = NAME.keys.index(@name.downcase.to_sym)
       Scale::Analysis::SCALE[:major][scale_degree]
     end

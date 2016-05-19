@@ -7,13 +7,21 @@ module MusicTheory
       attr_reader :members
       alias_method :notes, :members
 
+      def self.analyze(*args)
+        new(*args).analyze
+      end
+
       def initialize(*args)
         @members = []
         process_args(*args)
       end
 
       def attributes
-        Analysis.find(*@members.map(&:midi_note_num)).attributes
+        analyze.attributes
+      end
+
+      def analyze
+        @analysis ||= Analysis.new(*@members)
       end
 
       private
