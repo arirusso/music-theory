@@ -16,8 +16,8 @@ module MusicTheory
         process_args(*args)
       end
 
-      def triads
-        analyze.triads
+      def triad_names
+        analyze.triad_names
       end
 
       def analyze

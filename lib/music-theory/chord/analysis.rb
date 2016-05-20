@@ -74,7 +74,7 @@ module MusicTheory
       # Get the name of the chord
       # @return [Symbol]
       def name
-        triad = TRIAD[triads.first]
+        triad = TRIAD[triad_names.first]
         type = triad[:abbrev].to_s
         type[0] = type[0].upcase
         (root.name + type).to_sym
@@ -85,7 +85,7 @@ module MusicTheory
         (triad[:intervals] & abs_members) == triad[:intervals]
       end
 
-      def triads
+      def triad_names
         TRIAD.keys.select { |name| has_triad?(name) }
       end
 

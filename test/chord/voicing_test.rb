@@ -24,7 +24,7 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
     assert_equal "C", chord.members[0].name
     assert_equal "E", chord.members[1].name
     assert_equal "G", chord.members[2].name
-    assert_includes chord.triads, :major
+    assert_includes chord.triad_names, :major
   end
 
 end
