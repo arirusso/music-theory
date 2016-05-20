@@ -34,14 +34,14 @@ module MusicTheory
         }
       }
 
-      INVERSION = {
-        [0] => 0,
-        [3, 4] => 1,
-        [5, 7] => 2,
-        [10, 11] => 3
-      }.freeze
+      INVERSION = [
+        [0],
+        [3, 4],
+        [5, 7],
+        [10, 11]
+      ].freeze
 
-      attr_reader :members, :root
+      attr_reader :members, :root, :triads
 
       def initialize(*args)
         @members = args
@@ -59,19 +59,29 @@ module MusicTheory
       end
 
       def has_triad?(name)
-        @triads.key?(name)
+        !@triads.select { |triad| triad[:name] }.empty?
       end
 
       def triad_names
-        @triad_names ||= @triads.keys
+        @triad_names ||= @triads.map { |triad| triad[:name] }
       end
 
       def inversion
-        key = INVERSION.keys.find { |k| k.include?(abs_notes(@members).first) }
-        INVERSION[key]
+        key = INVERSION.find { |k| k.include?(abs_notes(@members).first) }
+        INVERSION.index(key)
       end
 
       private
+
+      def get_inversion(triad, notes)
+        triad = triad.dup
+        i = 0
+        while notes[0] != triad[0] && i < notes.count
+          triad.rotate!
+          i += 1
+        end
+        i
+      end
 
       def abs_notes(collection)
         numbers = collection.map { |note| note.midi_note_num || note.interval_above_c }
@@ -80,7 +90,7 @@ module MusicTheory
       end
 
       def populate_triads
-        @triads = {}
+        @triads = []
         TRIAD.keys.each do |name|
           triad = TRIAD[name.to_sym]
           abs = abs_notes(@members)
@@ -90,8 +100,12 @@ module MusicTheory
               index = abs.index(member)
               @members[index]
             end
-            @triads[name.to_sym] ||= []
-            @triads[name.to_sym] << notes
+            inversion = get_inversion(triad[:intervals], abs)
+            @triads << {
+              :inversion => inversion,
+              :members => notes,
+              :name => name.to_sym
+            }
           end
         end
         @triads
