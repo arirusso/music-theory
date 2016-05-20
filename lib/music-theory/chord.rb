@@ -1,5 +1,6 @@
 require "music-theory/chord/analysis"
 require "music-theory/chord/dictionary"
+require "music-theory/chord/seventh"
 require "music-theory/chord/triad"
 require "music-theory/chord/voicing"
 

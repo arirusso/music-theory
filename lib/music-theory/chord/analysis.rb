@@ -8,7 +8,22 @@ module MusicTheory
 
       def initialize(*args)
         @members = args
+        @included_chords = {}
         populate_triads
+        populate_sevenths
+      end
+
+      def triad?
+        !@included_chords[:triad].empty? &&
+          @included_chords[:triad].count == 1 &&
+          @included_chords[:seventh].empty? &&
+          @included_chords[:extended].empty?
+      end
+
+      def seventh?
+        !@included_chords[:seventh].empty? &&
+          @included_chords[:seventh].count == 1 &&
+          @included_chords[:extended].empty?
       end
 
       # Get the name of the chord
@@ -21,25 +36,28 @@ module MusicTheory
       end
 
       def root
-        @triads.first.root
+        @included_chords[:triad].first.root
       end
-      
+
       def has_triad?(name)
-        !@triads.select { |triad| triad.name }.empty?
+        !@included_chords[:triad].select(&:name).empty?
       end
 
       def triad_names
-        @triad_names ||= @triads.map { |triad| triad.name }
+        @triad_names ||= @included_chords[:triad].map(&:name)
       end
 
       def inversion
-        @inversion ||= @triads.first.inversion
+        @inversion ||= @included_chords[:triad].first.inversion
       end
 
       private
 
+      def populate_sevenths
+      end
+
       def populate_triads
-        @triads = Triad.find_all(@members)
+        @included_chords[:triad] = Triad.find_all(@members)
       end
 
     end
