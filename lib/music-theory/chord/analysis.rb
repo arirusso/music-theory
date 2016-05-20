@@ -88,15 +88,21 @@ module MusicTheory
           abs = abs_notes(@members)
           union = triad[:intervals] & abs
           if union == triad[:intervals]
-            notes = union.map do |member|
+            root = nil
+            i = 0
+            notes = triad[:intervals].map do |member|
               index = abs.index(member)
-              @members[index]
+              note = @members[index]
+              root = note if i == 0
+              i += 1
+              note
             end
             inversion = get_inversion(triad[:intervals], abs)
             @triads << {
               :inversion => inversion,
               :members => notes,
-              :name => name.to_sym
+              :name => name.to_sym,
+              :root => root
             }
           end
         end
