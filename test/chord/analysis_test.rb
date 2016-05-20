@@ -9,7 +9,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "major chord, root inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(13,17,19)
+          @id = MusicTheory::Chord::Voicing.analyze(13,17,20)
         end
 
         should "reflect correct root" do
@@ -21,7 +21,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "major chord, first inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(17,13,19)
+          @id = MusicTheory::Chord::Voicing.analyze(17,13,20)
         end
 
         should "reflect correct root" do
@@ -33,7 +33,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "minor chord, root inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(13,16,19)
+          @id = MusicTheory::Chord::Voicing.analyze(13,16,20)
         end
 
         should "reflect correct root" do
@@ -45,7 +45,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "minor chord, first inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(16,13,19)
+          @id = MusicTheory::Chord::Voicing.analyze(16,13,20)
         end
 
         should "reflect correct root" do
@@ -130,16 +130,16 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
     end
 
-    context "#has_attribute?" do
+    context "#has_triad?" do
 
       context "major chord, root inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(13,17,19)
+          @id = MusicTheory::Chord::Voicing.analyze(13,17,20)
         end
 
         should "be major" do
-          assert @id.has_attribute?(:major)
+          assert @id.has_triad?(:major)
         end
 
       end
@@ -147,11 +147,11 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "major chord, first inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(17,13,19)
+          @id = MusicTheory::Chord::Voicing.analyze(17,13,20)
         end
 
         should "be major" do
-          assert @id.has_attribute?(:major)
+          assert @id.has_triad?(:major)
         end
 
       end
@@ -159,11 +159,11 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "minor chord, root inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(13,16,19)
+          @id = MusicTheory::Chord::Voicing.analyze(13,16,20)
         end
 
         should "be minor" do
-          assert @id.has_attribute?(:minor)
+          assert @id.has_triad?(:minor)
         end
 
       end
@@ -171,11 +171,11 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "minor chord, first inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(16,13,19)
+          @id = MusicTheory::Chord::Voicing.analyze(16,13,20)
         end
 
         should "be minor" do
-          assert @id.has_attribute?(:minor)
+          assert @id.has_triad?(:minor)
         end
 
       end
@@ -187,7 +187,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "be minor" do
-          assert @id.has_attribute?(:minor)
+          assert @id.has_triad?(:minor)
         end
 
       end
@@ -195,11 +195,11 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "major seventh" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(16,12,18,23)
+          @id = MusicTheory::Chord::Voicing.analyze(16,12,19,23)
         end
 
-        should "have major seventh" do
-          assert @id.has_attribute?(:major_seventh)
+        should "have major triad" do
+          assert @id.has_triad?(:major)
         end
 
       end

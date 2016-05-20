@@ -4,32 +4,35 @@ module MusicTheory
 
     class Analysis
 
-      ATTRIBUTES = {
+      TRIAD = {
         :major => {
           :abbrev => :maj,
-          :intervals => [0,4]
+          :intervals => [0, 4, 7]
         },
         :minor => {
           :abbrev => :min,
-          :intervals => [0,3]
+          :intervals => [0, 3, 7]
         },
         :diminished => {
           :abbrev => :dim,
-          :intervals => [0,3,5]
+          :intervals => [0, 3, 5]
         },
         :augmented => {
           :abbrev => :aug,
-          :intervals => [0,4,8]
-        },
+          :intervals => [0, 4, 8]
+        }
+      }.freeze
+
+      EXTENDED = {
         :minor_seventh => {
           :abbrev => :min7,
-          :intervals => [0,10]
+          :intervals => [0, 10]
         },
         :major_seventh => {
           :abbrev => :maj7,
-          :intervals => [0,11]
+          :intervals => [0, 11]
         }
-      }.freeze
+      }
 
       INVERSION = {
         [0] => 0,
@@ -52,7 +55,7 @@ module MusicTheory
           root = nil
           i = 0
           while root.nil? && i < members.size
-            identifiers = ATTRIBUTES.values.map { |attr| attr[:intervals] }
+            identifiers = TRIAD.values.map { |triad| triad[:intervals] }
             if identifiers.any? { |identifier| identifier == members[0..identifier.size-1] }
               root = members[0]
             else
@@ -71,19 +74,19 @@ module MusicTheory
       # Get the name of the chord
       # @return [Symbol]
       def name
-        attr = ATTRIBUTES[attributes.first]
-        type = attr[:abbrev].to_s
+        triad = TRIAD[triads.first]
+        type = triad[:abbrev].to_s
         type[0] = type[0].upcase
         (root.name + type).to_sym
       end
 
-      def has_attribute?(name)
-        attribute = ATTRIBUTES[name.to_sym]
-        (attribute[:intervals] & abs_members) == attribute[:intervals]
+      def has_triad?(name)
+        triad = TRIAD[name.to_sym]
+        (triad[:intervals] & abs_members) == triad[:intervals]
       end
 
-      def attributes
-        ATTRIBUTES.keys.select { |name| has_attribute?(name) }
+      def triads
+        TRIAD.keys.select { |name| has_triad?(name) }
       end
 
       def inversion
