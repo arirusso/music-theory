@@ -9,7 +9,6 @@ module MusicTheory
       def initialize(*args)
         @members = args
         populate_triads
-        populate_root
       end
 
       # Get the name of the chord
@@ -21,6 +20,10 @@ module MusicTheory
         (root.name + type).to_sym
       end
 
+      def root
+        @triads.first.root
+      end
+      
       def has_triad?(name)
         !@triads.select { |triad| triad.name }.empty?
       end
@@ -37,25 +40,6 @@ module MusicTheory
 
       def populate_triads
         @triads = Triad.find_all(@members)
-      end
-
-      def populate_root
-        members = Interval.map(@members).sort
-        root = nil
-        i = 0
-        while root.nil? && i < members.size
-          identifiers = DICTIONARY[:triad].values.map { |triad| triad[:intervals] }
-          if identifiers.any? { |identifier| identifier == members[0..identifier.size-1] }
-            root = members[0]
-          else
-            members.rotate!
-            i += 1
-          end
-        end
-        unless root.nil?
-          index = Interval.map(@members).index(root)
-          @root = @members[index]
-        end
       end
 
     end
