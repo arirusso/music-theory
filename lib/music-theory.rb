@@ -8,6 +8,7 @@ require "music-theory/chord"
 require "music-theory/scale"
 
 # classes
+require "music-theory/interval"
 require "music-theory/note"
 require "music-theory/set"
 

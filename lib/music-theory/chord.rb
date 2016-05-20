@@ -1,4 +1,6 @@
 require "music-theory/chord/analysis"
+require "music-theory/chord/dictionary"
+require "music-theory/chord/triad"
 require "music-theory/chord/voicing"
 
 module MusicTheory
