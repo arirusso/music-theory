@@ -109,7 +109,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "major chord, root inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(13,17,19)
+          @id = MusicTheory::Chord::Voicing.analyze(13,17,20)
         end
 
         should "be root inversion" do
@@ -121,7 +121,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "major chord, first inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(17,13,19)
+          @id = MusicTheory::Chord::Voicing.analyze(17,13,20)
         end
 
         should "be first inversion" do
@@ -133,7 +133,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "minor chord, root inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(13,16,19)
+          @id = MusicTheory::Chord::Voicing.analyze(13,16,20)
         end
 
         should "be root inversion" do
@@ -145,7 +145,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
       context "minor chord, first inversion" do
 
         setup do
-          @id = MusicTheory::Chord::Voicing.analyze(16,13,19)
+          @id = MusicTheory::Chord::Voicing.analyze(16,13,20)
         end
 
         should "be first inversion" do

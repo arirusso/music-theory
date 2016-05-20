@@ -34,13 +34,6 @@ module MusicTheory
         }
       }
 
-      INVERSION = [
-        [0],
-        [3, 4],
-        [5, 7],
-        [10, 11]
-      ].freeze
-
       attr_reader :members, :root, :triads
 
       def initialize(*args)
@@ -67,8 +60,7 @@ module MusicTheory
       end
 
       def inversion
-        key = INVERSION.find { |k| k.include?(abs_notes(@members).first) }
-        INVERSION.index(key)
+        @inversion ||= @triads.first[:inversion]
       end
 
       private
