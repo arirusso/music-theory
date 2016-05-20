@@ -20,7 +20,7 @@ module MusicTheory
     end
 
     def collapse
-      members = Scale::Degree.collapse_all(@members)
+      members = Interval.reduce(@members)
       Set.new(members)
     end
 
@@ -29,7 +29,7 @@ module MusicTheory
     end
 
     def normalize
-      members = Scale::Degree.normalize(@members)
+      members = Interval.normalize(@members)
       Set.new(members)
     end
 

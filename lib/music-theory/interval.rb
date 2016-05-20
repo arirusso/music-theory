@@ -2,10 +2,30 @@ module MusicTheory
 
   class Interval
 
-    def self.map(notes)
-      numbers = notes.map { |note| note.midi_note_num || note.interval_above_c }
-      reduced_members = Scale::Degree.collapse_all(numbers)
-      Scale::Degree.normalize(reduced_members)
+    class << self
+
+      def map(notes)
+        numbers = notes.map { |note| note.midi_note_num || note.interval_above_c }
+        reduced_members = reduce(numbers)
+        normalize(reduced_members)
+      end
+
+      # Convert a set of numbers to scale degrees
+      # eg [13, 2, 35] -> [1, 2, 11]
+      # @param [Array<Fixnum>] degrees
+      # @return [Array<Fixnum>]
+      def reduce(intervals)
+        intervals.map { |n| Scale::Degree.reduce(n) }
+      end
+
+      # Transpose the given intervals so that the lowest one is zero
+      # eg [16, 22, 12] -> [4, 10, 0]
+      # @param [Array<Fixnum>] intervals
+      # @return [Array<Fixnum>]
+      def normalize(intervals)
+        intervals.map { |n| n - intervals.min }
+      end
+
     end
 
   end
