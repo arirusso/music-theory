@@ -7,9 +7,9 @@ module MusicTheory
       attr_reader :inversion, :members, :name, :root, :type
 
       def self.find_all(type, notes)
-        DICTIONARY[type].keys.map do |name|
-          new(type, name, notes) unless as_intervals(type, name, notes).nil?
-        end.compact
+        names = DICTIONARY[type].keys
+        matching_names = names.reject { |name| as_intervals(type, name, notes).nil? }
+        matching_names.map { |name| new(type, name, notes) }
       end
 
       def initialize(type, name, notes)
