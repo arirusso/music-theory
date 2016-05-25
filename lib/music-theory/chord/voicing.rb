@@ -7,14 +7,28 @@ module MusicTheory
       attr_reader :inversion, :name, :members, :root
 
       def self.find_all(type, notes)
-        matches = DICTIONARY[type].keys.select { |name| matches?(type, name, notes) }
-        matches.map { |name| new(type, name, notes) }
+        DICTIONARY[type].keys.map do |name|
+          intervals = match_intervals(type, name, notes)
+          new(type, name, notes) unless intervals.nil?
+        end.compact
       end
 
       def initialize(type, name, notes)
         @name = name.to_sym
         @type = type.to_sym
         populate_notes(notes)
+      end
+
+      def size
+        @members.size
+      end
+
+      def triad?
+        @type == :triad
+      end
+
+      def seventh?
+        @type == :seventh
       end
 
       def dictionary
@@ -24,17 +38,24 @@ module MusicTheory
       private
 
       def populate_notes(notes)
-        intervals = Interval.map(notes)
+        intervals = self.class.match_intervals(@type, @name, notes)
+        # if intervals.size != dictionary[:intervals]
+        # TODO
         @root = nil
         i = 0
         @members = dictionary[:intervals].map do |member|
           index = intervals.index(member)
           note = notes[index]
-          @root = note if i == 0
+          @root = note if member == 0
           i += 1
           note
         end
-        @inversion = self.class.get_inversion(dictionary[:intervals], intervals)
+        base = @root.interval_above_c
+        nums = notes.map(&:interval_above_c)
+        ints = nums.map { |n| n-base }
+        ints = Interval.normalize(ints)
+        @inversion = dictionary[:intervals].index(ints[0])
+        @members
       end
 
       def self.get_inversion(intervals, notes)
@@ -47,10 +68,17 @@ module MusicTheory
         i
       end
 
-      def self.matches?(type, name, notes)
-        dictionary = DICTIONARY[type][name.to_sym]
-        intervals = Interval.map(notes)
-        dictionary[:intervals] & intervals == dictionary[:intervals]
+      def self.match_intervals(type, name, notes)
+        dictionary = DICTIONARY[type.to_sym][name.to_sym]
+        intervals = Interval.find(notes)
+        variations = []
+        intervals.count.times do
+          last = variations.last || intervals
+          variations << Interval.fold(last)
+        end
+        variations.find do |intervals|
+          dictionary[:intervals] & intervals == dictionary[:intervals]
+        end
       end
 
     end

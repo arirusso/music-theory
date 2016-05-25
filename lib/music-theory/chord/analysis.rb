@@ -4,60 +4,77 @@ module MusicTheory
 
     class Analysis
 
-      attr_reader :members, :root, :triads
+      attr_reader :members, :included_chords
 
       def initialize(*args)
         @members = args
-        @included_chords = {}
-        populate_triads
-        populate_sevenths
+        populate_included_chords
       end
 
       def triad?
-        !@included_chords[:triad].empty? &&
-          @included_chords[:triad].count == 1 &&
-          @included_chords[:seventh].empty? &&
-          @included_chords[:extended].empty?
+        is_chord.triad?
       end
 
       def seventh?
-        !@included_chords[:seventh].empty? &&
-          @included_chords[:seventh].count == 1 &&
-          @included_chords[:extended].empty?
+        is_chord.seventh?
       end
 
       # Get the name of the chord
       # @return [Symbol]
       def name
-        triad = DICTIONARY[:triad][triad_names.first]
-        type = triad[:abbrev].to_s
-        type[0] = type[0].upcase
-        (root.name + type).to_sym
+        unless (chord = is_chord).nil?
+          dict = chord.dictionary
+          type = dict[:abbrev].to_s
+          type[0] = type[0].upcase
+          (root.name + type).to_sym
+        end
+      end
+
+      def includes_triad?(name)
+        !triads.select(&:name).empty?
+      end
+
+      def includes_seventh_chord?(name)
+        !seventh_chords.select(&:name).empty?
+      end
+
+      def is_chord
+        @included_chords
+          .select { |chord| chord.inversion == lowest_inversion }
+          .sort_by(&:size)
+          .last
       end
 
       def root
-        @included_chords[:triad].first.root
+        is_chord.root
       end
 
-      def has_triad?(name)
-        !@included_chords[:triad].select(&:name).empty?
+      def seventh_chords
+        @included_chords.select(&:seventh?)
+      end
+
+      def triads
+        @included_chords.select(&:triad?)
       end
 
       def triad_names
-        @triad_names ||= @included_chords[:triad].map(&:name)
+        triads.map(&:name)
       end
 
       def inversion
-        @inversion ||= @included_chords[:triad].first.inversion
+        lowest_inversion
       end
 
       private
 
-      def populate_sevenths
+      def lowest_inversion
+        @included_chords.map(&:inversion).compact.min
       end
 
-      def populate_triads
-        @included_chords[:triad] = Voicing.find_all(:triad, @members)
+      def populate_included_chords
+        @included_chords = DICTIONARY.keys.map do |key|
+          Voicing.find_all(key, @members)
+        end.compact.flatten
       end
 
     end

@@ -160,6 +160,30 @@ class NoteTest < Minitest::Test
 
     end
 
+    context "#interval_above_c" do
+
+      should "return the correct interval for c" do
+        note = MusicTheory::Note.new("c")
+        assert_equal(0, note.interval_above_c)
+      end
+
+      should "return the correct interval for d" do
+        note = MusicTheory::Note.new("d")
+        assert_equal(2, note.interval_above_c)
+      end
+
+      should "return the correct interval for e" do
+        note = MusicTheory::Note.new("e")
+        assert_equal(4, note.interval_above_c)
+      end
+
+      should "return the correct interval for Bb" do
+        note = MusicTheory::Note.new("bb")
+        assert_equal(10, note.interval_above_c)
+      end
+
+    end
+
     context "#midi_note_num" do
 
       should "convert sym and reflect correct midi note" do

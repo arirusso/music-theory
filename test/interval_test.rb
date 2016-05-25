@@ -16,6 +16,18 @@ class MusicTheory::IntervalTest < Minitest::Test
 
     end
 
+    context ".fold" do
+
+      setup do
+        @result = MusicTheory::Interval.fold([0, 1, 8, 16])
+      end
+
+      should "reflect correct intervals folded over zero" do
+        assert_equal [11,0,7,15], @result
+      end
+
+    end
+
     context ".normalize" do
 
       setup do

@@ -12,8 +12,8 @@ class MusicTheory::ChordTest < Minitest::Test
       end
 
       should "identify extended" do
-        MusicTheory::Chord.identify(%w{d f# a c#})
-        # > DMaj7
+        @chord = MusicTheory::Chord.identify(%w{d f# a c#})
+        assert_equal :DMaj7, @chord.name
       end
 
       should "identify inversion" do

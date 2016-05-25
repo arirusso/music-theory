@@ -4,8 +4,16 @@ module MusicTheory
 
     class << self
 
+      def find(notes)
+        notes.map { |note| note.midi_note_num || note.interval_above_c }
+      end
+
       def map(notes)
-        numbers = notes.map { |note| note.midi_note_num || note.interval_above_c }
+        numbers = if notes.all? { |n| n.kind_of?(Fixnum) }
+          notes
+        else
+          find(notes)
+        end
         reduced_members = reduce(numbers)
         normalize(reduced_members)
       end
@@ -24,6 +32,15 @@ module MusicTheory
       # @return [Array<Fixnum>]
       def normalize(intervals)
         intervals.map { |n| n - intervals.min }
+      end
+
+      def fold(intervals)
+        center = intervals.sort[1]
+        offset = intervals.map { |n| n - center }
+        until offset.all? { |n| n >= 0 }
+          offset = offset.map { |n| n < 0 ? n + 12 : n }
+        end
+        offset
       end
 
     end
