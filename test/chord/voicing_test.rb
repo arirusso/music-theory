@@ -2,29 +2,38 @@ require "helper"
 
 class MusicTheory::Chord::VoicingTest < Minitest::Test
 
-  def test_chord_init
-    chord = MusicTheory::Chord::Voicing.new("a", "B")
-    assert_equal 2, chord.members.size
-    assert_equal "A", chord.members.first.name
-    assert_equal "B", chord.members.last.name
-  end
+  context "MusicTheory::Chord::Voicing" do
 
-  def test_chord_mixed
-    chord = MusicTheory::Chord::Voicing.new("a", :b)
-    assert_equal 2, chord.members.size
-  end
+    context ".get_inversion" do
 
-  def test_chord_array
-    chord = MusicTheory::Chord::Voicing.new(%w{a c d# f})
-    assert_equal 4, chord.members.size
-  end
+      should "recognize root inversion" do
+        assert_equal 0, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [0, 4, 7])
+        assert_equal 0, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [0, 7, 4])
+        assert_equal 0, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [0, 7, 4, 11])
+        assert_equal 0, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [0, 11, 7, 4])
+      end
 
-  def test_chord_attributes
-    chord = MusicTheory::Chord::Voicing.new(0,4,7)
-    assert_equal "C", chord.members[0].name
-    assert_equal "E", chord.members[1].name
-    assert_equal "G", chord.members[2].name
-    assert_includes chord.triad_names, :major
-  end
+      should "recognize first inversion" do
+        assert_equal 1, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [4, 0, 7])
+        assert_equal 1, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [4, 7, 0])
+        assert_equal 1, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [4, 7, 0, 11])
+        assert_equal 1, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [4, 11, 7, 0])
+      end
 
+      should "recognize second inversion" do
+        assert_equal 2, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [7, 0, 4])
+        assert_equal 2, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [7, 4, 0])
+        assert_equal 2, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [7, 0, 4, 11])
+        assert_equal 2, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7], [7, 11, 4, 0])
+      end
+
+      should "recognize third inversion" do
+        assert_equal 3, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7, 11], [11, 7, 0, 4])
+        assert_equal 3, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7, 11], [11, 0, 7, 4])
+        assert_equal 3, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7, 11], [11, 4, 7, 0])
+        assert_equal 3, MusicTheory::Chord::Voicing.send(:get_inversion, [0, 4, 7, 11], [11, 4, 0, 7])
+      end
+
+    end
+  end
 end

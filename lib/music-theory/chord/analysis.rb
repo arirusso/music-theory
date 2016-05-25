@@ -57,7 +57,7 @@ module MusicTheory
       end
 
       def populate_triads
-        @included_chords[:triad] = Triad.find_all(@members)
+        @included_chords[:triad] = Voicing.find_all(:triad, @members)
       end
 
     end

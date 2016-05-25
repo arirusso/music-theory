@@ -4,36 +4,53 @@ module MusicTheory
 
     class Voicing
 
-      attr_reader :members
-      alias_method :notes, :members
+      attr_reader :inversion, :name, :members, :root
 
-      def self.analyze(*args)
-        new(*args).analyze
+      def self.find_all(type, notes)
+        matches = DICTIONARY[type].keys.select { |name| matches?(type, name, notes) }
+        matches.map { |name| new(type, name, notes) }
       end
 
-      def initialize(*args)
-        @members = []
-        process_args(*args)
+      def initialize(type, name, notes)
+        @name = name.to_sym
+        @type = type.to_sym
+        populate_notes(notes)
       end
 
-      def triad_names
-        analyze.triad_names
-      end
-
-      def analyze
-        @analysis ||= Analysis.new(*@members)
+      def dictionary
+        DICTIONARY[@type][@name]
       end
 
       private
 
-      def process_args(*args)
-        args.each do |item|
-          case item
-          when Array then process_args(*item)
-          when Note then @members << item
-          else @members << Note.new(item)
-          end
+      def populate_notes(notes)
+        intervals = Interval.map(notes)
+        @root = nil
+        i = 0
+        @members = dictionary[:intervals].map do |member|
+          index = intervals.index(member)
+          note = notes[index]
+          @root = note if i == 0
+          i += 1
+          note
         end
+        @inversion = self.class.get_inversion(dictionary[:intervals], intervals)
+      end
+
+      def self.get_inversion(intervals, notes)
+        intervals = intervals.dup
+        i = 0
+        while notes[0] != intervals[0] && i < notes.count
+          intervals.rotate!
+          i += 1
+        end
+        i
+      end
+
+      def self.matches?(type, name, notes)
+        dictionary = DICTIONARY[type][name.to_sym]
+        intervals = Interval.map(notes)
+        dictionary[:intervals] & intervals == dictionary[:intervals]
       end
 
     end
