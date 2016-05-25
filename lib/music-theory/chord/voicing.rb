@@ -18,6 +18,10 @@ module MusicTheory
         populate(notes)
       end
 
+      def include?(note)
+        @members.include?(note)
+      end
+
       # Get the name of the chord
       # @return [Symbol]
       def name

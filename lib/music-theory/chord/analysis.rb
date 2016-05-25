@@ -4,11 +4,12 @@ module MusicTheory
 
     class Analysis
 
-      attr_reader :chords, :notes
+      attr_reader :chord, :chords, :notes
 
       def initialize(*args)
         @notes = args
         populate_chords
+        populate_chord
       end
 
       def includes_triad?(name)
@@ -17,14 +18,6 @@ module MusicTheory
 
       def includes_seventh_chord?(name)
         !seventh_chords.select(&:name).empty?
-      end
-
-      def chord
-        @chords
-          .select { |chord| chord.size == largest_size }
-          .reject { |chord| chord.inversion.nil? }
-          .sort_by(&:inversion)
-          .first
       end
 
       def seventh_chords
@@ -48,6 +41,15 @@ module MusicTheory
       end
 
       private
+
+      def populate_chord
+        @chord = @chords
+          .select { |chord| chord.size == largest_size }
+          .reject { |chord| chord.inversion.nil? }
+          .reject { |chord| @notes.any? { |note| !chord.include?(note) } }
+          .sort_by(&:inversion)
+          .first
+      end
 
       def populate_chords
         @chords = DICTIONARY.keys.map do |key|
