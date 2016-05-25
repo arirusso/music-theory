@@ -31,6 +31,11 @@ class MusicTheory::ChordTest < Minitest::Test
         assert_nil @chord.name
       end
 
+      should "not identify chords that aren't in the dictionary" do
+        @chord = MusicTheory::Chord.identify(%w{f#2 a5 g#2 b1 bb2})
+        assert_nil @chord.name
+      end
+
       should "identify augmented chord" do
         @chord = MusicTheory::Chord.identify(%w{f# a# c##})
         assert_equal "F#Aug", @chord.name
