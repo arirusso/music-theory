@@ -67,7 +67,7 @@ module MusicTheory
     def parse_id(id)
       case id
         when Array then id.map { |member| parse_id(member) }
-        when Integer then process_integer(id)
+        when Fixnum then process_number(id)
         when String then process_string(id)
         when Symbol then process_string(id.to_s)
       end
@@ -88,10 +88,11 @@ module MusicTheory
       @id
     end
 
-    def process_integer(int)
+    def process_number(int)
       octave, note = *int.divmod(12)
       name = DEFAULT_SCALE.at(note)
-      process_string("#{name}#{(octave - 1)}")
+      string = "#{name}#{(octave - 1)}"
+      process_string(string)
     end
 
     def process_options(options = {})

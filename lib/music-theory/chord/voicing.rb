@@ -22,14 +22,6 @@ module MusicTheory
         @members.include?(note)
       end
 
-      # Get the name of the chord
-      # @return [Symbol]
-      def name
-        type = dictionary[:abbrev].to_s
-        type[0] = type[0].upcase
-        (@root.name + type).to_sym
-      end
-
       def size
         @members.size
       end
@@ -65,7 +57,14 @@ module MusicTheory
         end
         @members.compact!
         @inversion = dictionary[:intervals].index(intervals[0])
+        populate_name
         @members
+      end
+
+      def populate_name
+        type = dictionary[:abbrev].to_s
+        type[0] = type[0].upcase
+        @name = "#{@root.name}#{@root.accidental}#{type}"
       end
 
       def self.as_intervals(type, name, notes)
