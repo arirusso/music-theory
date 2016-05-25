@@ -18,6 +18,14 @@ module MusicTheory
         populate(notes)
       end
 
+      # Get the name of the chord
+      # @return [Symbol]
+      def name
+        type = dictionary[:abbrev].to_s
+        type[0] = type[0].upcase
+        (@root.name + type).to_sym
+      end
+
       def size
         @members.size
       end

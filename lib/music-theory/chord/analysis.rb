@@ -11,25 +11,6 @@ module MusicTheory
         populate_included_chords
       end
 
-      def triad?
-        is_chord.triad?
-      end
-
-      def seventh?
-        is_chord.seventh?
-      end
-
-      # Get the name of the chord
-      # @return [Symbol]
-      def name
-        unless (chord = is_chord).nil?
-          dict = chord.dictionary
-          type = dict[:abbrev].to_s
-          type[0] = type[0].upcase
-          (root.name + type).to_sym
-        end
-      end
-
       def includes_triad?(name)
         !triads.select(&:name).empty?
       end
@@ -38,16 +19,12 @@ module MusicTheory
         !seventh_chords.select(&:name).empty?
       end
 
-      def is_chord
+      def chord
         @included_chords
           .select { |chord| chord.size == largest_size }
           .reject { |chord| chord.inversion.nil? }
           .sort_by(&:inversion)
           .first
-      end
-
-      def root
-        is_chord.root
       end
 
       def seventh_chords
@@ -60,10 +37,6 @@ module MusicTheory
 
       def triad_names
         triads.map(&:name)
-      end
-
-      def inversion
-        is_chord.inversion
       end
 
       def largest_size
@@ -80,6 +53,20 @@ module MusicTheory
         @included_chords = DICTIONARY.keys.map do |key|
           Voicing.find_all(key, @members)
         end.compact.flatten
+      end
+
+      CHORD_DELEGATION_METHODS = [:inversion, :name, :root, :seventh?, :triad?].freeze
+
+      def method_missing(method, *args, &block)
+        if CHORD_DELEGATION_METHODS.include?(method)
+          chord.send(method, *args, &block) if !chord.nil?
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(method, include_private = false)
+        CHORD_DELEGATION_METHODS.include?(method) || super
       end
 
     end

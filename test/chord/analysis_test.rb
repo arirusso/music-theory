@@ -234,13 +234,13 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
     end
 
-    context "#is_chord" do
+    context "#chord" do
 
       context "major chord, root inversion" do
 
         setup do
           @id = MusicTheory::Chord::Raw.analyze(13,17,20)
-          @chord = @id.is_chord
+          @chord = @id.chord
         end
 
         should "be assigned" do
@@ -261,7 +261,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
         setup do
           @id = MusicTheory::Chord::Raw.analyze(17,13,20)
-          @chord = @id.is_chord
+          @chord = @id.chord
         end
 
         should "be assigned" do
@@ -282,7 +282,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
         setup do
           @id = MusicTheory::Chord::Raw.analyze(13,16,20)
-          @chord = @id.is_chord
+          @chord = @id.chord
         end
 
         should "be assigned" do
@@ -303,7 +303,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
         setup do
           @id = MusicTheory::Chord::Raw.analyze(16,13,20)
-          @chord = @id.is_chord
+          @chord = @id.chord
         end
 
         should "be assigned" do
@@ -324,7 +324,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
         setup do
           @id = MusicTheory::Chord::Raw.analyze(20, 25, 28)
-          @chord = @id.is_chord
+          @chord = @id.chord
         end
 
         should "be assigned" do
@@ -345,7 +345,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
 
         setup do
           @id = MusicTheory::Chord::Raw.analyze(16,12,19,23)
-          @chord = @id.is_chord
+          @chord = @id.chord
         end
 
         should "be assigned" do
