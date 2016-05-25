@@ -4,11 +4,11 @@ module MusicTheory
 
     class Analysis
 
-      attr_reader :members, :included_chords
+      attr_reader :chords, :notes
 
       def initialize(*args)
-        @members = args
-        populate_included_chords
+        @notes = args
+        populate_chords
       end
 
       def includes_triad?(name)
@@ -20,7 +20,7 @@ module MusicTheory
       end
 
       def chord
-        @included_chords
+        @chords
           .select { |chord| chord.size == largest_size }
           .reject { |chord| chord.inversion.nil? }
           .sort_by(&:inversion)
@@ -28,11 +28,11 @@ module MusicTheory
       end
 
       def seventh_chords
-        @included_chords.select(&:seventh?)
+        @chords.select(&:seventh?)
       end
 
       def triads
-        @included_chords.select(&:triad?)
+        @chords.select(&:triad?)
       end
 
       def triad_names
@@ -44,14 +44,14 @@ module MusicTheory
       end
 
       def largest
-        @included_chords.sort_by(&:size).last
+        @chords.sort_by(&:size).last
       end
 
       private
 
-      def populate_included_chords
-        @included_chords = DICTIONARY.keys.map do |key|
-          Voicing.find_all(key, @members)
+      def populate_chords
+        @chords = DICTIONARY.keys.map do |key|
+          Voicing.find_all(key, @notes)
         end.compact.flatten
       end
 

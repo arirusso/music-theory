@@ -76,8 +76,8 @@ class MusicTheory::Chord::RawTest < Minitest::Test
         end
 
         should "be populated with chords" do
-          refute_nil @id.included_chords
-          refute_empty @id.included_chords
+          refute_nil @id.chords
+          refute_empty @id.chords
         end
 
       end
