@@ -17,18 +17,18 @@ class MusicTheory::ChordTest < Minitest::Test
       end
 
       should "identify inversion" do
-        MusicTheory::Chord.identify(%w{f# a d})
-        # > DMaj 1st inv
+        @chord = MusicTheory::Chord.identify(%w{f# a d})
+        assert_equal :DMaj, @chord.name
       end
 
       should "identify across octaves" do
-        MusicTheory::Chord.identify(%w{f#3 a4 d2})
-        # > DMaj
+        @chord = MusicTheory::Chord.identify(%w{f#3 a4 d2})
+        assert_equal :DMaj, @chord.name
       end
 
       should "not identify incomplete" do
-        MusicTheory::Chord.identify(%w{f#2 g#2})
-        # nil ? or raise ?
+        @chord = MusicTheory::Chord.identify(%w{f#2 g#2})
+        assert_nil @chord.name
       end
 
     end
