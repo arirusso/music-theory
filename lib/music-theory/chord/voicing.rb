@@ -4,7 +4,7 @@ module MusicTheory
 
     class Voicing
 
-      attr_reader :inversion, :name, :members, :root, :type
+      attr_reader :inversion, :members, :name, :root, :type
 
       def self.find_all(type, notes)
         DICTIONARY[type].keys.map do |name|
