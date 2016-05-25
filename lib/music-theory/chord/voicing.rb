@@ -4,19 +4,18 @@ module MusicTheory
 
     class Voicing
 
-      attr_reader :inversion, :name, :members, :root
+      attr_reader :inversion, :name, :members, :root, :type
 
       def self.find_all(type, notes)
         DICTIONARY[type].keys.map do |name|
-          intervals = match_intervals(type, name, notes)
-          new(type, name, notes) unless intervals.nil?
+          new(type, name, notes) unless as_intervals(type, name, notes).nil?
         end.compact
       end
 
       def initialize(type, name, notes)
         @name = name.to_sym
         @type = type.to_sym
-        populate_notes(notes)
+        populate(notes)
       end
 
       def size
@@ -31,44 +30,33 @@ module MusicTheory
         @type == :seventh
       end
 
+      def lowest_note
+        @members.sort_by(&:midi_note_num).first
+      end
+
       def dictionary
         DICTIONARY[@type][@name]
       end
 
       private
 
-      def populate_notes(notes)
-        intervals = self.class.match_intervals(@type, @name, notes)
+      def populate(notes)
+        intervals = self.class.as_intervals(@type, @name, notes)
         # if intervals.size != dictionary[:intervals]
-        # TODO
-        @root = nil
-        i = 0
-        @members = dictionary[:intervals].map do |member|
+        # TODO for sub-chords
+        @members = []
+        dictionary[:intervals].each_with_index do |member, i|
           index = intervals.index(member)
           note = notes[index]
           @root = note if member == 0
-          i += 1
-          note
+          @members[index] = note
         end
-        base = @root.interval_above_c
-        nums = notes.map(&:interval_above_c)
-        ints = nums.map { |n| n-base }
-        ints = Interval.normalize(ints)
-        @inversion = dictionary[:intervals].index(ints[0])
+        @members.compact!
+        @inversion = dictionary[:intervals].index(intervals[0])
         @members
       end
 
-      def self.get_inversion(intervals, notes)
-        intervals = intervals.dup
-        i = 0
-        while notes[0] != intervals[0] && i < notes.count
-          intervals.rotate!
-          i += 1
-        end
-        i
-      end
-
-      def self.match_intervals(type, name, notes)
+      def self.as_intervals(type, name, notes)
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
         intervals = Interval.find(notes)
         variations = []
@@ -76,7 +64,7 @@ module MusicTheory
           last = variations.last || intervals
           variations << Interval.fold(last)
         end
-        variations.find do |intervals|
+        variation = variations.find do |intervals|
           dictionary[:intervals] & intervals == dictionary[:intervals]
         end
       end

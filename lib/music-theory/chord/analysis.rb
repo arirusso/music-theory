@@ -40,9 +40,10 @@ module MusicTheory
 
       def is_chord
         @included_chords
-          .select { |chord| chord.inversion == lowest_inversion }
-          .sort_by(&:size)
-          .last
+          .select { |chord| chord.size == largest_size }
+          .reject { |chord| chord.inversion.nil? }
+          .sort_by(&:inversion)
+          .first
       end
 
       def root
@@ -62,14 +63,18 @@ module MusicTheory
       end
 
       def inversion
-        lowest_inversion
+        is_chord.inversion
+      end
+
+      def largest_size
+        largest.size
+      end
+
+      def largest
+        @included_chords.sort_by(&:size).last
       end
 
       private
-
-      def lowest_inversion
-        @included_chords.map(&:inversion).compact.min
-      end
 
       def populate_included_chords
         @included_chords = DICTIONARY.keys.map do |key|

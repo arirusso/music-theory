@@ -353,6 +353,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have seventh chord" do
+          assert @chord.seventh?
           assert_equal 4, @chord.members.size
         end
 
