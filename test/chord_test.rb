@@ -53,6 +53,46 @@ class MusicTheory::ChordTest < Minitest::Test
 
     end
 
+    context ".name" do
+
+      should "name triad" do
+        assert_equal "DMaj", MusicTheory::Chord.name(%w{d f# a})
+      end
+
+      should "name extended" do
+        assert_equal "DMaj7", MusicTheory::Chord.name(%w{d f# a c#})
+      end
+
+      should "name inversion" do
+        assert_equal "DMaj", MusicTheory::Chord.name(%w{f# a d})
+      end
+
+      should "name across octaves" do
+        assert_equal "DMaj", MusicTheory::Chord.name(%w{f#3 a4 d2})
+      end
+
+      should "not name incomplete" do
+        assert_nil MusicTheory::Chord.name(%w{f#2 g#2})
+      end
+
+      should "not name chords that aren't in the dictionary" do
+        assert_nil MusicTheory::Chord.name(%w{f#2 a5 g#2 b1 bb2})
+      end
+
+      should "name augmented chord" do
+        assert_equal "F#Aug", MusicTheory::Chord.name(%w{f# a# c##})
+      end
+
+      should "name symbolic chord" do
+        assert_equal "G##Maj", MusicTheory::Chord.name(%w{g## b## d##})
+      end
+
+      should "name with midi notes" do
+        assert_equal "EMin", MusicTheory::Chord.name(64, 67, 71)
+      end
+
+    end
+
   end
 
 end

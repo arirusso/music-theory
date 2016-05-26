@@ -11,6 +11,11 @@ module MusicTheory
       Raw.new(*args)
     end
 
+    def self.name(*notes)
+      chord = identify(*notes)
+      chord.name unless chord.nil?
+    end
+
     def self.identify(*notes)
       notes = [notes].flatten
       notes = notes.map { |note| note.kind_of?(Note) ? note : Note.new(note) }
