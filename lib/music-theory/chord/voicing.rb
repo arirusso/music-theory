@@ -73,7 +73,7 @@ module MusicTheory
         variations = []
         intervals.count.times do
           last = variations.last || intervals
-          variations << Interval.fold(last)
+          variations << Interval.center(last)
         end
         variation = variations.find do |intervals|
           dictionary[:intervals] & intervals == dictionary[:intervals]

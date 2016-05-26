@@ -34,13 +34,12 @@ module MusicTheory
         intervals.map { |n| n - intervals.min }
       end
 
-      def fold(intervals)
+      # Center the intervals around zero
+      def center(intervals)
         center = intervals.sort[1]
-        offset = intervals.map { |n| n - center }
-        until offset.all? { |n| n >= 0 }
-          offset = offset.map { |n| n < 0 ? n + 12 : n }
-        end
-        offset
+        intervals
+          .map { |n| n - center }
+          .map { |n| n < 0 ? n + 12 : n }
       end
 
     end
