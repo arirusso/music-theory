@@ -28,42 +28,32 @@ module MusicTheory
         combinations
       end
 
-      def interval(degree)
-        @members.at(degree - 1)
-      end
-
-      def degree(interval)
-        @members.index(interval) + 1
-      end
-
       def reduce
-        members = Interval.reduce(@members)
-        Set.new(members)
+        Set.new(primitive_reduce)
       end
 
       def reduce!
-        @members = reduce.members
+        @members = primitive_reduce
       end
 
       def normalize
-        members = Interval.normalize(@members)
-        Set.new(members)
+        Set.new(primitive_normalize)
       end
 
       def normalize!
-        @members = normalize.members
+        @members = primitive_normalize
       end
 
       def sort
-        Set.new(@members.sort)
+        Set.new(primitive_sort)
       end
 
       def sort!
-        @members = sort.members
+        @members = primitive_sort
       end
 
       def uniq
-        Set.new(@members.uniq)
+        Set.new(primitive_uniq)
       end
 
       def uniq!
@@ -74,6 +64,24 @@ module MusicTheory
         (o.class == self.class) && o.members == @members
       end
       alias_method :eql?, :==
+
+      private
+
+      def primitive_normalize
+        Interval.normalize(@members)
+      end
+
+      def primitive_reduce
+        Interval.reduce(@members)
+      end
+
+      def primitive_uniq
+        @members.uniq
+      end
+
+      def primitive_sort
+        @members.sort
+      end
 
     end
 
