@@ -42,7 +42,7 @@ module MusicTheory
       # @return [Array<Fixnum>]
       def center(intervals, options = {})
         index = options.fetch(:index, 1)
-        center = intervals.sort[index]
+        center = intervals[index]
         intervals
           .map { |n| n - center }
           .map { |n| n < 0 ? n + 12 : n }
@@ -53,7 +53,6 @@ module MusicTheory
       # @params [Array<Fixnum>] intervals
       # @return [Array<Fixnum>]
       def sequential(intervals)
-        intervals = center(intervals, :index => 0)
         intervals.enum_for(:each_with_index).map do |n, i|
           index = [i - 1, 0].max
           n - intervals[index]
