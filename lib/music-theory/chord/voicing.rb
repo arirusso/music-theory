@@ -70,6 +70,7 @@ module MusicTheory
       def self.as_intervals(type, name, notes)
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
         interval_set = Interval::Set.from_notes(notes)
+        interval_set.reduce!.normalize!
         interval_set.permutations.find do |intervals|
           dictionary[:intervals] & intervals == dictionary[:intervals]
         end
