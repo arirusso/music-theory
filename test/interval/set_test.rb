@@ -16,14 +16,14 @@ class MusicTheory::Interval::SetTest < Minitest::Test
 
     end
 
-    context "#collapse" do
+    context "#reduce" do
 
       setup do
         @set = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 14, 9)
       end
 
-      should "return collapsed set" do
-        assert_equal([7, 0, 4, 5, 11, 2, 9], @set.collapse.to_a)
+      should "return reduced set" do
+        assert_equal([7, 0, 4, 5, 11, 2, 9], @set.reduce.to_a)
       end
 
     end

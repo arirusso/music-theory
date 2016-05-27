@@ -36,13 +36,13 @@ module MusicTheory
         @members.index(interval) + 1
       end
 
-      def collapse
+      def reduce
         members = Interval.reduce(@members)
         Set.new(members)
       end
 
-      def collapse!
-        @members = collapse.members
+      def reduce!
+        @members = reduce.members
       end
 
       def normalize

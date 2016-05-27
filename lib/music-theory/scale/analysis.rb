@@ -68,7 +68,7 @@ module MusicTheory
       end
 
       def reduce
-        @set.collapse.normalize.uniq.sort
+        @set.reduce.normalize.uniq.sort
       end
 
     end
