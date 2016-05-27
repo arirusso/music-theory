@@ -4,6 +4,18 @@ class MusicTheory::IntervalTest < Minitest::Test
 
   context "MusicTheory::Interval" do
 
+    context ".sequential" do
+
+      setup do
+        @result = MusicTheory::Interval.sequential([15,13,17,11])
+      end
+
+      should "reflect sequential differences" do
+        assert_equal [0,-2,4,-6], @result
+      end
+
+    end
+
     context ".reduce" do
 
       setup do
