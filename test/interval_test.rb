@@ -16,6 +16,34 @@ class MusicTheory::IntervalTest < Minitest::Test
 
     end
 
+    context ".index_of_lowest" do
+
+      context "with rating" do
+
+        setup do
+          @result = MusicTheory::Interval.index_of_lowest([15,13,17,11], :rating => 2)
+        end
+
+        should "reflect the index of the second lowest value" do
+          assert_equal 1, @result
+        end
+
+      end
+
+      context "without rating" do
+
+        setup do
+          @result = MusicTheory::Interval.index_of_lowest([15,13,17,11])
+        end
+
+        should "reflect the index of the lowest value" do
+          assert_equal 3, @result
+        end
+
+      end
+
+    end
+
     context ".reduce" do
 
       setup do

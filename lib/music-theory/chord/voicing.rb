@@ -71,10 +71,9 @@ module MusicTheory
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
         intervals = Interval.find(notes)
         variations = []
-        intervals.count.times do
+        intervals.count.times do |i|
           last = variations.last || intervals
-          center = last.sort[1]
-          index = last.index(center)
+          index = Interval.index_of_lowest(last, :rating => 2)
           variations << Interval.center(last, :index => index)
         end
         variation = variations.find do |intervals|
