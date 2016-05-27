@@ -20,7 +20,7 @@ module MusicTheory
 
       def permutations
         permutations = []
-        @members.count.times do |i|
+        (@members.count + 1).times do |i|
           last = permutations.last || @members
           index = Interval.index_of_lowest(last, :rating => 2)
           permutations << Interval.center(last, :index => index)
@@ -34,6 +34,7 @@ module MusicTheory
 
       def reduce!
         @members = primitive_reduce
+        self
       end
 
       def normalize
@@ -42,6 +43,7 @@ module MusicTheory
 
       def normalize!
         @members = primitive_normalize
+        self
       end
 
       def sort
@@ -50,6 +52,7 @@ module MusicTheory
 
       def sort!
         @members = primitive_sort
+        self
       end
 
       def uniq
@@ -58,6 +61,7 @@ module MusicTheory
 
       def uniq!
         @members = uniq.members
+        self
       end
 
       def ==(o)
