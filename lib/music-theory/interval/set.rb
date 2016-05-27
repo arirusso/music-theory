@@ -18,14 +18,14 @@ module MusicTheory
         @members = members.flatten
       end
 
-      def combinations
-        combinations = []
+      def permutations
+        permutations = []
         @members.count.times do |i|
-          last = combinations.last || @members
+          last = permutations.last || @members
           index = Interval.index_of_lowest(last, :rating => 2)
-          combinations << Interval.center(last, :index => index)
+          permutations << Interval.center(last, :index => index)
         end
-        combinations
+        permutations
       end
 
       def reduce

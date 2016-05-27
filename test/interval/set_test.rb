@@ -16,6 +16,22 @@ class MusicTheory::Interval::SetTest < Minitest::Test
 
     end
 
+    context "#permutations" do
+
+      setup do
+        @set = MusicTheory::Interval::Set.new(0, 4, 7, 10)
+        @result = @set.permutations
+      end
+
+      should "return correct permutations" do
+        assert_includes @result, [8, 0, 3, 6]
+        assert_includes @result, [5, 9, 0, 3]
+        assert_includes @result, [2, 6, 9, 0]
+        assert_includes @result, [0, 4, 7, 10]
+      end
+
+    end
+
     context "#reduce" do
 
       setup do
