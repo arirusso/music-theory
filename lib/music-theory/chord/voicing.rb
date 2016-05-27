@@ -69,14 +69,8 @@ module MusicTheory
 
       def self.as_intervals(type, name, notes)
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
-        intervals = Interval.find(notes)
-        variations = []
-        intervals.count.times do |i|
-          last = variations.last || intervals
-          index = Interval.index_of_lowest(last, :rating => 2)
-          variations << Interval.center(last, :index => index)
-        end
-        variation = variations.find do |intervals|
+        interval_set = Interval::Set.from_notes(notes)
+        interval_set.combinations.find do |intervals|
           dictionary[:intervals] & intervals == dictionary[:intervals]
         end
       end

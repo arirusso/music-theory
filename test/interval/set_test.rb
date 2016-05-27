@@ -1,13 +1,13 @@
 require "helper"
 
-class MusicTheory::SetTest < Minitest::Test
+class MusicTheory::Interval::SetTest < Minitest::Test
 
-  context "MusicTheory::Set" do
+  context "MusicTheory::Interval::Set" do
 
     context "#initialize" do
 
       setup do
-        @set = MusicTheory::Set.new(0, 2, 4, 5, 7, 9, 11)
+        @set = MusicTheory::Interval::Set.new(0, 2, 4, 5, 7, 9, 11)
       end
 
       should "populate" do
@@ -19,7 +19,7 @@ class MusicTheory::SetTest < Minitest::Test
     context "#collapse" do
 
       setup do
-        @set = MusicTheory::Set.new(19, 12, 40, 5, 35, 14, 9)
+        @set = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 14, 9)
       end
 
       should "return collapsed set" do
@@ -31,7 +31,7 @@ class MusicTheory::SetTest < Minitest::Test
     context "#normalize" do
 
       setup do
-        @set = MusicTheory::Set.new(19, 12, 40, 5, 35, 14, 9)
+        @set = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 14, 9)
       end
 
       should "return normalized set" do
@@ -43,9 +43,9 @@ class MusicTheory::SetTest < Minitest::Test
     context "#==" do
 
       setup do
-        @set1 = MusicTheory::Set.new(19, 12, 40, 5, 35, 14, 9)
-        @set2 = MusicTheory::Set.new(19, 12, 40, 5, 35, 14, 9)
-        @set3 = MusicTheory::Set.new(19, 12, 41, 6, 19, 12, 9)
+        @set1 = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 14, 9)
+        @set2 = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 14, 9)
+        @set3 = MusicTheory::Interval::Set.new(19, 12, 41, 6, 19, 12, 9)
       end
 
       should "match same set" do
@@ -63,7 +63,7 @@ class MusicTheory::SetTest < Minitest::Test
     context "#uniq" do
 
       setup do
-        @set = MusicTheory::Set.new(19, 12, 40, 5, 35, 5, 14, 9, 9, 40)
+        @set = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 5, 14, 9, 9, 40)
       end
 
       should "return normalized set" do
@@ -75,7 +75,7 @@ class MusicTheory::SetTest < Minitest::Test
     context "#sort" do
 
       setup do
-        @set = MusicTheory::Set.new(19, 12, 40, 5, 35, 5, 14, 9, 9, 40)
+        @set = MusicTheory::Interval::Set.new(19, 12, 40, 5, 35, 5, 14, 9, 9, 40)
       end
 
       should "return normalized set" do

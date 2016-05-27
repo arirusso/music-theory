@@ -11,7 +11,7 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
         context "ionian" do
 
           setup do
-            @set = MusicTheory::Set.new(0, 2, 4, 5, 7, 9, 11)
+            @set = MusicTheory::Interval::Set.new(0, 2, 4, 5, 7, 9, 11)
             @analysis = MusicTheory::Scale::Analysis.new(@set)
           end
 
@@ -34,7 +34,7 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
       context "major" do
 
         setup do
-          @set = MusicTheory::Set.new(0, 2, 4, 5, 7, 9, 11)
+          @set = MusicTheory::Interval::Set.new(0, 2, 4, 5, 7, 9, 11)
           @analysis = MusicTheory::Scale::Analysis.new(@set)
         end
 
@@ -49,7 +49,7 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
         context "natural" do
 
           setup do
-            @set = MusicTheory::Set.new(0, 2, 3, 5, 7, 8, 10)
+            @set = MusicTheory::Interval::Set.new(0, 2, 3, 5, 7, 8, 10)
             @analysis = MusicTheory::Scale::Analysis.new(@set)
           end
 
