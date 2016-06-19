@@ -98,6 +98,24 @@ class MusicTheory::ChordTest < Minitest::Test
 
       end
 
+      context "diminished seventh chord" do
+
+        should "identify diminished seventh chord" do
+          @chord = MusicTheory::Chord.identify(%w{b d f ab})
+          assert_equal "BDim7", @chord.name
+        end
+
+      end
+
+      context "half diminished seventh chord" do
+
+        should "identify half diminished seventh chord" do
+          @chord = MusicTheory::Chord.identify(%w{b d f a})
+          assert_equal "Bm7♭5", @chord.name
+        end
+
+      end
+
       context "not identifiable" do
 
         should "not identify incomplete" do
