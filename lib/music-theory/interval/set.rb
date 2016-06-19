@@ -24,7 +24,7 @@ module MusicTheory
       end
 
       def permutations
-        Permutations.new(self).to_a
+        Permutations.calculate(self)
       end
 
       def reduce
@@ -88,12 +88,22 @@ module MusicTheory
 
       class Permutations
 
-        def initialize(set)
-          @set = set
-          populate_permutations
+        def self.calculate(set)
+          @permutations = new(set)
+          @permutations.calculate
         end
 
-        def to_a
+        def initialize(set)
+          @set = set
+        end
+
+        def calculate
+          if @permutations.nil?
+            permutations = centered(@set.members)
+            permutations += variations(permutations)
+            permutations.uniq!
+            @permutations = permutations
+          end
           @permutations
         end
 
@@ -114,13 +124,6 @@ module MusicTheory
             permutations << Interval.center(last, :index => index)
           end
           permutations
-        end
-
-        def populate_permutations
-          permutations = centered(@set.members)
-          permutations += variations(permutations)
-          permutations.uniq!
-          @permutations = permutations
         end
 
       end
