@@ -8,19 +8,43 @@ module MusicTheory
 
       def self.find_all(type, notes)
         names = DICTIONARY[type].keys
-        matching_names = names.reject { |name| as_intervals(type, name, notes).nil? }
-        matching_names.map { |name| new(type, name, notes) }
+        chords = names.map do |name|
+          unless (interval_sets = as_intervals(type, name, notes)).empty?
+            interval_sets.map do |set|
+              {
+                intervals: set,
+                name: name
+              }
+            end
+          end
+        end
+        chords.flatten!
+        chords.compact!
+        chords.uniq!
+        chords.map { |chord| new(type, chord[:name], notes, intervals: chord[:intervals]) }
       end
 
-      def initialize(type, name, notes)
+      def initialize(type, name, notes, options = {})
+        intervals = options[:intervals] || self.class.as_intervals(type, name, notes)
+
         @name = name.to_sym
         @type = type.to_sym
-        populate(notes)
+        populate(notes, intervals)
       end
 
       def include?(note)
         @members.include?(note)
       end
+
+      def ==(o)
+        (o.class == self.class) &&
+          o.members == @members &&
+          o.root == @root &&
+          o.inversion == @inversion &&
+          o.name == @name &&
+          o.type == @type
+      end
+      alias_method :eql?, :==
 
       def size
         @members.size
@@ -44,11 +68,11 @@ module MusicTheory
 
       private
 
-      def populate(notes)
-        intervals = self.class.as_intervals(@type, @name, notes)
+      def populate(notes, intervals)
         # if intervals.size != dictionary[:intervals]
         # TODO for sub-chords
         @members = []
+
         dictionary[:intervals].each_with_index do |member, i|
           index = intervals.index(member)
           note = notes[index]
@@ -71,7 +95,7 @@ module MusicTheory
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
         interval_set = Interval::Set.from_notes(notes)
         interval_set.reduce!.normalize!
-        interval_set.permutations.find do |intervals|
+        interval_set.permutations.select do |intervals|
           dictionary[:intervals] & intervals == dictionary[:intervals]
         end
       end

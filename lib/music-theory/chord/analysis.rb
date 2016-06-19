@@ -43,12 +43,15 @@ module MusicTheory
       private
 
       def populate_chord
-        @chord = @chords
+        @chord = chords_by_precedence.first
+      end
+
+      def chords_by_precedence
+        @chords
           .select { |chord| chord.size == largest_size }
           .reject { |chord| chord.inversion.nil? }
           .reject { |chord| @notes.any? { |note| !chord.include?(note) } }
           .sort_by(&:inversion)
-          .first
       end
 
       def populate_chords
