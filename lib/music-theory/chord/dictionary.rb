@@ -5,34 +5,34 @@ module MusicTheory
     DICTIONARY = {
       :triad => {
         :major => {
-          :abbrev => :maj,
+          :abbrev => :Maj,
           :symbol => "M",
           :intervals => [0, 4, 7]
         },
         :minor => {
-          :abbrev => :min,
+          :abbrev => :Min,
           :symbol => "m",
           :intervals => [0, 3, 7]
         },
         :diminished => {
-          :abbrev => :dim,
+          :abbrev => :Dim,
           :symbol => "°",
           :intervals => [0, 3, 6]
         },
         :augmented => {
-          :abbrev => :aug,
+          :abbrev => :Aug,
           :symbol => "+",
           :intervals => [0, 4, 8]
         }
       },
       :seventh => {
         :minor => {
-          :abbrev => :min7,
+          :abbrev => :Min7,
           :symbol => "m7",
           :intervals => [0, 3, 7, 10]
         },
         :major => {
-          :abbrev => :maj7,
+          :abbrev => :Maj7,
           :symbol => "M7",
           :intervals => [0, 4, 7, 11]
         },
@@ -41,12 +41,12 @@ module MusicTheory
           :intervals => [0, 4, 7, 10]
         },
         :augmented => {
-          :abbrev => :aug7,
+          :abbrev => :Aug7,
           :symbol => "+7",
           :intervals => [0, 4, 8, 10]
         },
         :diminished => {
-          :abbrev => :dim7,
+          :abbrev => :Dim7,
           :symbol => "°7",
           :intervals => [0, 3, 6, 9]
         },
