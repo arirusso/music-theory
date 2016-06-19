@@ -17,7 +17,7 @@ module MusicTheory
         :diminished => {
           :abbrev => :dim,
           :symbol => "°",
-          :intervals => [0, 3, 5]
+          :intervals => [0, 3, 6]
         },
         :augmented => {
           :abbrev => :aug,
@@ -57,6 +57,6 @@ module MusicTheory
         }
       }
     }
-    
+
   end
 end
