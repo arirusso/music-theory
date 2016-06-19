@@ -33,6 +33,8 @@ module MusicTheory
             permutations << Interval.center(last, :index => index)
           end
         end
+        permutations += permutations.map { |set| Interval.reduce(set) }
+        permutations += permutations.map { |set| Interval.normalize(set) }
         permutations
       end
 

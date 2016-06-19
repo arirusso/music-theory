@@ -74,7 +74,10 @@ module MusicTheory
         @members = []
 
         dictionary[:intervals].each_with_index do |member, i|
-          index = intervals.index(member)
+          if (index = intervals.index(member)).nil?
+            reduced_member = Interval.reduce(dictionary[:intervals])[i]
+            index = intervals.index(reduced_member)
+          end
           note = notes[index]
           @root = note if member == 0
           @members[index] = note
@@ -92,8 +95,9 @@ module MusicTheory
 
       def self.as_intervals(type, name, notes)
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
+        controls = [dictionary[:intervals], Interval.reduce(dictionary[:intervals])]
         Interval::Set.permutations(notes).select do |intervals|
-          dictionary[:intervals] & intervals == dictionary[:intervals]
+          controls.any? { |control| control & intervals == control }
         end
       end
 
