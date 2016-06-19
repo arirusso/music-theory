@@ -228,6 +228,21 @@ class MusicTheory::ChordTest < Minitest::Test
           assert_equal "EMaj9", @chord.name
         end
 
+        should "identify using note names" do
+          @chord = MusicTheory::Chord.identify(%w{d f# a c# e})
+          assert_equal "DMaj9", @chord.name
+        end
+
+        should "identify using note names when in first inversion" do
+          @chord = MusicTheory::Chord.identify(%w{f# a c# d e})
+          assert_equal "DMaj9", @chord.name
+        end
+
+        should "identify using note names when in second inversion" do
+          @chord = MusicTheory::Chord.identify(%w{a f# c# d e})
+          assert_equal "DMaj9", @chord.name
+        end
+
       end
 
       context "not identifiable" do
