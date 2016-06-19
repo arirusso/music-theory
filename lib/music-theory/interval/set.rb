@@ -25,13 +25,11 @@ module MusicTheory
 
       def permutations
         permutations = []
-        (members.count + 1).times do |pass|
-          (members.count + 1).times do |i|
-            last = permutations.last
-            last = @members if last.nil? || i.zero?
-            index = Interval.index_of_lowest(last, :rating => pass)
-            permutations << Interval.center(last, :index => index)
-          end
+        (members.count + 1).times do |i|
+          last = permutations.last
+          last = @members if last.nil? || i.zero?
+          index = Interval.index_of_lowest(last, :rating => 2)
+          permutations << Interval.center(last, :index => index)
         end
         permutations += permutations.map { |set| Interval.reduce(set) }
         permutations += permutations.map { |set| Interval.normalize(set) }
