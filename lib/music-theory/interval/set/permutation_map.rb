@@ -18,8 +18,8 @@ module MusicTheory
         def calculate
           if @permutations.nil?
             permutations = centered(@set.members)
-            permutations += variations(permutations)
-            permutations.uniq!
+            #permutations += variations(permutations)
+            #permutations.uniq!
             @permutations = permutations
           end
           @permutations
@@ -32,14 +32,19 @@ module MusicTheory
             permutations.map { |set| Interval.normalize(set) }
         end
 
+        def next_centered_permutation(set)
+          index = Interval.index_of_lowest(set, :rating => 2)
+          Interval.center(set, :index => index)
+        end
+
         def centered(intervals)
           permutations = []
           num_passes = intervals.count * 2
-          num_passes.times do |i|
+          num_passes.times do |pass|
             last = permutations.last
-            last = intervals if last.nil? || i.zero?
-            index = Interval.index_of_lowest(last, :rating => 2)
-            permutations << Interval.center(last, :index => index)
+            last = intervals if last.nil? || pass.zero?
+            permutation = next_centered_permutation(last)
+            permutations << permutation unless permutations.include?(permutation)
           end
           permutations
         end
