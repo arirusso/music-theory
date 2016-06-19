@@ -6,49 +6,83 @@ class MusicTheory::ChordTest < Minitest::Test
 
     context ".identify" do
 
-      should "identify triad" do
-        @chord = MusicTheory::Chord.identify(%w{d f# a})
-        assert_equal "DMaj", @chord.name
+      context "major triad" do
+
+        should "identify major triad" do
+          @chord = MusicTheory::Chord.identify(%w{d f# a})
+          assert_equal "DMaj", @chord.name
+        end
+
+        should "identify inversion" do
+          @chord = MusicTheory::Chord.identify(%w{f# a d})
+          assert_equal "DMaj", @chord.name
+        end
+
+        should "identify across octaves" do
+          @chord = MusicTheory::Chord.identify(%w{f#3 a4 d2})
+          assert_equal "DMaj", @chord.name
+        end
+
+        should "identify symbolic chord" do
+          @chord = MusicTheory::Chord.identify(%w{g## b## d##})
+          assert_equal "G##Maj", @chord.name
+        end
+
       end
 
-      should "identify extended" do
-        @chord = MusicTheory::Chord.identify(%w{d f# a c#})
-        assert_equal "DMaj7", @chord.name
+      context "minor triad" do
+
+        should "identify minor triad" do
+          @chord = MusicTheory::Chord.identify(%w{a c e})
+          assert_equal "AMin", @chord.name
+        end
+
+        should "identify with midi notes" do
+          @chord = MusicTheory::Chord.identify(64, 67, 71)
+          assert_equal "EMin", @chord.name
+        end
+
       end
 
-      should "identify inversion" do
-        @chord = MusicTheory::Chord.identify(%w{f# a d})
-        assert_equal "DMaj", @chord.name
+      context "diminished triad" do
+
+        should "identify diminished triad" do
+          @chord = MusicTheory::Chord.identify(%w{b d f})
+          assert_equal "BDim", @chord.name
+        end
+
       end
 
-      should "identify across octaves" do
-        @chord = MusicTheory::Chord.identify(%w{f#3 a4 d2})
-        assert_equal "DMaj", @chord.name
+      context "augmented triad" do
+
+        should "identify augmented chord" do
+          @chord = MusicTheory::Chord.identify(%w{f# a# c##})
+          assert_equal "F#Aug", @chord.name
+        end
+
       end
 
-      should "not identify incomplete" do
-        @chord = MusicTheory::Chord.identify(%w{f#2 g#2})
-        assert_nil @chord.name
+      context "major seventh chord" do
+
+        should "identify major seventh chord" do
+          @chord = MusicTheory::Chord.identify(%w{d f# a c#})
+          assert_equal "DMaj7", @chord.name
+        end
+
       end
 
-      should "not identify chords that aren't in the dictionary" do
-        @chord = MusicTheory::Chord.identify(%w{f#2 a5 g#2 b1 bb2})
-        assert_nil @chord.name
-      end
+      context "not identifiable" do
 
-      should "identify augmented chord" do
-        @chord = MusicTheory::Chord.identify(%w{f# a# c##})
-        assert_equal "F#Aug", @chord.name
-      end
+        should "not identify incomplete" do
+          @chord = MusicTheory::Chord.identify(%w{f#2 g#2})
+          assert_nil @chord.name
+        end
 
-      should "identify symbolic chord" do
-        @chord = MusicTheory::Chord.identify(%w{g## b## d##})
-        assert_equal "G##Maj", @chord.name
-      end
+        should "not identify chords that aren't in the dictionary" do
+          @chord = MusicTheory::Chord.identify(%w{f#2 a5 g#2 b1 bb2})
+          assert_nil @chord.name
+        end
 
-      should "identify with midi notes" do
-        @chord = MusicTheory::Chord.identify(64, 67, 71)
-        assert_equal "EMin", @chord.name
       end
 
     end
