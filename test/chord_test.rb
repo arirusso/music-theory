@@ -71,6 +71,33 @@ class MusicTheory::ChordTest < Minitest::Test
 
       end
 
+      context "minor seventh chord" do
+
+        should "identify minor seventh chord" do
+          @chord = MusicTheory::Chord.identify(%w{c eb g bb})
+          assert_equal "CMin7", @chord.name
+        end
+
+      end
+
+      context "dominant seventh chord" do
+
+        should "identify dominant seventh chord" do
+          @chord = MusicTheory::Chord.identify(%w{f a c eb})
+          assert_equal "F7", @chord.name
+        end
+
+      end
+
+      context "augmented seventh chord" do
+
+        should "identify augmented seventh chord" do
+          @chord = MusicTheory::Chord.identify(%w{e g# b# d})
+          assert_equal "EAug7", @chord.name
+        end
+
+      end
+
       context "not identifiable" do
 
         should "not identify incomplete" do
