@@ -55,6 +55,13 @@ module MusicTheory
           :symbol => "ø7",
           :intervals => [0, 3, 6, 10]
         }
+      },
+      :ninth => {
+        :major => {
+          :abbrev => :Maj9,
+          :symbol => "M9",
+          :intervals => [0, 4, 7, 11, 14]
+        }
       }
     }
 

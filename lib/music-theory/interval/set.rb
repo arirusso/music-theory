@@ -14,16 +14,24 @@ module MusicTheory
         new(degrees)
       end
 
+      def self.permutations(notes)
+        set = from_notes(notes)
+        set.permutations
+      end
+
       def initialize(*members)
         @members = members.flatten
       end
 
       def permutations
         permutations = []
-        (@members.count + 1).times do |i|
-          last = permutations.last || @members
-          index = Interval.index_of_lowest(last, :rating => 2)
-          permutations << Interval.center(last, :index => index)
+        (members.count + 1).times do |pass|
+          (members.count + 1).times do |i|
+            last = permutations.last
+            last = @members if last.nil? || i.zero?
+            index = Interval.index_of_lowest(last, :rating => pass)
+            permutations << Interval.center(last, :index => index)
+          end
         end
         permutations
       end

@@ -8,22 +8,22 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "major triad" do
 
-        should "identify major triad" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{d f# a})
           assert_equal "DMaj", @chord.name
         end
 
-        should "identify inversion" do
+        should "identify using note names when inverted" do
           @chord = MusicTheory::Chord.identify(%w{f# a d})
           assert_equal "DMaj", @chord.name
         end
 
-        should "identify across octaves" do
+        should "identify using note names + octaves when across octaves" do
           @chord = MusicTheory::Chord.identify(%w{f#3 a4 d2})
           assert_equal "DMaj", @chord.name
         end
 
-        should "identify symbolic chord" do
+        should "identify symbolic chord using note names" do
           @chord = MusicTheory::Chord.identify(%w{g## b## d##})
           assert_equal "G##Maj", @chord.name
         end
@@ -32,12 +32,12 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "minor triad" do
 
-        should "identify minor triad" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{a c e})
           assert_equal "AMin", @chord.name
         end
 
-        should "identify with midi notes" do
+        should "identify using midi notes" do
           @chord = MusicTheory::Chord.identify(64, 67, 71)
           assert_equal "EMin", @chord.name
         end
@@ -46,7 +46,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "diminished triad" do
 
-        should "identify diminished triad" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{b d f})
           assert_equal "BDim", @chord.name
         end
@@ -55,7 +55,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "augmented triad" do
 
-        should "identify augmented chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{f# a# c##})
           assert_equal "F#Aug", @chord.name
         end
@@ -64,7 +64,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "major seventh chord" do
 
-        should "identify major seventh chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{d f# a c#})
           assert_equal "DMaj7", @chord.name
         end
@@ -73,7 +73,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "minor seventh chord" do
 
-        should "identify minor seventh chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{c eb g bb})
           assert_equal "CMin7", @chord.name
         end
@@ -82,7 +82,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "dominant seventh chord" do
 
-        should "identify dominant seventh chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{f a c eb})
           assert_equal "F7", @chord.name
         end
@@ -91,7 +91,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "augmented seventh chord" do
 
-        should "identify augmented seventh chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{e g# b# d})
           assert_equal "EAug7", @chord.name
         end
@@ -100,7 +100,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "diminished seventh chord" do
 
-        should "identify diminished seventh chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{b d f ab})
           assert_equal "BDim7", @chord.name
         end
@@ -109,9 +109,18 @@ class MusicTheory::ChordTest < Minitest::Test
 
       context "half diminished seventh chord" do
 
-        should "identify half diminished seventh chord" do
+        should "identify using note names" do
           @chord = MusicTheory::Chord.identify(%w{b d f a})
           assert_equal "Bm7♭5", @chord.name
+        end
+
+      end
+
+      context "major ninth chord" do
+
+        should "identify from midi notes" do
+          @chord = MusicTheory::Chord.identify(64, 68, 71, 75, 78)
+          assert_equal "EMaj9", @chord.name
         end
 
       end

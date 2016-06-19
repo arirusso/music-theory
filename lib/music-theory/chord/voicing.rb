@@ -10,7 +10,8 @@ module MusicTheory
         names = DICTIONARY[type].keys
         chords = names.map do |name|
           unless (interval_sets = as_intervals(type, name, notes)).empty?
-            interval_sets.map do |set|
+            p interval_sets.uniq
+            interval_sets.uniq.map do |set|
               {
                 intervals: set,
                 name: name
@@ -92,9 +93,7 @@ module MusicTheory
 
       def self.as_intervals(type, name, notes)
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
-        interval_set = Interval::Set.from_notes(notes)
-        interval_set.reduce!.normalize!
-        interval_set.permutations.select do |intervals|
+        Interval::Set.permutations(notes).select do |intervals|
           dictionary[:intervals] & intervals == dictionary[:intervals]
         end
       end
