@@ -56,6 +56,18 @@ class MusicTheory::IntervalTest < Minitest::Test
 
     end
 
+    context ".reduce_relative" do
+
+      setup do
+        @result = MusicTheory::Interval.reduce_relative([15,13,17,35])
+      end
+
+      should "reflect correct intervals" do
+        assert_equal [3, 1, 5, 23], @result
+      end
+
+    end
+
     context ".center" do
 
       setup do

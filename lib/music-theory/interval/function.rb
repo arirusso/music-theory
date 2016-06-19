@@ -12,6 +12,17 @@ module MusicTheory
         intervals.map { |n| Scale::Degree.reduce(n) }
       end
 
+      # Convert a set of numbers to scale degrees keeping their relative intervals
+      # eg [13, 14, 35] -> [1, 2, 23]
+      # @param [Array<Fixnum>] intervals
+      # @return [Array<Fixnum>]
+      def reduce_relative(intervals)
+        lowest = intervals.min
+        lowest_reduced = Scale::Degree.reduce(lowest)
+        diff = lowest - lowest_reduced
+        intervals.map { |n| n - diff }
+      end
+
       # Transpose the given intervals so that the lowest one is zero
       # eg [16, 22, 12] -> [4, 10, 0]
       # @param [Array<Fixnum>] intervals
