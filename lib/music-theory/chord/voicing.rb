@@ -10,7 +10,6 @@ module MusicTheory
         names = DICTIONARY[type].keys
         chords = names.map do |name|
           unless (interval_sets = as_intervals(type, name, notes)).empty?
-            p interval_sets.uniq
             interval_sets.uniq.map do |set|
               {
                 intervals: set,
