@@ -25,7 +25,7 @@ module MusicTheory
 
       def permutations
         permutations = []
-        (members.count + 1).times do |i|
+        (members.count * 2).times do |i|
           last = permutations.last
           last = @members if last.nil? || i.zero?
           index = Interval.index_of_lowest(last, :rating => 2)
@@ -33,6 +33,7 @@ module MusicTheory
         end
         permutations += permutations.map { |set| Interval.reduce(set) }
         permutations += permutations.map { |set| Interval.normalize(set) }
+        permutations.uniq!
         permutations
       end
 
