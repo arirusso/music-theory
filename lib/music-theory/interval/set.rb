@@ -24,17 +24,7 @@ module MusicTheory
       end
 
       def permutations
-        permutations = []
-        (members.count * 2).times do |i|
-          last = permutations.last
-          last = @members if last.nil? || i.zero?
-          index = Interval.index_of_lowest(last, :rating => 2)
-          permutations << Interval.center(last, :index => index)
-        end
-        permutations += permutations.map { |set| Interval.reduce(set) }
-        permutations += permutations.map { |set| Interval.normalize(set) }
-        permutations.uniq!
-        permutations
+        Permutations.new(self).to_a
       end
 
       def reduce
@@ -94,6 +84,35 @@ module MusicTheory
 
       def primitive_sort
         @members.sort
+      end
+
+      class Permutations
+
+        def initialize(set)
+          @set = set
+          populate_permutations
+        end
+
+        def to_a
+          @permutations
+        end
+
+        private
+
+        def populate_permutations
+          permutations = []
+          (@set.members.count * 2).times do |i|
+            last = permutations.last
+            last = @set.members if last.nil? || i.zero?
+            index = Interval.index_of_lowest(last, :rating => 2)
+            permutations << Interval.center(last, :index => index)
+          end
+          permutations += permutations.map { |set| Interval.reduce(set) }
+          permutations += permutations.map { |set| Interval.normalize(set) }
+          permutations.uniq!
+          @permutations = permutations
+        end
+
       end
 
     end
