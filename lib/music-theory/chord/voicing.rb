@@ -87,7 +87,6 @@ module MusicTheory
 
       def populate_name
         type = dictionary[:abbrev].to_s
-        type[0] = type[0].upcase
         @name = "#{@root.name}#{@root.accidental}#{type}"
       end
 
