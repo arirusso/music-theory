@@ -84,11 +84,16 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
       end
 
       should "contain all included chords" do
-
+        control = %w{BDim7 AbDim7 FDim7 DDim7}
+        control.each do |chord|
+          assert_includes @chords.map(&:name), chord
+        end
+        refute @chords.any? { |c| !control.include?(c.name) }
       end
 
       should "have best guess chord first" do
-
+        assert_equal "BDim7", @chords.first.name
+        assert_equal 0, @chords.first.inversion
       end
 
     end
