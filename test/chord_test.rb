@@ -138,6 +138,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{c# a f# d})
+            assert_equal "DMaj7", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
         end
 
         context "minor" do
@@ -160,6 +166,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{bb g eb c})
+            assert_equal "CMin7", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
           should "identify across octaves" do
             @chord = MusicTheory::Chord.identify(%w{c1 eb1 g2 bb3})
             assert_equal "CMin7", @chord.name
@@ -170,6 +182,18 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{eb1 g2 bb2 c3})
             assert_equal "CMin7", @chord.name
             assert_equal 1, @chord.inversion
+          end
+
+          should "identify across octaves when in second inversion" do
+            @chord = MusicTheory::Chord.identify(%w{g1 eb2 bb3 c4})
+            assert_equal "CMin7", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+          should "identify across octaves when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{bb1 g2 eb2 c4})
+            assert_equal "CMin7", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
         end
@@ -194,6 +218,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{eb c a f})
+            assert_equal "F7", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
         end
 
         context "augmented" do
@@ -214,6 +244,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{b# g# d e})
             assert_equal "EAug7", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{d b# g# e})
+            assert_equal "EAug7", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
         end
@@ -238,6 +274,12 @@ class MusicTheory::ChordTest < Minitest::Test
             refute_equal 2, @chord.inversion
           end
 
+          should "not identify when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{ab f d b})
+            refute_equal "BDim7", @chord.name
+            refute_equal 3, @chord.inversion
+          end
+
         end
 
         context "half diminished" do
@@ -258,6 +300,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{f d b a})
             assert_equal "Bm7♭5", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{a f d b})
+            assert_equal "Bm7♭5", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
         end
@@ -286,6 +334,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify from midi notes when in third inversion" do
+            @chord = MusicTheory::Chord.identify(75, 76, 78, 80, 83)
+            assert_equal "EMaj9", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
           should "identify using note names" do
             @chord = MusicTheory::Chord.identify(%w{d f# a c# e})
             assert_equal "DMaj9", @chord.name
@@ -310,6 +364,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{c# a f# d e})
+            assert_equal "DMaj9", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
           should "identify across octaves when in first inversion" do
             @chord = MusicTheory::Chord.identify(%w{f#1 a2 c#3 d4 e5})
             assert_equal "DMaj9", @chord.name
@@ -320,6 +380,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{a1 f#2 c#3 d4 e5})
             assert_equal "DMaj9", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify across octaves when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{c#1 a1 f#2 d3 e4})
+            assert_equal "DMaj9", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
         end
@@ -342,6 +408,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(71, 74, 76, 78, 79)
             assert_equal "EMin9", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify from midi notes when in third inversion" do
+            @chord = MusicTheory::Chord.identify(74, 76, 78, 79, 83)
+            assert_equal "EMin9", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
           should "identify using note names" do
@@ -368,6 +440,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{f d g bb a})
+            assert_equal "GMin9", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
           should "identify across octaves when in first inversion" do
             @chord = MusicTheory::Chord.identify(%w{f#1 a2 c#3 d4 e5})
             assert_equal "DMaj9", @chord.name
@@ -378,6 +456,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{a1 f#2 c#3 d4 e5})
             assert_equal "DMaj9", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify across octaves when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{c#1 a2 f#2 d4 e4})
+            assert_equal "DMaj9", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
         end
