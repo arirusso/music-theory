@@ -61,6 +61,11 @@ module MusicTheory
           :abbrev => :Maj9,
           :symbol => "M9",
           :intervals => [0, 4, 7, 11, 14]
+        },
+        :minor => {
+          :abbrev => :Min9,
+          :symbol => "m9",
+          :intervals => [0, 3, 7, 10, 14]
         }
       }
     }
