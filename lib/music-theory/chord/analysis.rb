@@ -50,7 +50,7 @@ module MusicTheory
         @chords
           .select { |chord| chord.size == largest_size }
           .reject { |chord| chord.inversion.nil? }
-          .reject { |chord| @notes.any? { |note| !chord.include?(note) } }
+          .reject { |chord| @notes.any? { |note| !chord.include_relative?(note) } }
           .sort_by(&:inversion)
       end
 

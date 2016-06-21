@@ -36,6 +36,10 @@ module MusicTheory
         @members.include?(note)
       end
 
+      def include_relative?(note)
+        @members.any? { |member| member.interval_above_c == note.interval_above_c }
+      end
+
       def ==(o)
         (o.class == self.class) &&
           o.members == @members &&

@@ -40,6 +40,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 0, @chord.inversion
           end
 
+          should "identify when there are duplicate notes" do
+            @chord = MusicTheory::Chord.identify(%w{f#1 a2 d2 a3 d3})
+            assert_equal "DMaj", @chord.name
+            assert_equal 1, @chord.inversion
+          end
+
         end
 
         context "minor" do
