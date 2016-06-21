@@ -17,12 +17,26 @@ module MusicTheory
 
         def calculate
           if @permutations.nil?
-            permutations = centered(@set.members)
+            members = self.class.uniq_notes(@set.members)
+            permutations = centered(members)
             #permutations += variations(permutations)
             #permutations.uniq!
             @permutations = permutations
           end
           @permutations
+        end
+
+        def self.uniq_notes(notes)
+          memo = []
+          notes.select do |n|
+            mod = n % 12
+            if !memo.include?(mod)
+              memo << mod
+              true
+            else
+              false
+            end
+          end
         end
 
         private
