@@ -13,11 +13,11 @@ module MusicTheory
       :b => "b"
     }.freeze
 
-    SHARP = "#".freeze
-    FLAT = "b".freeze
+    SHARP = %w{♯ # s}.freeze
+    FLAT = %w{♭ b}.freeze
 
     MATCH = {
-      :accidental => /^[#{NAME.values.join(',')}]([#{SHARP},#{FLAT},s]+)/,
+      :accidental => /^[#{NAME.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/,
       :name => /^[#{NAME.values.join(',')}]/,
       :octave => /\d+$/
     }.freeze
@@ -50,8 +50,8 @@ module MusicTheory
       unless @accidental.nil?
         @accidental.each_char do |char|
           mod += case char
-          when SHARP then 1
-          when FLAT then -1
+          when /[#{SHARP.join(',')}]/ then 1
+          when /[#{FLAT.join(',')}]/ then -1
           end
         end
       end
@@ -110,7 +110,8 @@ module MusicTheory
       end
       if id.match(MATCH[:accidental])
         @accidental = id.match(MATCH[:accidental])[1].downcase.to_s
-        @accidental.gsub!(/s/, SHARP)
+        @accidental.gsub!(/[#{SHARP.join(',')}]/, SHARP.first)
+        @accidental.gsub!(/[#{FLAT.join(',')}]/, FLAT.first)
       end
     end
 

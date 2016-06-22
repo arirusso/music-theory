@@ -36,7 +36,7 @@ class MusicTheory::ChordTest < Minitest::Test
 
           should "identify symbolic chord using note names" do
             @chord = MusicTheory::Chord.identify(%w{g## b## d##})
-            assert_equal "G##Maj", @chord.name
+            assert_equal "G♯♯Maj", @chord.name
             assert_equal 0, @chord.inversion
           end
 
@@ -114,19 +114,19 @@ class MusicTheory::ChordTest < Minitest::Test
 
           should "identify using note names" do
             @chord = MusicTheory::Chord.identify(%w{f# a# c##})
-            assert_equal "F#Aug", @chord.name
+            assert_equal "F♯Aug", @chord.name
             assert_equal 0, @chord.inversion
           end
 
           should "not identify first inversion" do
             @chord = MusicTheory::Chord.identify(%w{a# c## f#})
-            refute_equal "F#Aug", @chord.name
+            refute_equal "F♯Aug", @chord.name
             refute_equal 1, @chord.inversion
           end
 
           should "not identify second inversion" do
             @chord = MusicTheory::Chord.identify(%w{c## f# a#})
-            refute_equal "F#Aug", @chord.name
+            refute_equal "F♯Aug", @chord.name
             refute_equal 1, @chord.inversion
           end
 
@@ -431,7 +431,7 @@ class MusicTheory::ChordTest < Minitest::Test
           end
 
           should "identify across octaves when in first inversion" do
-            @chord = MusicTheory::Chord.identify(%w{f#1 a2 c#3 d4 e5})
+            @chord = MusicTheory::Chord.identify(%w{f♯1 a2 c♯3 d4 e5})
             assert_equal "DMaj9", @chord.name
             assert_equal 1, @chord.inversion
           end
@@ -583,11 +583,11 @@ class MusicTheory::ChordTest < Minitest::Test
       end
 
       should "name augmented chord" do
-        assert_equal "F#Aug", MusicTheory::Chord.name(%w{f# a# c##})
+        assert_equal "F♯Aug", MusicTheory::Chord.name(%w{f# a# c##})
       end
 
       should "name symbolic chord" do
-        assert_equal "G##Maj", MusicTheory::Chord.name(%w{g## b## d##})
+        assert_equal "G♯♯Maj", MusicTheory::Chord.name(%w{g## b## d##})
       end
 
       should "name with midi notes" do

@@ -84,7 +84,7 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
       end
 
       should "contain all included chords" do
-        control = %w{BDim7 AbDim7 FDim7 DDim7}
+        control = %w{BDim7 A♭Dim7 FDim7 DDim7}
         control.each do |chord|
           assert_includes @chords.map(&:name), chord
         end

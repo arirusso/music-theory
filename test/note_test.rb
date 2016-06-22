@@ -62,12 +62,12 @@ class NoteTest < Minitest::Test
 
       should "reflect accidental (sharp)" do
         note = MusicTheory::Note.new("F#")
-        assert_equal("#", note.accidental)
+        assert_equal("♯", note.accidental)
       end
 
       should "convert sym to string and reflect octave and accidental" do
         note = MusicTheory::Note.new(:fs4)
-        assert_equal("F#4", note.id)
+        assert_equal("F♯4", note.id)
       end
 
       should "capitalize and reflect octave" do
@@ -77,7 +77,7 @@ class NoteTest < Minitest::Test
 
       should "reflect octave and accidental (flat)" do
         note = MusicTheory::Note.new("Cb5")
-        assert_equal("Cb5", note.id)
+        assert_equal("C♭5", note.id)
       end
 
     end
@@ -100,13 +100,13 @@ class NoteTest < Minitest::Test
       end
 
       should "reflect sharp" do
-        note = MusicTheory::Note.new("F#")
-        assert_equal("#", note.accidental)
+        note = MusicTheory::Note.new("F♯")
+        assert_equal("♯", note.accidental)
       end
 
       should "convert sym to string and reflect accidental" do
         note = MusicTheory::Note.new(:fs4)
-        assert_equal("#", note.accidental)
+        assert_equal("♯", note.accidental)
       end
 
       should "not reflect natural when there's an octave" do
@@ -116,7 +116,7 @@ class NoteTest < Minitest::Test
 
       should "reflect flat" do
         note = MusicTheory::Note.new("Cb5")
-        assert_equal("b", note.accidental)
+        assert_equal("♭", note.accidental)
       end
 
     end
