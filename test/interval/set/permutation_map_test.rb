@@ -15,7 +15,7 @@ class MusicTheory::Interval::Set::PermutationMapTest < Minitest::Test
         refute_nil @result
         refute_empty @result
         refute_equal @notes, @result
-        assert_equal [0, 4, 7], @result
+        assert_equal [0, 4, 7, nil, nil, nil], @result
       end
 
     end

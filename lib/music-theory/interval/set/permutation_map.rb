@@ -19,8 +19,6 @@ module MusicTheory
           if @permutations.nil?
             members = self.class.uniq_notes(@set.members)
             permutations = centered(members)
-            #permutations += variations(permutations)
-            #permutations.uniq!
             @permutations = permutations
           end
           @permutations
@@ -28,13 +26,11 @@ module MusicTheory
 
         def self.uniq_notes(notes)
           memo = []
-          notes.select do |n|
+          notes.map do |n|
             mod = n % 12
             if !memo.include?(mod)
               memo << mod
-              true
-            else
-              false
+              n
             end
           end
         end
