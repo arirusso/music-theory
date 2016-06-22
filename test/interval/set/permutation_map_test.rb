@@ -8,7 +8,7 @@ class MusicTheory::Interval::Set::PermutationMapTest < Minitest::Test
 
       setup do
         @notes = [0, 4, 7, 12, 16, 19]
-        @result = MusicTheory::Interval::Set::PermutationMap.uniq_notes(@notes)
+        @result = MusicTheory::Interval::Set::PermutationMap.send(:uniq_notes, @notes)
       end
 
       should "return unique note values" do
