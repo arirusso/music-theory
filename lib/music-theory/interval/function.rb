@@ -41,8 +41,8 @@ module MusicTheory
         index = options.fetch(:index, 1)
         center = intervals[index]
         intervals
-          .map { |n| n - center }
-          .map { |n| n < 0 ? n + 12 : n }
+          .map { |n| n - center unless n.nil? }
+          .map { |n| n < 0 ? n + 12 : n unless n.nil? }
       end
 
       # Get the index of the r lowest value in the set
@@ -55,7 +55,7 @@ module MusicTheory
       # @return [Fixnum]
       def index_of_lowest(set, options = {})
         rating = options.fetch(:rating, 1)
-        value = set.sort[rating - 1]
+        value = set.map { |n| n || set.compact.max + 1 }.sort[rating - 1]
         set.index(value)
       end
 

@@ -12,7 +12,7 @@ module MusicTheory
           unless (interval_sets = as_intervals(type, name, notes)).empty?
             interval_sets.uniq.map do |set|
               {
-                intervals: set,
+                root_index: set.index(0),
                 name: name
               }
             end
@@ -21,15 +21,13 @@ module MusicTheory
         chords.flatten!
         chords.compact!
         chords.uniq!
-        chords.map { |chord| new(type, chord[:name], notes, intervals: chord[:intervals]) }
+        chords.map { |chord| new(type, chord[:name], notes, :root_index => chord[:root_index]) }
       end
 
       def initialize(type, name, notes, options = {})
-        intervals = options[:intervals] || self.class.as_intervals(type, name, notes)
-
         @name = name.to_sym
         @type = type.to_sym
-        populate(notes, intervals)
+        populate(notes, :root_index => options[:root_index])
       end
 
       def include?(note)
@@ -72,22 +70,22 @@ module MusicTheory
 
       private
 
-      def populate(notes, intervals)
-        # if intervals.size != dictionary[:intervals]
-        # TODO for sub-chords
-        @members = []
-
-        dictionary[:intervals].each_with_index do |member, i|
-          if (index = intervals.index(member)).nil?
-            reduced_member = Interval.reduce(dictionary[:intervals])[i]
-            index = intervals.index(reduced_member)
-          end
-          note = notes[index]
-          @root = note if member == 0
-          @members[index] = note
+      def populate(notes, options = {})
+        root_index = options[:root_index]
+        @root = notes[root_index]
+        map = notes.map do |note|
+          (note.interval_above_c + 12) - @root.interval_above_c
         end
-        @members.compact!
-        @inversion = dictionary[:intervals].index(intervals[0])
+        map = Interval.reduce(map)
+        reduced_dict = Interval.reduce(dictionary[:intervals])
+        map = map.map { |int| int if reduced_dict.include?(int) }
+        @inversion = reduced_dict.index(map.compact.first)
+        @members = []
+        map.each_with_index do |int, i|
+          unless int.nil?
+            @members << notes[i]
+          end
+        end
         populate_name
         @members
       end
