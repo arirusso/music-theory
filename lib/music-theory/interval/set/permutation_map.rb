@@ -37,11 +37,6 @@ module MusicTheory
 
         private
 
-        def variations(permutations)
-          permutations.map { |set| Interval.reduce(set) } +
-            permutations.map { |set| Interval.normalize(set) }
-        end
-
         def next_centered_permutation(set)
           index = Interval.index_of_lowest(set, :rating => 2)
           Interval.center(set, :index => index)
