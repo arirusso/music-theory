@@ -540,6 +540,40 @@ class MusicTheory::ChordTest < Minitest::Test
 
       end
 
+      context "eleventh chords" do
+
+        context "major" do
+
+          should "identify using note names" do
+            @chord = MusicTheory::Chord.identify(%w{C E G B D F♯})
+            assert_equal "CMaj11", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+        end
+
+        context "minor" do
+
+          should "identify using note names" do
+            @chord = MusicTheory::Chord.identify(%w{C E♭ G B♭ D F})
+            assert_equal "CMin11", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+        end
+
+        context "dominant" do
+
+          should "identify using note names" do
+            @chord = MusicTheory::Chord.identify(%w{C E G B♭ D F})
+            assert_equal "C11", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+        end
+
+      end
+
       context "not identifiable" do
 
         should "not identify incomplete" do
