@@ -78,8 +78,7 @@ module MusicTheory
         :minor => {
           :abbrev => :Min11,
           :symbol => "m11",
-          :intervals => [0, 7, 10, 14, 17],
-          :optional_intervals => [3]
+          :intervals => [0, 3, 7, 10, 14, 17]
         },
         :dominant => {
           :abbrev => "11",
