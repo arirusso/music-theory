@@ -604,6 +604,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 0, @chord.inversion
           end
 
+          should "identify across octaves with missing fifth" do
+            @chord = MusicTheory::Chord.identify(%w{c0 e1 b2 d2 f♯3})
+            assert_equal "CMaj11", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
         end
 
         context "minor" do
@@ -660,6 +666,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{g1 e♭1 b♭2 c2 d2 f3 d3 c3 c2})
             assert_equal "CMin11", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify across octaves with missing fifth" do
+            @chord = MusicTheory::Chord.identify(%w{c0 e♭1 b♭2 d3 f4})
+            assert_equal "CMin11", @chord.name
+            assert_equal 0, @chord.inversion
           end
 
         end
@@ -722,6 +734,12 @@ class MusicTheory::ChordTest < Minitest::Test
 
           should "identify across octaves when missing third" do
             @chord = MusicTheory::Chord.identify(%w{c0 g1 b♭1 d2 f3})
+            assert_equal "C11", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+          should "identify across octaves when missing fifth" do
+            @chord = MusicTheory::Chord.identify(%w{c0 e1 b♭1 d2 f3})
             assert_equal "C11", @chord.name
             assert_equal 0, @chord.inversion
           end

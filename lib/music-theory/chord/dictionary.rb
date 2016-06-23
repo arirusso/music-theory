@@ -72,18 +72,19 @@ module MusicTheory
         :major => {
           :abbrev => :Maj11,
           :symbol => "M11",
-          :intervals => [0, 7, 11, 14, 18],
-          :optional_intervals => [4]
+          :intervals => [0, 11, 14, 18],
+          :optional_intervals => [4, 7]
         },
         :minor => {
           :abbrev => :Min11,
           :symbol => "m11",
-          :intervals => [0, 3, 7, 10, 14, 17]
+          :intervals => [0, 3, 10, 14, 17],
+          :optional_intervals => [7]
         },
         :dominant => {
           :abbrev => "11",
-          :intervals => [0, 7, 10, 14, 17],
-          :optional_intervals => [4]
+          :intervals => [0, 10, 14, 17],
+          :optional_intervals => [4, 7]
         }
       }
     }
