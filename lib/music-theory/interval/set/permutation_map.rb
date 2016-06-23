@@ -6,6 +6,8 @@ module MusicTheory
 
       class PermutationMap
 
+        FACTOR = 3.freeze
+
         def self.calculate(set)
           @permutations = new(set)
           @permutations.calculate
@@ -46,7 +48,7 @@ module MusicTheory
 
           def centered(intervals)
             permutations = []
-            num_passes = intervals.count * 2
+            num_passes = intervals.count * FACTOR
             num_passes.times do |pass|
               last = permutations.last
               last = intervals if last.nil? || pass.zero?
