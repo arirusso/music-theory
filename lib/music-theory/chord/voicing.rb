@@ -77,7 +77,12 @@ module MusicTheory
           (note.interval_above_c + 12) - @root.interval_above_c
         end
         map = Interval.reduce(map)
-        reduced_dict = Interval.reduce(dictionary[:intervals])
+        dict = dictionary[:intervals]
+        unless dictionary[:optional_intervals].nil?
+          dict += dictionary[:optional_intervals]
+          dict.sort!
+        end
+        reduced_dict = Interval.reduce(dict)
         map = map.map { |int| int if reduced_dict.include?(int) }
         @inversion = reduced_dict.index(map.compact.first)
         @members = []
@@ -98,6 +103,10 @@ module MusicTheory
       def self.as_intervals(type, name, notes)
         dictionary = DICTIONARY[type.to_sym][name.to_sym]
         controls = [dictionary[:intervals], Interval.reduce(dictionary[:intervals])]
+        unless (optional_intervals = dictionary[:optional_intervals]).nil?
+          controls << (dictionary[:intervals] + optional_intervals)
+          controls << Interval.reduce(dictionary[:intervals] + optional_intervals)
+        end
         Interval::Set.permutations(notes).select do |intervals|
           controls.any? { |control| control & intervals == control }
         end
