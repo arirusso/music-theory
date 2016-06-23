@@ -538,6 +538,70 @@ class MusicTheory::ChordTest < Minitest::Test
 
         end
 
+        context "dominant" do
+
+          should "identify using note names" do
+            @chord = MusicTheory::Chord.identify(%w{d f# a c e})
+            assert_equal "D9", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+          should "identify using note names when in first inversion" do
+            @chord = MusicTheory::Chord.identify(%w{f# a c d e})
+            assert_equal "D9", @chord.name
+            assert_equal 1, @chord.inversion
+          end
+
+          should "identify using note names when in second inversion" do
+            @chord = MusicTheory::Chord.identify(%w{a f# c d e})
+            assert_equal "D9", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{c a f# d e})
+            assert_equal "D9", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
+          should "identify across octaves" do
+            @chord = MusicTheory::Chord.identify(%w{d1 f#2 a3 c4 e5})
+            assert_equal "D9", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+          should "identify across octaves when in first inversion" do
+            @chord = MusicTheory::Chord.identify(%w{f♯1 a2 c3 d4 e5})
+            assert_equal "D9", @chord.name
+            assert_equal 1, @chord.inversion
+          end
+
+          should "identify across octaves when in second inversion" do
+            @chord = MusicTheory::Chord.identify(%w{a1 f#2 c3 d4 e5})
+            assert_equal "D9", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+          should "identify across octaves when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{c1 a1 f#2 d3 e4})
+            assert_equal "D9", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
+          should "identify when there are dup notes" do
+            @chord = MusicTheory::Chord.identify(%w{a1 f#2 c3 d4 e5 a1 f#2 f#5 d5})
+            assert_equal "D9", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+          should "identify when fifth is omitted" do
+            @chord = MusicTheory::Chord.identify(%w{d1 f#2 c4 e5})
+            assert_equal "D9", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+        end
+
       end
 
       context "eleventh chords" do

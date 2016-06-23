@@ -66,6 +66,11 @@ module MusicTheory
           :abbrev => :Min9,
           :symbol => "m9",
           :intervals => [0, 3, 7, 10, 14]
+        },
+        :dominant => {
+          :abbrev => "9",
+          :intervals => [0, 4, 10, 14],
+          :optional_intervals => [7]
         }
       },
       :eleventh => {
