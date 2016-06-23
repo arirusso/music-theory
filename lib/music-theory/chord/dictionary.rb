@@ -71,6 +71,10 @@ module MusicTheory
           :abbrev => "9",
           :intervals => [0, 4, 10, 14],
           :optional_intervals => [7]
+        },
+        :added => {
+          :abbrev => :Add9,
+          :intervals => [0, 4, 7, 14]
         }
       },
       :eleventh => {

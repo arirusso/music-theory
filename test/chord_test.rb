@@ -602,6 +602,52 @@ class MusicTheory::ChordTest < Minitest::Test
 
         end
 
+        context "add" do
+
+          should "identify using note names" do
+            @chord = MusicTheory::Chord.identify(%w{d f# a e})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+          should "identify using note names when in first inversion" do
+            @chord = MusicTheory::Chord.identify(%w{f# a d e})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 1, @chord.inversion
+          end
+
+          should "identify using note names when in second inversion" do
+            @chord = MusicTheory::Chord.identify(%w{a f# d e})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+          should "identify across octaves" do
+            @chord = MusicTheory::Chord.identify(%w{d1 f#2 a3 e4})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+          should "identify across octaves when in first inversion" do
+            @chord = MusicTheory::Chord.identify(%w{f♯1 a2 d3 e4})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 1, @chord.inversion
+          end
+
+          should "identify across octaves when in second inversion" do
+            @chord = MusicTheory::Chord.identify(%w{a1 f#2 d3 e4})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+          should "identify when there are dup notes" do
+            @chord = MusicTheory::Chord.identify(%w{a1 f#2 d3 e2 a1 f#2 f#5 d5})
+            assert_equal "DAdd9", @chord.name
+            assert_equal 2, @chord.inversion
+          end
+
+        end
+
       end
 
       context "eleventh chords" do
