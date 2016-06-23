@@ -562,6 +562,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{B G E C D F♯})
+            assert_equal "CMaj11", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
         end
 
         context "minor" do
@@ -584,6 +590,12 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 2, @chord.inversion
           end
 
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{B♭ G E♭ C D F})
+            assert_equal "CMin11", @chord.name
+            assert_equal 3, @chord.inversion
+          end
+
         end
 
         context "dominant" do
@@ -604,6 +616,12 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{G B♭ C D E F})
             assert_equal "C11", @chord.name
             assert_equal 2, @chord.inversion
+          end
+
+          should "identify using note names when in third inversion" do
+            @chord = MusicTheory::Chord.identify(%w{B♭ G C D E F})
+            assert_equal "C11", @chord.name
+            assert_equal 3, @chord.inversion
           end
 
         end
