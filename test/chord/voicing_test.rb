@@ -49,27 +49,6 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
 
     end
 
-    context ".interval_permutations" do
-
-      setup do
-        @notes = [
-          MusicTheory::Note.new("E"),
-          MusicTheory::Note.new("G#"),
-          MusicTheory::Note.new("B"),
-        ]
-      end
-
-      should "match triad" do
-        assert_includes MusicTheory::Chord::Voicing.send(:interval_permutations, :triad, :major, @notes), [0, 4, 7]
-      end
-
-      should "match seventh" do
-        @notes << MusicTheory::Note.new("D#")
-        assert_includes MusicTheory::Chord::Voicing.send(:interval_permutations, :seventh, :major, @notes), [0,4,7,11]
-      end
-
-    end
-
     context "#chords_by_precedence" do
 
       setup do

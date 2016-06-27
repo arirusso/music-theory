@@ -99,46 +99,6 @@ module MusicTheory
         @name = "#{@root.name}#{@root.accidental}#{type}"
       end
 
-      # filter out permutations where extended notes aren't actually extended
-      # eg, 11th is actually a 4th
-      def self.filter_for_extended(sets, dictionary_intervals, notes)
-        sets.select do |permutation|
-          root_index = permutation.index(0)
-          extended = dictionary_intervals.select { |n| n if n > 11 }
-          reduced_extended = extended.map { |n| n % 12 }
-          i = 0
-          extended_indexes = permutation.map do |n|
-            index = i if reduced_extended.include?(n)
-            i += 1
-            index
-          end
-          extended_indexes.compact!
-          extended_notes = extended_indexes.map { |i| notes[i] }
-          root = notes.at(root_index)
-          extended_notes.all? { |note| note.midi_note_num - root.midi_note_num > 12 }
-        end
-      end
-
-      def self.interval_permutations(type, name, notes)
-        dictionary = DICTIONARY[type.to_sym][name.to_sym]
-        controls = [dictionary[:intervals], Interval.reduce(dictionary[:intervals])]
-        unless (optional_intervals = dictionary[:optional_intervals]).nil?
-          controls << (dictionary[:intervals] + optional_intervals)
-          controls << Interval.reduce(dictionary[:intervals] + optional_intervals)
-        end
-        # find matching reduced permutations
-        permutations = Interval::Set.permutations(notes).select do |intervals|
-          controls.any? { |control| control & intervals == control }
-        end
-        # are we dealing with extended notes?
-        has_octave = notes.all?(&:octave?)
-        if has_octave && dictionary[:intervals].max > 11
-          filter_for_extended(permutations, dictionary[:intervals], notes)
-        else
-          permutations
-        end
-      end
-
     end
 
   end
