@@ -953,6 +953,13 @@ class MusicTheory::ChordTest < Minitest::Test
           assert_nil @chord.name
         end
 
+        should "not identify clusters of notes as chords" do
+          @chord = MusicTheory::Chord.identify(%w{a0 a#1 b1 c2 d3 d#1 e1 f#2 a5 g#2 b1 bb2})
+          assert_nil @chord.name
+          @chord = MusicTheory::Chord.identify(%w{a0 b1 c2 c#2 d3 d#3 e1 f2 f#2 g2 g#2 a5 g#2 b1 bb2})
+          assert_nil @chord.name
+        end
+
       end
 
     end
