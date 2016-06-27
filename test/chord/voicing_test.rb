@@ -49,7 +49,7 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
 
     end
 
-    context ".as_intervals" do
+    context ".interval_permutations" do
 
       setup do
         @notes = [
@@ -60,12 +60,12 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
       end
 
       should "match triad" do
-        assert_includes MusicTheory::Chord::Voicing.send(:as_intervals, :triad, :major, @notes), [0, 4, 7]
+        assert_includes MusicTheory::Chord::Voicing.send(:interval_permutations, :triad, :major, @notes), [0, 4, 7]
       end
 
       should "match seventh" do
         @notes << MusicTheory::Note.new("D#")
-        assert_includes MusicTheory::Chord::Voicing.send(:as_intervals, :seventh, :major, @notes), [0,4,7,11]
+        assert_includes MusicTheory::Chord::Voicing.send(:interval_permutations, :seventh, :major, @notes), [0,4,7,11]
       end
 
     end
