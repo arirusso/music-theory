@@ -62,6 +62,10 @@ module MusicTheory
       as_c_major_scale_degree + mod
     end
 
+    def octave?
+      !@octave.nil?
+    end
+
     private
 
     def parse_id(id)
