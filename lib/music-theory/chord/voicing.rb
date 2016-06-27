@@ -107,9 +107,31 @@ module MusicTheory
           controls << (dictionary[:intervals] + optional_intervals)
           controls << Interval.reduce(dictionary[:intervals] + optional_intervals)
         end
-        Interval::Set.permutations(notes).select do |intervals|
+        # find matching reduced permutations
+        permutations = Interval::Set.permutations(notes).select do |intervals|
           controls.any? { |control| control & intervals == control }
         end
+        has_octave = notes.all?(&:octave?)
+        if has_octave && dictionary[:intervals].max > 11
+          # find permutations with matching extended notes
+          permutations = permutations.select do |permutation|
+            root_index = permutation.index(0)
+            extended = dictionary[:intervals].select { |n| n if n > 11 }
+            reduced_extended = extended.map { |n| n % 12 }
+            i = 0
+            extended_indexes = permutation.map do |n|
+              index = i if reduced_extended.include?(n)
+              i += 1
+              index
+            end
+            extended_indexes.compact!
+            extended_notes = extended_indexes.map { |i| notes[i] }
+            root = notes.at(root_index)
+            extended_notes.all? { |note| note.midi_note_num - root.midi_note_num > 12 }
+          end
+        end
+        # find permutations with no extra notes
+        permutations
       end
 
     end
