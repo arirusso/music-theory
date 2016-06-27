@@ -7,9 +7,8 @@ module MusicTheory
       attr_reader :inversion, :members, :name, :root, :type
 
       def self.find_all(type, notes)
-        names = DICTIONARY[type].keys
-        chords = names.map do |name|
-          unless (permutation_sets = interval_permutations(type, name, notes)).empty?
+        chords = DICTIONARY[type].map do |name, dictionary|
+          unless (permutation_sets = Match.interval_permutations(dictionary, notes)).empty?
             permutation_sets.uniq.map do |set|
               {
                 root_index: set.index(0),
