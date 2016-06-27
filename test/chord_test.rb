@@ -536,6 +536,11 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 1, @chord.inversion
           end
 
+          should "not identify when there are extraneous notes" do
+            @chord = MusicTheory::Chord.identify(%w{f1 f2 bb3 a2 c3 d4 e5 f5 d5})
+            refute_equal "DMin9", @chord.name
+          end
+
         end
 
         context "dominant" do
@@ -836,6 +841,11 @@ class MusicTheory::ChordTest < Minitest::Test
             assert_equal 0, @chord.inversion
           end
 
+          should "not identify with extraneous notes" do
+            @chord = MusicTheory::Chord.identify(%w{c0 a♭1 e♭1 b♭2 d3 f4})
+            refute_equal "CMin11", @chord.name
+          end
+
         end
 
         context "dominant" do
@@ -910,6 +920,21 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{c0 b♭1 d2 f3})
             assert_equal "C11", @chord.name
             assert_equal 0, @chord.inversion
+          end
+
+          should "not identify when 9th is a 2nd" do
+            @chord = MusicTheory::Chord.identify(%w{c0 d0 b♭1 f3})
+            refute_equal "C11", @chord.name
+          end
+
+          should "not identify when 11th is a 4nd" do
+            @chord = MusicTheory::Chord.identify(%w{c0 f0 b♭1 d1})
+            refute_equal "C11", @chord.name
+          end
+
+          should "not identify when containing extraneous notes" do
+            @chord = MusicTheory::Chord.identify(%w{c0 b♭1 f#2 d2 f3})
+            refute_equal "C11", @chord.name
           end
 
         end

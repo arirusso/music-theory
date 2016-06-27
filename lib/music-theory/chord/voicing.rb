@@ -131,7 +131,12 @@ module MusicTheory
           end
         end
         # find permutations with no extra notes
-        permutations
+        permutations.select do |permutation|
+          num_uniq_intervals = permutation.reject(&:nil?).map { |n| n % 12 }.uniq.size
+          note_nums = notes.map(&:interval_above_c)
+          num_uniq_notes = Interval.reduce(note_nums).uniq.size
+          num_uniq_intervals == num_uniq_notes
+        end
       end
 
     end
