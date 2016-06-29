@@ -88,12 +88,11 @@ module MusicTheory
       def populate(notes, options = {})
         root_index = options[:root_index]
         @root = notes[root_index]
-        reduced_dict = reduced_dictionary_intervals
         @intervals = {}
         @members = notes.select do |note|
           interval = (note.interval_above_c + 12) - @root.interval_above_c
           reduced_int = interval % 12
-          reduced_dict_index = reduced_dict.index(reduced_int)
+          reduced_dict_index = reduced_dictionary_intervals.index(reduced_int)
           unless reduced_dict_index.nil?
             dict_int = dictionary_intervals.at(reduced_dict_index)
             @intervals[dict_int] ||= []
