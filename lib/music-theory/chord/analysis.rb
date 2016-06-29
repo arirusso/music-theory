@@ -60,7 +60,7 @@ module MusicTheory
         end.compact.flatten
       end
 
-      CHORD_DELEGATION_METHODS = [:inversion, :name, :root, :seventh?, :triad?].freeze
+      CHORD_DELEGATION_METHODS = [:intervals, :inversion, :name, :root, :seventh?, :triad?].freeze
 
       def method_missing(method, *args, &block)
         if CHORD_DELEGATION_METHODS.include?(method)

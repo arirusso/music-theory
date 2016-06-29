@@ -803,6 +803,7 @@ class MusicTheory::ChordTest < Minitest::Test
             @chord = MusicTheory::Chord.identify(%w{B♭ G E♭ C D F})
             assert_equal "CMin11", @chord.name
             assert_equal 3, @chord.inversion
+            assert_equal "C", @chord.intervals[0].first.name
           end
 
           should "identify across octaves" do

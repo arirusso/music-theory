@@ -4,7 +4,7 @@ module MusicTheory
 
     class Voicing
 
-      attr_reader :inversion, :members, :name, :root, :type
+      attr_reader :intervals, :inversion, :members, :name, :root, :type
 
       def self.find_all(type, notes)
         chords = DICTIONARY[type].map do |name, dictionary|
@@ -69,29 +69,49 @@ module MusicTheory
 
       private
 
+      def dictionary_intervals
+        if @dictionary_intervals.nil?
+          dict = dictionary[:intervals]
+          unless dictionary[:optional_intervals].nil?
+            dict += dictionary[:optional_intervals]
+            dict.sort!
+          end
+          @dictionary_intervals = dict
+        end
+        @dictionary_intervals
+      end
+
+      def reduced_dictionary_intervals
+        @reduced_dictionary_intervals ||= Interval.reduce(dictionary_intervals)
+      end
+
       def populate(notes, options = {})
         root_index = options[:root_index]
         @root = notes[root_index]
-        map = notes.map do |note|
-          (note.interval_above_c + 12) - @root.interval_above_c
-        end
-        map = Interval.reduce(map)
-        dict = dictionary[:intervals]
-        unless dictionary[:optional_intervals].nil?
-          dict += dictionary[:optional_intervals]
-          dict.sort!
-        end
-        reduced_dict = Interval.reduce(dict)
-        map = map.map { |int| int if reduced_dict.include?(int) }
-        @inversion = reduced_dict.index(map.compact.first)
-        @members = []
-        map.each_with_index do |int, i|
-          unless int.nil?
-            @members << notes[i]
+        reduced_dict = reduced_dictionary_intervals
+        @intervals = {}
+        @members = notes.select do |note|
+          interval = (note.interval_above_c + 12) - @root.interval_above_c
+          reduced_int = interval % 12
+          reduced_dict_index = reduced_dict.index(reduced_int)
+          unless reduced_dict_index.nil?
+            dict_int = dictionary_intervals.at(reduced_dict_index)
+            @intervals[dict_int] ||= []
+            @intervals[dict_int] << note
+            true
           end
         end
+        @intervals.each do |interval, notes|
+          notes.sort_by(&:midi_note_num)
+        end
+        populate_inversion
         populate_name
         @members
+      end
+
+      def populate_inversion
+        first_interval = @intervals.select { |k, v| v.include?(@members.first) }.keys.first
+        @inversion = reduced_dictionary_intervals.index(first_interval)
       end
 
       def populate_name
