@@ -3,6 +3,8 @@ module MusicTheory
   # An immutable note
   class Note
 
+    include Comparable
+
     NAME = {
       :c => "c",
       :d => "d",
@@ -35,13 +37,18 @@ module MusicTheory
       construct_id
     end
 
-    def midi_note_num(options = {})
+    def <=>(o)
+      num <=> o.num
+    end
+
+    def num(options = {})
       octave = options[:octave] || @octave
       unless octave.nil?
         octave_start = (12 * octave) + 12
         octave_start + interval_above_c
       end
     end
+    alias_method :midi_note_num, :num
 
     # The intervalic value of this note's accidental
     # @return [Fixnum]
