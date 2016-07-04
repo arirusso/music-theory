@@ -83,7 +83,8 @@ module MusicTheory
       end
 
       def dictionary
-        DICTIONARY[@type][@name]
+        abbrev = @name.kind_of?(Name) ? @name.abbrev : @name
+        DICTIONARY[@type][abbrev]
       end
 
       private
@@ -140,8 +141,7 @@ module MusicTheory
       end
 
       def populate_name
-        type = dictionary[:abbrev].to_s
-        @name = "#{root.name}#{root.accidental}#{type}".freeze
+        @name = Chord::Name.new(self)
       end
 
     end

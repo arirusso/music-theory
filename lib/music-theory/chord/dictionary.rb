@@ -102,5 +102,16 @@ module MusicTheory
       }
     }
 
+    module Dictionary
+
+      extend self
+
+      def abbreviations
+        DICTIONARY.values.map(&:values).flatten.map { |type| type[:abbrev] }
+      end
+
+    end
+
   end
+
 end

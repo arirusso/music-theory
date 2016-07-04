@@ -60,20 +60,13 @@ module MusicTheory
       end
 
       def populate_accidental(string, options = {})
-        if string.match(MATCH[:accidental])
-          @accidental = string.match(MATCH[:accidental])[1].downcase.to_s
-          @accidental.gsub!(/[#{SHARP.join(',')}]/, SHARP.first)
-          @accidental.gsub!(/[#{FLAT.join(',')}]/, FLAT.first)
-        end
+        @accidental = self.class.parse_accidental(string)
         @accidental ||= options[:accidental]
         @accidental
       end
 
       def populate_name(string)
-        if string.match(MATCH[:name])
-          @name = string.match(MATCH[:name])[0].upcase.to_s
-        end
-        @name
+        @name = self.class.parse_name(string)
       end
 
       def populate_octave(string, options = {})
@@ -82,6 +75,21 @@ module MusicTheory
         end
         @octave ||= options[:octave]
         @octave
+      end
+
+      def self.parse_accidental(string)
+        if string.match(MATCH[:accidental])
+          accidental = string.match(MATCH[:accidental])[1].downcase.to_s
+          accidental.gsub!(/[#{SHARP.join(',')}]/, SHARP.first)
+          accidental.gsub!(/[#{FLAT.join(',')}]/, FLAT.first)
+          accidental
+        end
+      end
+
+      def self.parse_name(string)
+        if string.match(MATCH[:name])
+          string.match(MATCH[:name])[0].upcase.to_s
+        end
       end
 
     end
