@@ -8,15 +8,19 @@ module MusicTheory
 
       class << self
 
-        def find_all(type, notes)
+        def find_all(notes)
+          DICTIONARY.keys.map { |type| find_all_by_type(type, notes) }.compact.flatten
+        end
+
+        private
+
+        def find_all_by_type(type, notes)
           @cache ||= {}
           @cache[type] ||= {}
           @cache[type][notes] ||= permutations(type, notes).map do |permutation|
             new(type, permutation[:name], notes, :root_index => permutation[:root_index])
           end
         end
-
-        private
 
         def permutations(type, notes)
           permutations = DICTIONARY[type].map do |name, dictionary|

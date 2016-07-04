@@ -55,9 +55,7 @@ module MusicTheory
       end
 
       def populate_chords
-        @chords = DICTIONARY.keys.map do |key|
-          Voicing.find_all(key, @notes)
-        end.compact.flatten
+        @chords = Voicing.find_all(@notes)
       end
 
       CHORD_DELEGATION_METHODS = [:intervals, :inversion, :name, :root, :seventh?, :triad?].freeze

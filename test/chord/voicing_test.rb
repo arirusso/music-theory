@@ -14,7 +14,7 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
             MusicTheory::Note.new("E"),
             MusicTheory::Note.new("G")
           ]
-          @voicings = MusicTheory::Chord::Voicing.find_all(:triad, @notes)
+          @voicings = MusicTheory::Chord::Voicing.find_all(@notes)
         end
 
         should "populate" do
@@ -35,13 +35,13 @@ class MusicTheory::Chord::VoicingTest < Minitest::Test
             MusicTheory::Note.new("B"),
             MusicTheory::Note.new("D#")
           ]
-          @voicings = MusicTheory::Chord::Voicing.find_all(:seventh, @notes)
+          @voicings = MusicTheory::Chord::Voicing.find_all(@notes)
         end
 
         should "populate" do
           refute_nil @voicings
           refute_empty @voicings
-          assert_equal 1, @voicings.count
+          assert_equal 3, @voicings.count
           assert_equal @notes, @voicings.last.members
         end
 
