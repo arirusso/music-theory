@@ -68,7 +68,7 @@ module MusicTheory
       end
 
       def dictionary
-        DICTIONARY[@type][@name]
+        @dictionary ||= DICTIONARY[@type][@name]
       end
 
       private
