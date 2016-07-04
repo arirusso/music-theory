@@ -7,20 +7,28 @@ module MusicTheory
       attr_reader :intervals, :inversion, :members, :name, :type
 
       def self.find_all(type, notes)
-        chords = DICTIONARY[type].map do |name, dictionary|
-          unless (permutation_sets = Match.interval_permutations(dictionary, notes)).empty?
-            permutation_sets.uniq.map do |set|
-              {
-                root_index: set.index(0),
-                name: name
-              }
+        @cache ||= {}
+        @cache[type] ||= {}
+        sorted_notes = notes.sort
+        if @cache[type][sorted_notes].nil?
+          chords = DICTIONARY[type].map do |name, dictionary|
+            unless (permutation_sets = Match.interval_permutations(dictionary, notes)).empty?
+              permutation_sets.uniq.map do |set|
+                {
+                  root_index: set.index(0),
+                  name: name
+                }
+              end
             end
           end
+          chords.flatten!
+          chords.compact!
+          chords.uniq!
+          @cache[type][sorted_notes] = chords.map do |chord|
+            new(type, chord[:name], notes, :root_index => chord[:root_index])
+          end
         end
-        chords.flatten!
-        chords.compact!
-        chords.uniq!
-        chords.map { |chord| new(type, chord[:name], notes, :root_index => chord[:root_index]) }
+        @cache[type][sorted_notes]
       end
 
       def initialize(type, name, notes, options = {})
