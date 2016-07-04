@@ -79,7 +79,7 @@ module MusicTheory
       end
 
       def dictionary
-        @dictionary ||= DICTIONARY[@type][@name]
+        DICTIONARY[@type][@name]
       end
 
       private
@@ -132,12 +132,12 @@ module MusicTheory
 
       def populate_inversion
         first_interval = @intervals.select { |k, v| v.include?(@members.first) }.keys.first
-        @inversion = reduced_dictionary_intervals.index(first_interval)
+        @inversion = reduced_dictionary_intervals.index(first_interval).freeze
       end
 
       def populate_name
         type = dictionary[:abbrev].to_s
-        @name = "#{root.name}#{root.accidental}#{type}"
+        @name = "#{root.name}#{root.accidental}#{type}".freeze
       end
 
     end
