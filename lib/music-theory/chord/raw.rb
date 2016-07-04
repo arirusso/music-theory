@@ -30,7 +30,7 @@ module MusicTheory
         args.each do |item|
           case item
           when Array then process_args(*item)
-          when Note then @members << item
+          when Note::Instance then @members << item
           else @members << Note.new(item)
           end
         end
