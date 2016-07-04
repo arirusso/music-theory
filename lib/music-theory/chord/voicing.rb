@@ -8,13 +8,10 @@ module MusicTheory
 
       class << self
 
-        attr_reader :cache
-
         def find_all(type, notes)
           @cache ||= {}
           @cache[type] ||= {}
-          sorted_notes = notes.sort
-          @cache[type][sorted_notes] ||= permutations(type, notes).map do |permutation|
+          @cache[type][notes] ||= permutations(type, notes).map do |permutation|
             new(type, permutation[:name], notes, :root_index => permutation[:root_index])
           end
         end
