@@ -6,12 +6,23 @@ module MusicTheory
 
       attr_reader :intervals, :inversion, :members, :name, :type
 
-      def self.find_all(type, notes)
-        @cache ||= {}
-        @cache[type] ||= {}
-        sorted_notes = notes.sort
-        if @cache[type][sorted_notes].nil?
-          chords = DICTIONARY[type].map do |name, dictionary|
+      class << self
+
+        attr_reader :cache
+
+        def find_all(type, notes)
+          @cache ||= {}
+          @cache[type] ||= {}
+          sorted_notes = notes.sort
+          @cache[type][sorted_notes] ||= permutations(type, notes).map do |chord|
+            new(type, chord[:name], notes, :root_index => chord[:root_index])
+          end
+        end
+
+        private
+
+        def permutations(type, notes)
+          permutations = DICTIONARY[type].map do |name, dictionary|
             unless (permutation_sets = Match.interval_permutations(dictionary, notes)).empty?
               permutation_sets.uniq.map do |set|
                 {
@@ -21,14 +32,9 @@ module MusicTheory
               end
             end
           end
-          chords.flatten!
-          chords.compact!
-          chords.uniq!
-          @cache[type][sorted_notes] = chords.map do |chord|
-            new(type, chord[:name], notes, :root_index => chord[:root_index])
-          end
+          permutations.flatten.compact.uniq
         end
-        @cache[type][sorted_notes]
+
       end
 
       def initialize(type, name, notes, options = {})
