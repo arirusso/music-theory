@@ -4,6 +4,64 @@ class NoteTest < Minitest::Test
 
   context "Note" do
 
+    context "#==" do
+
+      context "doesn't have octave / doesn't have octave" do
+
+        should "match when note is the same" do
+          @note1 = MusicTheory::Note.new("D")
+          @note2 = MusicTheory::Note.new("d")
+          assert_equal @note1, @note2
+        end
+
+        should "not match when note is not the same" do
+          @note1 = MusicTheory::Note.new("E")
+          @note2 = MusicTheory::Note.new("A")
+          refute_equal @note1, @note2
+        end
+
+      end
+
+      context "has octave / doesn't have octave" do
+
+        should "not match when note is the same" do
+          @note1 = MusicTheory::Note.new("E1")
+          @note2 = MusicTheory::Note.new("e")
+          refute_equal @note1, @note2
+        end
+
+        should "not match when note is different" do
+          @note1 = MusicTheory::Note.new("F2")
+          @note2 = MusicTheory::Note.new("d")
+          refute_equal @note1, @note2
+        end
+
+      end
+
+      context "has octave / has octave" do
+
+        should "match when note and octave are the same" do
+          @note1 = MusicTheory::Note.new("G#2")
+          @note2 = MusicTheory::Note.new("g#2")
+          assert_equal @note1, @note2
+        end
+
+        should "not match when note is the same but octave is different" do
+          @note1 = MusicTheory::Note.new("F#2")
+          @note2 = MusicTheory::Note.new("F#1")
+          refute_equal @note1, @note2
+        end
+
+        should "not match when note and octave are different" do
+          @note1 = MusicTheory::Note.new("C#2")
+          @note2 = MusicTheory::Note.new("A1")
+          refute_equal @note1, @note2
+        end
+
+      end
+
+    end
+
     context "#name" do
 
       should "capitalize" do

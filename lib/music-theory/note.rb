@@ -73,6 +73,13 @@ module MusicTheory
       !@octave.nil?
     end
 
+    def ==(o)
+      (o.class == self.class) &&
+        (!num.nil? && !o.num.nil? && num == o.num) ||
+        (num.nil? && o.num.nil? && interval_above_c == o.interval_above_c)
+    end
+    alias_method :eql?, :==
+
     private
 
     def parse_id(id)
