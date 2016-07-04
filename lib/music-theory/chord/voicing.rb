@@ -14,8 +14,8 @@ module MusicTheory
           @cache ||= {}
           @cache[type] ||= {}
           sorted_notes = notes.sort
-          @cache[type][sorted_notes] ||= permutations(type, notes).map do |chord|
-            new(type, chord[:name], notes, :root_index => chord[:root_index])
+          @cache[type][sorted_notes] ||= permutations(type, notes).map do |permutation|
+            new(type, permutation[:name], notes, :root_index => permutation[:root_index])
           end
         end
 
