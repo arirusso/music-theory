@@ -4,7 +4,7 @@ module MusicTheory
 
     class Voicing
 
-      attr_reader :intervals, :inversion, :members, :name, :root, :type
+      attr_reader :intervals, :inversion, :members, :name, :type
 
       def self.find_all(type, notes)
         chords = DICTIONARY[type].map do |name, dictionary|
@@ -29,6 +29,10 @@ module MusicTheory
         populate(notes, :root_index => options[:root_index])
       end
 
+      def root
+        @intervals[0].first
+      end
+
       def include?(note)
         @members.include?(note)
       end
@@ -40,7 +44,7 @@ module MusicTheory
       def ==(o)
         (o.class == self.class) &&
           o.members == @members &&
-          o.root == @root &&
+          o.root == root &&
           o.inversion == @inversion &&
           o.name == @name &&
           o.type == @type
@@ -87,10 +91,10 @@ module MusicTheory
 
       def populate(notes, options = {})
         root_index = options[:root_index]
-        @root = notes[root_index]
+        root = notes[root_index]
         @intervals = {}
         @members = notes.select do |note|
-          interval = (note.interval_above_c + 12) - @root.interval_above_c
+          interval = (note.interval_above_c + 12) - root.interval_above_c
           reduced_int = interval % 12
           reduced_dict_index = reduced_dictionary_intervals.index(reduced_int)
           unless reduced_dict_index.nil?
@@ -115,7 +119,7 @@ module MusicTheory
 
       def populate_name
         type = dictionary[:abbrev].to_s
-        @name = "#{@root.name}#{@root.accidental}#{type}"
+        @name = "#{root.name}#{root.accidental}#{type}"
       end
 
     end
