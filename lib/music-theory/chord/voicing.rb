@@ -41,7 +41,7 @@ module MusicTheory
       end
 
       def root
-        @intervals[0].first
+        @root ||= @intervals[0].first
       end
 
       def include?(note)
@@ -120,7 +120,14 @@ module MusicTheory
         end
         populate_inversion
         populate_name
+        freeze
         @members
+      end
+
+      def freeze
+        @members.freeze
+        @intervals.freeze
+        super
       end
 
       def populate_inversion
