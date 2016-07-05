@@ -78,7 +78,7 @@ module MusicTheory
       # The interval of this note above C (in C Major)
       # @return [Fixnum]
       def as_c_major_scale_degree
-        scale_degree = ID::NAME.keys.index(@id.name.downcase.to_sym)
+        scale_degree = Signature::NAME.keys.index(@id.name.downcase.to_sym)
         Scale::Analysis::SCALE[:major][scale_degree]
       end
 
@@ -91,7 +91,7 @@ module MusicTheory
       end
 
       def populate_id_from_string(string, options = {})
-        @id = Note::ID.new(string, options)
+        @id = Note::Signature.new(string, options)
       end
 
     end

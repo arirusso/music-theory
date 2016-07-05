@@ -1,5 +1,5 @@
-require "music-theory/note/id"
 require "music-theory/note/instance"
+require "music-theory/note/signature"
 
 module MusicTheory
 

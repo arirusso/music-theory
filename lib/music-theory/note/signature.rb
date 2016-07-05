@@ -2,7 +2,7 @@ module MusicTheory
 
   module Note
 
-    class ID
+    class Signature
 
       NAME = {
         :c => "c",
@@ -43,7 +43,7 @@ module MusicTheory
 
       def ==(o)
         if o.kind_of?(::String)
-          send(:==, ID.new(o))
+          send(:==, Signature.new(o))
         else
           to_s === o.to_s
         end
