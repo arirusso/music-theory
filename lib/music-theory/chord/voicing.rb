@@ -38,8 +38,8 @@ module MusicTheory
 
       end
 
-      def initialize(type, name, notes, options = {})
-        @name = name.to_sym
+      def initialize(type, dictionary_key, notes, options = {})
+        @dictionary_key = dictionary_key
         @type = type.to_sym
         populate(notes, :root_index => options[:root_index])
       end
@@ -83,8 +83,7 @@ module MusicTheory
       end
 
       def dictionary
-        abbrev = @name.kind_of?(Name) ? @name.abbrev : @name
-        DICTIONARY[@type][abbrev]
+        DICTIONARY[@type][@dictionary_key]
       end
 
       private
