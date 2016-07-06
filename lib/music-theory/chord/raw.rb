@@ -30,8 +30,8 @@ module MusicTheory
         args.each do |obj|
           case obj
           when Array then process_args(*obj)
-          when Note::Symbol then @members << obj
-          else @members << Note::Symbol.find(obj)
+          when Note::Name then @members << obj
+          else @members << Note::Name.find(obj)
           end
         end
       end

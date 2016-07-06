@@ -1,4 +1,4 @@
-require "music-theory/note/symbol"
+require "music-theory/note/name"
 require "music-theory/note/value"
 
 module MusicTheory
@@ -6,7 +6,7 @@ module MusicTheory
   module Note
 
     def self.new(*args)
-      Note::Symbol.find(*args)
+      Note::Name.find(*args)
     end
 
   end

@@ -14,15 +14,15 @@ module MusicTheory
         @values[interval_above_c][options] ||= new(interval_above_c, options)
       end
 
-      def self.for_symbol(symbol)
+      def self.for_name(name)
         @values ||= {}
-        if @values[symbol].nil?
-          interval = Calculate.interval_above_c(symbol)
-          number = Calculate.number(symbol)
-          mod = Calculate.mod(symbol)
-          @values[symbol] = Value.load_or_create(interval, :number => number, :mod => mod)
+        if @values[name].nil?
+          interval = Calculate.interval_above_c(name)
+          number = Calculate.number(name)
+          mod = Calculate.mod(name)
+          @values[name] = Value.load_or_create(interval, :number => number, :mod => mod)
         end
-        @values[symbol]
+        @values[name]
       end
 
       def initialize(interval_above_c, options = {})
@@ -44,19 +44,19 @@ module MusicTheory
 
         extend self
 
-        def number(symbol)
-          unless symbol.abstract?
-            octave_start = (12 * symbol.octave) + 12
-            octave_start + interval_above_c(symbol)
+        def number(name)
+          unless name.abstract?
+            octave_start = (12 * name.octave) + 12
+            octave_start + interval_above_c(name)
           end
         end
 
         # The intervalic value of this note's accidental
         # @return [Fixnum]
-        def mod(symbol)
+        def mod(name)
           mod = 0
-          unless symbol.accidental.nil?
-            symbol.accidental.each_char do |char|
+          unless name.accidental.nil?
+            name.accidental.each_char do |char|
               mod += case char
               when /♯/ then 1
               when /♭/ then -1
@@ -66,10 +66,10 @@ module MusicTheory
           mod
         end
 
-        def interval_above_c(symbol)
-          scale_degree = Symbol::NAME.keys.index(symbol.name.downcase.to_sym)
+        def interval_above_c(name)
+          scale_degree = Name::NAME.keys.index(name.name.downcase.to_sym)
           number = Scale::Analysis::SCALE[:major][scale_degree]
-          number + mod(symbol)
+          number + mod(name)
         end
 
       end

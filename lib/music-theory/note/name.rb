@@ -2,7 +2,7 @@ module MusicTheory
 
   module Note
 
-    class Symbol
+    class Name
 
       NAME = {
         :c => "c",
@@ -28,7 +28,7 @@ module MusicTheory
           when Array then obj.map { |member| find(member, options) }
           when Fixnum then find_by_number(obj, options)
           when String then find_by_string(obj, options)
-          when ::Symbol then find_by_string(obj.to_s, options)
+          when Symbol then find_by_string(obj.to_s, options)
           end
         end
 
@@ -40,23 +40,23 @@ module MusicTheory
         end
 
         def find_by_string(string, options = {})
-          @symbols ||= {}
-          if @symbols[string].nil?
-            symbol_hash = Parser.parse(string)
-            symbol_options = symbol_hash.merge!(options)
-            if @symbols[symbol_options].nil?
-              @symbols[symbol_options] = new(symbol_options[:name], symbol_options)
+          @names ||= {}
+          if @names[string].nil?
+            name_hash = Parser.parse(string)
+            name_options = name_hash.merge!(options)
+            if @names[name_options].nil?
+              @names[name_options] = new(name_options[:name], name_options)
             end
-            @symbols[string] = @symbols[symbol_options]
+            @names[string] = @names[name_options]
           end
-          @symbols[string]
+          @names[string]
         end
 
       end
 
       def initialize(string, options = {})
         populate(string.downcase, options)
-        @value = Value.for_symbol(self)
+        @value = Value.for_name(self)
         freeze
       end
 
@@ -81,7 +81,7 @@ module MusicTheory
 
       def ==(o)
         if o.kind_of?(::String)
-          self === Symbol.find(o)
+          self === Name.find(o)
         else
           super ||
           to_s === o.to_s ||
