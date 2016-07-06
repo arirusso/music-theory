@@ -81,8 +81,9 @@ module MusicTheory
 
       def ==(o)
         if o.kind_of?(::String)
-          send(:==, Symbol.find(o))
+          self === Symbol.find(o)
         else
+          super ||
           to_s === o.to_s ||
           (abstract? && o.abstract? && value.interval_above_c == o.value.interval_above_c) ||
           (!abstract? && !o.abstract? && value.number == o.value.number)
