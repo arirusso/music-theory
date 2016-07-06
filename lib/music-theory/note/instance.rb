@@ -14,7 +14,7 @@ module MusicTheory
       def_delegators :@id, :accidental, :name, :octave
 
       def initialize(id, options = {})
-        populate_id(id, options = {})
+        populate_signature(id, options = {})
         freeze
       end
 
@@ -66,12 +66,12 @@ module MusicTheory
 
       private
 
-      def populate_id(obj, options = {})
+      def populate_signature(obj, options = {})
         case obj
-        when Array then obj.map { |member| populate_id_from_object(member, options) }
-        when Fixnum then populate_id_from_number(obj, options)
-        when String then populate_id_from_string(obj, options)
-        when Symbol then populate_id_from_string(obj.to_s, options)
+        when Array then obj.map { |member| populate_signature_from_object(member, options) }
+        when Fixnum then populate_signature_from_number(obj, options)
+        when String then populate_signature_from_string(obj, options)
+        when Symbol then populate_signature_from_string(obj.to_s, options)
         end
       end
 
@@ -82,15 +82,15 @@ module MusicTheory
         Scale::Analysis::SCALE[:major][scale_degree]
       end
 
-      def populate_id_from_number(int, options = {})
+      def populate_signature_from_number(int, options = {})
         octave, note = *int.divmod(12)
         name = DEFAULT_SCALE.at(note)
         string = "#{name}#{(octave - 1)}"
-        populate_id_from_string(string, options)
+        populate_signature_from_string(string, options)
         @id
       end
 
-      def populate_id_from_string(string, options = {})
+      def populate_signature_from_string(string, options = {})
         @id = Note::Signature.new(string, options)
       end
 
