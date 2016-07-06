@@ -13,7 +13,7 @@ module MusicTheory
     def_delegators :@symbol, :accidental, :name, :octave
 
     def initialize(id, options = {})
-      populate_symbol(id, options = {})
+      @symbol = Note::Symbol.find(id, options = {})
       freeze
     end
 
@@ -69,32 +69,11 @@ module MusicTheory
 
     private
 
-    def populate_symbol(obj, options = {})
-      case obj
-      when Array then obj.map { |member| populate_symbol(member, options) }
-      when Fixnum then populate_symbol_from_number(obj, options)
-      when String then populate_symbol_from_string(obj, options)
-      when ::Symbol then populate_symbol_from_string(obj.to_s, options)
-      end
-    end
-
     # The interval of this note above C (in C Major)
     # @return [Fixnum]
     def as_c_major_scale_degree
       scale_degree = Symbol::NAME.keys.index(@symbol.name.downcase.to_sym)
       Scale::Analysis::SCALE[:major][scale_degree]
-    end
-
-    def populate_symbol_from_number(int, options = {})
-      octave, note = *int.divmod(12)
-      name = DEFAULT_SCALE.at(note)
-      string = "#{name}#{(octave - 1)}"
-      populate_symbol_from_string(string, options)
-      @symbol
-    end
-
-    def populate_symbol_from_string(string, options = {})
-      @symbol = Note::Symbol.new(string, options)
     end
 
   end

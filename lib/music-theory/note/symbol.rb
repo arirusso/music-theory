@@ -25,6 +25,30 @@ module MusicTheory
 
       attr_reader :accidental, :name, :octave
 
+      class << self
+
+        def find(obj, options = {})
+          case obj
+          when Array then obj.map { |member| find(member, options) }
+          when Fixnum then by_number(obj, options)
+          when String then by_string(obj, options)
+          when ::Symbol then by_string(obj.to_s, options)
+          end
+        end
+
+        def by_number(int, options = {})
+          octave, note = *int.divmod(12)
+          name = DEFAULT_SCALE.at(note)
+          string = "#{name}#{(octave - 1)}"
+          by_string(string, options)
+        end
+
+        def by_string(string, options = {})
+          new(string, options)
+        end
+
+      end
+
       def initialize(string, options = {})
         populate(string.downcase, options)
         freeze
