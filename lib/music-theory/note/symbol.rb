@@ -47,7 +47,7 @@ module MusicTheory
 
       def initialize(string, options = {})
         populate(string.downcase, options)
-        @value = Value.from_symbol(self)
+        @value = Value::Calculate.from_symbol(self)
         freeze
       end
 

@@ -4,13 +4,34 @@ module MusicTheory
 
     class Value
 
-      class << self
+      include Comparable
+
+      attr_reader :mod, :number, :interval_above_c
+
+      def initialize(interval_above_c, options = {})
+        @mod = options[:mod]
+        @number = options[:number]
+        @interval_above_c = interval_above_c
+      end
+
+      def <=>(o)
+        self.class == o.class && @number <=> o.number
+      end
+
+      def ==(o)
+        o.class == self.class && @number == o.number
+      end
+      alias_method :eql?, :==
+
+      module Calculate
+
+        extend self
 
         def from_symbol(symbol)
           interval = interval_above_c(symbol)
           number = number(symbol)
           mod = mod(symbol)
-          new(interval, :number => number, :mod => mod)
+          Value.new(interval, :number => number, :mod => mod)
         end
 
         private
@@ -44,25 +65,6 @@ module MusicTheory
         end
 
       end
-
-      include Comparable
-
-      attr_reader :mod, :number, :interval_above_c
-
-      def initialize(interval_above_c, options = {})
-        @mod = options[:mod]
-        @number = options[:number]
-        @interval_above_c = interval_above_c
-      end
-
-      def <=>(o)
-        self.class == o.class && @number <=> o.number
-      end
-
-      def ==(o)
-        o.class == self.class && @number == o.number
-      end
-      alias_method :eql?, :==
 
     end
 
