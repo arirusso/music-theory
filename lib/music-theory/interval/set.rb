@@ -12,7 +12,7 @@ module MusicTheory
         end
 
         def from_notes(notes)
-          degrees = notes.map { |note| note.value.number || note.value.to_interval_above_c }
+          degrees = notes.map { |note| note.value.number || note.value.interval_above_c }
           new(degrees)
         end
 

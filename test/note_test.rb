@@ -222,22 +222,22 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "return the correct interval for c" do
         note = MusicTheory::Note.new("c")
-        assert_equal(0, note.value.to_interval_above_c)
+        assert_equal(0, note.value.interval_above_c)
       end
 
       should "return the correct interval for d" do
         note = MusicTheory::Note.new("d")
-        assert_equal(2, note.value.to_interval_above_c)
+        assert_equal(2, note.value.interval_above_c)
       end
 
       should "return the correct interval for e" do
         note = MusicTheory::Note.new("e")
-        assert_equal(4, note.value.to_interval_above_c)
+        assert_equal(4, note.value.interval_above_c)
       end
 
       should "return the correct interval for Bb" do
         note = MusicTheory::Note.new("bb")
-        assert_equal(10, note.value.to_interval_above_c)
+        assert_equal(10, note.value.interval_above_c)
       end
 
     end

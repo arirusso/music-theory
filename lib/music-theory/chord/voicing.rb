@@ -53,7 +53,7 @@ module MusicTheory
       end
 
       def include_relative?(note)
-        @members.any? { |member| member.value.to_interval_above_c == note.value.to_interval_above_c }
+        @members.any? { |member| member.value.interval_above_c == note.value.interval_above_c }
       end
 
       def ==(o)
@@ -109,7 +109,7 @@ module MusicTheory
         root = notes[root_index]
         @intervals = {}
         @members = notes.select do |note|
-          interval = (note.value.to_interval_above_c + 12) - root.value.to_interval_above_c
+          interval = (note.value.interval_above_c + 12) - root.value.interval_above_c
           reduced_int = interval % 12
           reduced_dict_index = reduced_dictionary_intervals.index(reduced_int)
           unless reduced_dict_index.nil?

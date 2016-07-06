@@ -47,7 +47,7 @@ module MusicTheory
 
       def initialize(string, options = {})
         populate(string.downcase, options)
-        @value = Value.new(self)
+        @value = Value.from_symbol(self)
         freeze
       end
 
@@ -75,7 +75,7 @@ module MusicTheory
           send(:==, Symbol.find(o))
         else
           to_s === o.to_s ||
-          (abstract? && o.abstract? && value.to_interval_above_c == o.value.to_interval_above_c) ||
+          (abstract? && o.abstract? && value.interval_above_c == o.value.interval_above_c) ||
           (!abstract? && !o.abstract? && value.number == o.value.number)
         end
       end

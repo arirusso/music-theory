@@ -4,49 +4,65 @@ module MusicTheory
 
     class Value
 
+      class << self
+
+        def from_symbol(symbol)
+          interval = interval_above_c(symbol)
+          number = number(symbol)
+          mod = mod(symbol)
+          new(interval, :number => number, :mod => mod)
+        end
+
+        private
+
+        def number(symbol)
+          unless symbol.abstract?
+            octave_start = (12 * symbol.octave) + 12
+            octave_start + interval_above_c(symbol)
+          end
+        end
+
+        # The intervalic value of this note's accidental
+        # @return [Fixnum]
+        def mod(symbol)
+          mod = 0
+          unless symbol.accidental.nil?
+            symbol.accidental.each_char do |char|
+              mod += case char
+              when /♯/ then 1
+              when /♭/ then -1
+              end
+            end
+          end
+          mod
+        end
+
+        def interval_above_c(symbol)
+          scale_degree = Symbol::NAME.keys.index(symbol.name.downcase.to_sym)
+          number = Scale::Analysis::SCALE[:major][scale_degree]
+          number + mod(symbol)
+        end
+
+      end
+
       include Comparable
 
-      def initialize(symbol)
-        @symbol = symbol
+      attr_reader :mod, :number, :interval_above_c
+
+      def initialize(interval_above_c, options = {})
+        @mod = options[:mod]
+        @number = options[:number]
+        @interval_above_c = interval_above_c
       end
 
       def <=>(o)
-        self.class == o.class && number <=> o.number
+        self.class == o.class && @number <=> o.number
       end
 
       def ==(o)
-        o.class == self.class && number == o.number
+        o.class == self.class && @number == o.number
       end
       alias_method :eql?, :==
-
-      def number(options = {})
-        octave = options[:octave] || @symbol.octave
-        unless octave.nil?
-          octave_start = (12 * octave) + 12
-          octave_start + to_interval_above_c
-        end
-      end
-
-      # The intervalic value of this note's accidental
-      # @return [Fixnum]
-      def mod
-        mod = 0
-        unless @symbol.accidental.nil?
-          @symbol.accidental.each_char do |char|
-            mod += case char
-            when /♯/ then 1
-            when /♭/ then -1
-            end
-          end
-        end
-        mod
-      end
-
-      def to_interval_above_c
-        scale_degree = Symbol::NAME.keys.index(@symbol.name.downcase.to_sym)
-        number = Scale::Analysis::SCALE[:major][scale_degree]
-        number + mod
-      end
 
     end
 
