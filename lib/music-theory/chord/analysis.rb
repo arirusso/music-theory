@@ -4,58 +4,36 @@ module MusicTheory
 
     class Analysis
 
-      attr_reader :chord, :chords, :notes
+      attr_reader :notes
 
       def initialize(*args)
         @notes = args
-        populate_chords
-        populate_chord
       end
 
-      def includes_triad?(name)
-        !triads.select(&:name).empty?
+      def chord
+        @chord ||= chords_by_precedence.first
       end
 
-      def includes_seventh_chord?(name)
-        !seventh_chords.select(&:name).empty?
-      end
-
-      def seventh_chords
-        @chords.select(&:seventh?)
-      end
-
-      def triads
-        @chords.select(&:triad?)
-      end
-
-      def triad_names
-        triads.map(&:name)
-      end
-
-      def largest_size
-        largest.size
-      end
-
-      def largest
-        @chords.sort_by(&:size).last
+      def chords
+        @chords ||= Voicing.find_all(@notes)
       end
 
       private
 
-      def populate_chord
-        @chord = chords_by_precedence.first
+      def largest_chord_size
+        largest_chord.size
+      end
+
+      def largest_chord
+        @largest_chord ||= chords.sort_by(&:size).last
       end
 
       def chords_by_precedence
-        @chords
-          .select { |chord| chord.size == largest_size }
+        chords
+          .select { |chord| chord.size == largest_chord_size }
           .reject { |chord| chord.inversion.nil? }
           .reject { |chord| @notes.any? { |note| !chord.include_relative?(note) } }
           .sort_by(&:inversion)
-      end
-
-      def populate_chords
-        @chords = Voicing.find_all(@notes)
       end
 
       CHORD_DELEGATION_METHODS = [:intervals, :inversion, :name, :root, :seventh?, :triad?].freeze

@@ -16,10 +16,6 @@ module MusicTheory
         process_args(*args)
       end
 
-      def triad_names
-        analyze.triad_names
-      end
-
       def analyze
         @analysis ||= Analysis.new(*@members)
       end
