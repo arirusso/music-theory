@@ -4,7 +4,7 @@ module MusicTheory
 
     class Name
 
-      NAME = {
+      LETTER = {
         :c => "c",
         :d => "d",
         :e => "e",
@@ -17,7 +17,7 @@ module MusicTheory
       SHARP = %w{♯ # s}.freeze
       FLAT = %w{♭ b}.freeze
 
-      attr_reader :accidental, :name, :octave, :value
+      attr_reader :accidental, :letter, :octave, :value
 
       class << self
 
@@ -45,7 +45,7 @@ module MusicTheory
             name_hash = Parser.parse(string)
             name_options = name_hash.merge!(options)
             if @names[name_options].nil?
-              @names[name_options] = new(name_options[:name], name_options)
+              @names[name_options] = new(name_options[:letter], name_options)
             end
             @names[string] = @names[name_options]
           end
@@ -62,7 +62,7 @@ module MusicTheory
 
       def freeze
         @accidental.freeze
-        @name.freeze
+        @letter.freeze
         @octave.freeze
         super
       end
@@ -76,7 +76,7 @@ module MusicTheory
       end
 
       def to_s
-        "#{@name}#{@accidental}#{@octave}"
+        "#{@letter}#{@accidental}#{@octave}"
       end
 
       def ==(o)
@@ -96,7 +96,7 @@ module MusicTheory
       def populate(string, options = {})
         string = string.downcase
         populate_accidental(string, options)
-        populate_name(string)
+        populate_letter(string)
         populate_octave(string, options)
       end
 
@@ -106,8 +106,8 @@ module MusicTheory
         @accidental
       end
 
-      def populate_name(string)
-        @name = Parser.name(string)
+      def populate_letter(string)
+        @letter = Parser.letter(string)
       end
 
       def populate_octave(string, options = {})
@@ -121,15 +121,15 @@ module MusicTheory
         extend self
 
         MATCH = {
-          :accidental => /^[#{NAME.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/i,
-          :name => /^[#{NAME.values.join(',')}]/i,
+          :accidental => /^[#{LETTER.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/i,
+          :letter => /^[#{LETTER.values.join(',')}]/i,
           :octave => /\d+$/
         }.freeze
 
         def parse(string)
           {
             accidental: accidental(string),
-            name: name(string),
+            letter: letter(string),
             octave: octave(string)
           }
         end
@@ -143,9 +143,9 @@ module MusicTheory
           end
         end
 
-        def name(string)
-          if string.match(MATCH[:name])
-            string.match(MATCH[:name])[0].upcase.to_s
+        def letter(string)
+          if string.match(MATCH[:letter])
+            string.match(MATCH[:letter])[0].upcase.to_s
           end
         end
 

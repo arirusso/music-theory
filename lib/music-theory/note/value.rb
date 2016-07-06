@@ -67,7 +67,7 @@ module MusicTheory
         end
 
         def interval_above_c(name)
-          scale_degree = Name::NAME.keys.index(name.name.downcase.to_sym)
+          scale_degree = Name::LETTER.keys.index(name.letter.downcase.to_sym)
           number = Scale::Analysis::SCALE[:major][scale_degree]
           number + mod(name)
         end

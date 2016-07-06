@@ -30,14 +30,14 @@ module MusicTheory
       private
 
       def string_from_properties
-        "#{@root.name}#{@root.accidental}#{@abbrev}"
+        "#{@root.letter}#{@root.accidental}#{@abbrev}"
       end
 
       def populate_from_string(string)
         string = string.downcase
-        name = MusicTheory::Note::Name::Parser.name(string)
+        letter = MusicTheory::Note::Name::Parser.letter(string)
         accidental = MusicTheory::Note::Name::Parser.accidental(string)
-        @root = MusicTheory::Note::Name.find("#{name}#{accidental}")
+        @root = MusicTheory::Note::Name.find("#{letter}#{accidental}")
         @abbrev = self.class.parse_abbrev(string)
       end
 

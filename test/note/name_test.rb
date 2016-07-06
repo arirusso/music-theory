@@ -19,7 +19,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
           end
 
           should "parse name" do
-            assert_equal "F", @note.name
+            assert_equal "F", @note.letter
           end
 
           should "parse accidental" do
@@ -47,7 +47,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
           end
 
           should "parse name" do
-            assert_equal "G", @note.name
+            assert_equal "G", @note.letter
           end
 
           should "parse accidental" do
@@ -77,7 +77,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
         end
 
         should "parse name" do
-          assert_equal "E", @note.name
+          assert_equal "E", @note.letter
         end
 
         should "parse accidental" do
@@ -109,7 +109,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
           end
 
           should "parse name" do
-            assert_equal "B", @note.name
+            assert_equal "B", @note.letter
           end
 
           should "parse accidental" do
@@ -136,7 +136,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
           end
 
           should "parse name" do
-            assert_equal "E", @note.name
+            assert_equal "E", @note.letter
           end
 
           should "parse accidental" do
@@ -165,7 +165,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
         end
 
         should "parse name" do
-          assert_equal "F", @note.name
+          assert_equal "F", @note.letter
         end
 
         should "parse accidental" do

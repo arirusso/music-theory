@@ -14,8 +14,8 @@ class MusicTheory::Chord::RawTest < Minitest::Test
 
         should "be populated" do
           assert_equal 2, @chord.members.size
-          assert_equal "A", @chord.members.first.name
-          assert_equal "B", @chord.members.last.name
+          assert_equal "A", @chord.members.first.letter
+          assert_equal "B", @chord.members.last.letter
         end
       end
 
@@ -27,8 +27,8 @@ class MusicTheory::Chord::RawTest < Minitest::Test
 
         should "be populated" do
           assert_equal 2, @chord.members.size
-          assert_equal "A", @chord.members.first.name
-          assert_equal "B", @chord.members.last.name
+          assert_equal "A", @chord.members.first.letter
+          assert_equal "B", @chord.members.last.letter
         end
 
       end
@@ -40,9 +40,9 @@ class MusicTheory::Chord::RawTest < Minitest::Test
         end
 
         should "be populated" do
-          assert_equal "C", @chord.members[0].name
-          assert_equal "E", @chord.members[1].name
-          assert_equal "G", @chord.members[2].name
+          assert_equal "C", @chord.members[0].letter
+          assert_equal "E", @chord.members[1].letter
+          assert_equal "G", @chord.members[2].letter
         end
 
       end
@@ -55,8 +55,8 @@ class MusicTheory::Chord::RawTest < Minitest::Test
 
         should "be populated" do
           assert_equal 4, @chord.members.size
-          assert_equal "A", @chord.members.first.name
-          assert_equal "F", @chord.members.last.name
+          assert_equal "A", @chord.members.first.letter
+          assert_equal "F", @chord.members.last.letter
         end
 
       end

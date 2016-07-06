@@ -66,37 +66,37 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "capitalize" do
         note = MusicTheory::Note.new("c")
-        assert_equal("C", note.name)
+        assert_equal("C", note.letter)
       end
 
       should "convert sym to string and not reflect octave" do
         note = MusicTheory::Note.new(:c4)
-        assert_equal("C", note.name)
+        assert_equal("C", note.letter)
       end
 
       should "convert int to string" do
         note = MusicTheory::Note.new(48)
-        assert_equal("C", note.name)
+        assert_equal("C", note.letter)
       end
 
       should "not reflect accidental (sharp)" do
         note = MusicTheory::Note.new("G#")
-        assert_equal("G", note.name)
+        assert_equal("G", note.letter)
       end
 
       should "convert sym to string and not reflect octave or accidental" do
         note = MusicTheory::Note.new(:fs4)
-        assert_equal("F", note.name)
+        assert_equal("F", note.letter)
       end
 
       should "capitalize and not reflect octave" do
         note = MusicTheory::Note.new("d3")
-        assert_equal("D", note.name)
+        assert_equal("D", note.letter)
       end
 
       should "not reflect octave or accidental (flat)" do
         note = MusicTheory::Note.new("Cb5")
-        assert_equal("C", note.name)
+        assert_equal("C", note.letter)
       end
 
     end
