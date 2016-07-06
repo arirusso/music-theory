@@ -8,6 +8,23 @@ module MusicTheory
 
       attr_reader :mod, :number, :interval_above_c
 
+      def self.load_or_create(interval_above_c, options = {})
+        @values ||= {}
+        @values[interval_above_c] ||= {}
+        @values[interval_above_c][options] ||= new(interval_above_c, options)
+      end
+
+      def self.for_symbol(symbol)
+        @values ||= {}
+        if @values[symbol].nil?
+          interval = Calculate.interval_above_c(symbol)
+          number = Calculate.number(symbol)
+          mod = Calculate.mod(symbol)
+          @values[symbol] = Value.load_or_create(interval, :number => number, :mod => mod)
+        end
+        @values[symbol]
+      end
+
       def initialize(interval_above_c, options = {})
         @mod = options[:mod]
         @number = options[:number]
@@ -26,15 +43,6 @@ module MusicTheory
       module Calculate
 
         extend self
-
-        def from_symbol(symbol)
-          interval = interval_above_c(symbol)
-          number = number(symbol)
-          mod = mod(symbol)
-          Value.new(interval, :number => number, :mod => mod)
-        end
-
-        private
 
         def number(symbol)
           unless symbol.abstract?
