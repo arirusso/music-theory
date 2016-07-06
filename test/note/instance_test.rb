@@ -105,17 +105,17 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "capitalize" do
         note = MusicTheory::Note.new("c")
-        assert_equal note.id, "C"
+        assert_equal note.signature, "C"
       end
 
       should "convert sym to string and reflect octave" do
         note = MusicTheory::Note.new(:c4)
-        assert_equal note.id, "C4"
+        assert_equal note.signature, "C4"
       end
 
       should "convert int to string and reflect octave" do
         note = MusicTheory::Note.new(48)
-        assert_equal note.id, "C3"
+        assert_equal note.signature, "C3"
       end
 
       should "reflect accidental (sharp)" do
@@ -125,17 +125,17 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "convert sym to string and reflect octave and accidental" do
         note = MusicTheory::Note.new(:fs4)
-        assert_equal note.id, "F♯4"
+        assert_equal note.signature, "F♯4"
       end
 
       should "capitalize and reflect octave" do
         note = MusicTheory::Note.new("d3")
-        assert_equal note.id, "D3"
+        assert_equal note.signature, "D3"
       end
 
       should "reflect octave and accidental (flat)" do
         note = MusicTheory::Note.new("Cb5")
-        assert_equal note.id, "C♭5"
+        assert_equal note.signature, "C♭5"
       end
 
     end
@@ -256,7 +256,7 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "convert int and reflect correct midi note" do
         note = MusicTheory::Note.new(55)
-        assert_equal note.id, "G3"
+        assert_equal note.signature, "G3"
         assert_equal(3, note.octave)
         assert_equal(55, note.midi_note_num)
       end

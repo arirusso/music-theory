@@ -10,8 +10,8 @@ module MusicTheory
 
       DEFAULT_SCALE = %w{c c♯ d d♯ e f f♯ g g♯ a a♯ b}.freeze
 
-      attr_reader :id
-      def_delegators :@id, :accidental, :name, :octave
+      attr_reader :signature
+      def_delegators :@signature, :accidental, :name, :octave
 
       def initialize(id, options = {})
         populate_signature(id, options = {})
@@ -19,7 +19,7 @@ module MusicTheory
       end
 
       def freeze
-        @id.freeze
+        @signature.freeze
         super
       end
 
@@ -28,7 +28,7 @@ module MusicTheory
       end
 
       def num(options = {})
-        octave = options[:octave] || @id.octave
+        octave = options[:octave] || @signature.octave
         unless octave.nil?
           octave_start = (12 * octave) + 12
           octave_start + interval_above_c
@@ -40,8 +40,8 @@ module MusicTheory
       # @return [Fixnum]
       def mod
         mod = 0
-        unless @id.accidental.nil?
-          @id.accidental.each_char do |char|
+        unless @signature.accidental.nil?
+          @signature.accidental.each_char do |char|
             mod += case char
             when /♯/ then 1
             when /♭/ then -1
@@ -56,11 +56,11 @@ module MusicTheory
       end
 
       def octave?
-        !@id.octave.nil?
+        !@signature.octave.nil?
       end
 
       def ==(o)
-        o.class == self.class && @id == o.id
+        o.class == self.class && @signature == o.signature
       end
       alias_method :eql?, :==
 
@@ -78,7 +78,7 @@ module MusicTheory
       # The interval of this note above C (in C Major)
       # @return [Fixnum]
       def as_c_major_scale_degree
-        scale_degree = Signature::NAME.keys.index(@id.name.downcase.to_sym)
+        scale_degree = Signature::NAME.keys.index(@signature.name.downcase.to_sym)
         Scale::Analysis::SCALE[:major][scale_degree]
       end
 
@@ -87,11 +87,11 @@ module MusicTheory
         name = DEFAULT_SCALE.at(note)
         string = "#{name}#{(octave - 1)}"
         populate_signature_from_string(string, options)
-        @id
+        @signature
       end
 
       def populate_signature_from_string(string, options = {})
-        @id = Note::Signature.new(string, options)
+        @signature = Note::Signature.new(string, options)
       end
 
     end
