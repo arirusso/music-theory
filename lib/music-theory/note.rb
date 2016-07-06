@@ -1,4 +1,5 @@
 require "music-theory/note/symbol"
+require "music-theory/note/value"
 
 module MusicTheory
 
@@ -36,25 +37,12 @@ module MusicTheory
     alias_method :num, :number
     alias_method :midi_note_num, :number
 
-    # The intervalic value of this note's accidental
-    # @return [Fixnum]
     def mod
-      mod = 0
-      unless @symbol.accidental.nil?
-        @symbol.accidental.each_char do |char|
-          mod += case char
-          when /♯/ then 1
-          when /♭/ then -1
-          end
-        end
-      end
-      mod
+      Value.mod(@symbol)
     end
 
     def interval_above_c
-      scale_degree = Symbol::NAME.keys.index(@symbol.name.downcase.to_sym)
-      number = Scale::Analysis::SCALE[:major][scale_degree]
-      number + mod
+      Value.to_interval_above_c(@symbol)
     end
 
     def abstract?
