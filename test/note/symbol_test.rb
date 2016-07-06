@@ -1,8 +1,8 @@
 require "helper"
 
-class MusicTheory::Note::SignatureTest < Minitest::Test
+class MusicTheory::Note::SymbolTest < Minitest::Test
 
-  context "Note::Signature" do
+  context "Note::Symbol" do
 
     context "with octave" do
 
@@ -11,7 +11,7 @@ class MusicTheory::Note::SignatureTest < Minitest::Test
         context "with high chars" do
 
           setup do
-            @note = MusicTheory::Note::Signature.new("F♯2")
+            @note = MusicTheory::Note::Symbol.new("F♯2")
           end
 
           should "parse octave" do
@@ -39,7 +39,7 @@ class MusicTheory::Note::SignatureTest < Minitest::Test
         context "without high chars" do
 
           setup do
-            @note = MusicTheory::Note::Signature.new("G#3")
+            @note = MusicTheory::Note::Symbol.new("G#3")
           end
 
           should "parse octave" do
@@ -69,7 +69,7 @@ class MusicTheory::Note::SignatureTest < Minitest::Test
       context "without accidental" do
 
         setup do
-          @note = MusicTheory::Note::Signature.new("E2")
+          @note = MusicTheory::Note::Symbol.new("E2")
         end
 
         should "parse octave" do
@@ -101,7 +101,7 @@ class MusicTheory::Note::SignatureTest < Minitest::Test
         context "with high chars" do
 
           setup do
-            @note = MusicTheory::Note::Signature.new("B♭")
+            @note = MusicTheory::Note::Symbol.new("B♭")
           end
 
           should "parse octave" do
@@ -128,7 +128,7 @@ class MusicTheory::Note::SignatureTest < Minitest::Test
         context "without high chars" do
 
           setup do
-            @note = MusicTheory::Note::Signature.new("Eb")
+            @note = MusicTheory::Note::Symbol.new("Eb")
           end
 
           should "parse octave" do
@@ -157,7 +157,7 @@ class MusicTheory::Note::SignatureTest < Minitest::Test
       context "without accidental" do
 
         setup do
-          @note = MusicTheory::Note::Signature.new("F")
+          @note = MusicTheory::Note::Symbol.new("F")
         end
 
         should "parse octave" do

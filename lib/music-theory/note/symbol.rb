@@ -1,8 +1,8 @@
 module MusicTheory
 
-  module Note
+  class Note
 
-    class Signature
+    class Symbol
 
       NAME = {
         :c => "c",
@@ -18,8 +18,8 @@ module MusicTheory
       FLAT = %w{♭ b}.freeze
 
       MATCH = {
-        :accidental => /^[#{NAME.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/,
-        :name => /^[#{NAME.values.join(',')}]/,
+        :accidental => /^[#{NAME.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/i,
+        :name => /^[#{NAME.values.join(',')}]/i,
         :octave => /\d+$/
       }.freeze
 
@@ -43,7 +43,7 @@ module MusicTheory
 
       def ==(o)
         if o.kind_of?(::String)
-          send(:==, Signature.new(o))
+          send(:==, Symbol.new(o))
         else
           to_s === o.to_s
         end
@@ -80,8 +80,8 @@ module MusicTheory
       def self.parse_accidental(string)
         if string.match(MATCH[:accidental])
           accidental = string.match(MATCH[:accidental])[1].downcase.to_s
-          accidental.gsub!(/[#{SHARP.join(',')}]/, SHARP.first)
-          accidental.gsub!(/[#{FLAT.join(',')}]/, FLAT.first)
+          accidental.gsub!(/[#{SHARP.join(',')}]/i, SHARP.first)
+          accidental.gsub!(/[#{FLAT.join(',')}]/i, FLAT.first)
           accidental
         end
       end
