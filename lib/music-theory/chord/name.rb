@@ -35,9 +35,9 @@ module MusicTheory
 
       def populate_from_string(string)
         string = string.downcase
-        name = MusicTheory::Note::Symbol.parse_name(string)
-        accidental = MusicTheory::Note::Symbol.parse_accidental(string)
-        @root_symbol = MusicTheory::Note::Symbol.new("#{name}#{accidental}")
+        name = MusicTheory::Note::Symbol::Parser.name(string)
+        accidental = MusicTheory::Note::Symbol::Parser.accidental(string)
+        @root_symbol = MusicTheory::Note::Symbol.find("#{name}#{accidental}")
         @abbrev = self.class.parse_abbrev(string)
       end
 

@@ -17,12 +17,6 @@ module MusicTheory
       SHARP = %w{♯ # s}.freeze
       FLAT = %w{♭ b}.freeze
 
-      MATCH = {
-        :accidental => /^[#{NAME.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/i,
-        :name => /^[#{NAME.values.join(',')}]/i,
-        :octave => /\d+$/
-      }.freeze
-
       attr_reader :accidental, :name, :octave
 
       class << self
@@ -30,20 +24,20 @@ module MusicTheory
         def find(obj, options = {})
           case obj
           when Array then obj.map { |member| find(member, options) }
-          when Fixnum then by_number(obj, options)
-          when String then by_string(obj, options)
-          when ::Symbol then by_string(obj.to_s, options)
+          when Fixnum then find_by_number(obj, options)
+          when String then find_by_string(obj, options)
+          when ::Symbol then find_by_string(obj.to_s, options)
           end
         end
 
-        def by_number(int, options = {})
+        def find_by_number(int, options = {})
           octave, note = *int.divmod(12)
           name = DEFAULT_SCALE.at(note)
           string = "#{name}#{(octave - 1)}"
-          by_string(string, options)
+          find_by_string(string, options)
         end
 
-        def by_string(string, options = {})
+        def find_by_string(string, options = {})
           new(string, options)
         end
 
@@ -84,36 +78,52 @@ module MusicTheory
       end
 
       def populate_accidental(string, options = {})
-        @accidental = self.class.parse_accidental(string)
+        @accidental = Parser.accidental(string)
         @accidental ||= options[:accidental]
         @accidental
       end
 
       def populate_name(string)
-        @name = self.class.parse_name(string)
+        @name = Parser.name(string)
       end
 
       def populate_octave(string, options = {})
-        if string.match(MATCH[:octave])
-          @octave = string.match(MATCH[:octave])[0].to_i
-        end
+        @octave = Parser.octave(string)
         @octave ||= options[:octave]
         @octave
       end
 
-      def self.parse_accidental(string)
-        if string.match(MATCH[:accidental])
-          accidental = string.match(MATCH[:accidental])[1].downcase.to_s
-          accidental.gsub!(/[#{SHARP.join(',')}]/i, SHARP.first)
-          accidental.gsub!(/[#{FLAT.join(',')}]/i, FLAT.first)
-          accidental
-        end
-      end
+      module Parser
 
-      def self.parse_name(string)
-        if string.match(MATCH[:name])
-          string.match(MATCH[:name])[0].upcase.to_s
+        extend self
+
+        MATCH = {
+          :accidental => /^[#{NAME.values.join(',')}]([#{SHARP.join(',')},#{FLAT.join(',')},s]+)/i,
+          :name => /^[#{NAME.values.join(',')}]/i,
+          :octave => /\d+$/
+        }.freeze
+
+        def accidental(string)
+          if string.match(MATCH[:accidental])
+            accidental = string.match(MATCH[:accidental])[1].downcase.to_s
+            accidental.gsub!(/[#{SHARP.join(',')}]/i, SHARP.first)
+            accidental.gsub!(/[#{FLAT.join(',')}]/i, FLAT.first)
+            accidental
+          end
         end
+
+        def name(string)
+          if string.match(MATCH[:name])
+            string.match(MATCH[:name])[0].upcase.to_s
+          end
+        end
+
+        def octave(string)
+          if string.match(MATCH[:octave])
+            string.match(MATCH[:octave])[0].to_i
+          end
+        end
+
       end
 
     end
