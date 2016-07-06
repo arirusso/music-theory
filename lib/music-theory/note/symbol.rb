@@ -1,6 +1,6 @@
 module MusicTheory
 
-  class Note
+  module Note
 
     class Symbol
 
@@ -17,9 +17,11 @@ module MusicTheory
       SHARP = %w{♯ # s}.freeze
       FLAT = %w{♭ b}.freeze
 
-      attr_reader :accidental, :name, :octave
+      attr_reader :accidental, :name, :octave, :value
 
       class << self
+
+        DEFAULT_SCALE = %w{c c♯ d d♯ e f f♯ g g♯ a a♯ b}.freeze
 
         def find(obj, options = {})
           case obj
@@ -45,6 +47,7 @@ module MusicTheory
 
       def initialize(string, options = {})
         populate(string.downcase, options)
+        @value = Value.new(self)
         freeze
       end
 
@@ -55,15 +58,25 @@ module MusicTheory
         super
       end
 
+      def octave?
+        !@octave.nil?
+      end
+
+      def abstract?
+        !octave?
+      end
+
       def to_s
         "#{@name}#{@accidental}#{@octave}"
       end
 
       def ==(o)
         if o.kind_of?(::String)
-          send(:==, Symbol.new(o))
+          send(:==, Symbol.find(o))
         else
-          to_s === o.to_s
+          to_s === o.to_s ||
+          (abstract? && o.abstract? && value.to_interval_above_c == o.value.to_interval_above_c) ||
+          (!abstract? && !o.abstract? && value.number == o.value.number)
         end
       end
       alias_method :eql?, :==

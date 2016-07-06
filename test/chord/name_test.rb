@@ -10,9 +10,9 @@ class MusicTheory::Chord::NameTest < Minitest::Test
         @name = MusicTheory::Chord::Name.new("DMaj7")
         refute_nil @name
         refute_nil @name.abbrev
-        refute_nil @name.root_symbol
+        refute_nil @name.root
         assert_equal "Maj7", @name.abbrev
-        assert_equal @name.root_symbol, "D"
+        assert_equal @name.root, "D"
       end
 
     end

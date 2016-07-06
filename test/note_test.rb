@@ -105,17 +105,17 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "capitalize" do
         note = MusicTheory::Note.new("c")
-        assert_equal note.symbol, "C"
+        assert_equal note, "C"
       end
 
       should "convert sym to string and reflect octave" do
         note = MusicTheory::Note.new(:c4)
-        assert_equal note.symbol, "C4"
+        assert_equal note, "C4"
       end
 
       should "convert int to string and reflect octave" do
         note = MusicTheory::Note.new(48)
-        assert_equal note.symbol, "C3"
+        assert_equal note, "C3"
       end
 
       should "reflect accidental (sharp)" do
@@ -125,17 +125,17 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "convert sym to string and reflect octave and accidental" do
         note = MusicTheory::Note.new(:fs4)
-        assert_equal note.symbol, "F♯4"
+        assert_equal note, "F♯4"
       end
 
       should "capitalize and reflect octave" do
         note = MusicTheory::Note.new("d3")
-        assert_equal note.symbol, "D3"
+        assert_equal note, "D3"
       end
 
       should "reflect octave and accidental (flat)" do
         note = MusicTheory::Note.new("Cb5")
-        assert_equal note.symbol, "C♭5"
+        assert_equal note, "C♭5"
       end
 
     end
@@ -222,22 +222,22 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "return the correct interval for c" do
         note = MusicTheory::Note.new("c")
-        assert_equal(0, note.interval_above_c)
+        assert_equal(0, note.value.to_interval_above_c)
       end
 
       should "return the correct interval for d" do
         note = MusicTheory::Note.new("d")
-        assert_equal(2, note.interval_above_c)
+        assert_equal(2, note.value.to_interval_above_c)
       end
 
       should "return the correct interval for e" do
         note = MusicTheory::Note.new("e")
-        assert_equal(4, note.interval_above_c)
+        assert_equal(4, note.value.to_interval_above_c)
       end
 
       should "return the correct interval for Bb" do
         note = MusicTheory::Note.new("bb")
-        assert_equal(10, note.interval_above_c)
+        assert_equal(10, note.value.to_interval_above_c)
       end
 
     end
@@ -246,24 +246,24 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
       should "convert sym and reflect correct midi note" do
         note = MusicTheory::Note.new(:c3)
-        assert_equal(48, note.midi_note_num)
+        assert_equal(48, note.value.number)
       end
 
       should "convert string and reflect correct midi note" do
         note = MusicTheory::Note.new("c4")
-        assert_equal(60, note.midi_note_num)
+        assert_equal(60, note.value.number)
       end
 
       should "convert int and reflect correct midi note" do
         note = MusicTheory::Note.new(55)
-        assert_equal note.symbol, "G3"
+        assert_equal note, "G3"
         assert_equal(3, note.octave)
-        assert_equal(55, note.midi_note_num)
+        assert_equal(55, note.value.number)
       end
 
       should "not reflect midi note when octave is unspecified" do
         note = MusicTheory::Note.new("B")
-        assert_nil note.midi_note_num
+        assert_nil note.value.number
       end
 
     end
@@ -274,7 +274,7 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
         should "reflect value of accidental" do
           note = MusicTheory::Note.new("Cb5")
-          assert_equal(-1, note.mod)
+          assert_equal(-1, note.value.mod)
         end
 
       end
@@ -283,7 +283,7 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
         should "reflect value of accidental" do
           note = MusicTheory::Note.new("Dbb4")
-          assert_equal(-2, note.mod)
+          assert_equal(-2, note.value.mod)
         end
 
       end
@@ -292,7 +292,7 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
         should "reflect value of accidental" do
           note = MusicTheory::Note.new("G#2")
-          assert_equal(1, note.mod)
+          assert_equal(1, note.value.mod)
         end
 
       end
@@ -301,7 +301,7 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
         should "reflect value of accidental" do
           note = MusicTheory::Note.new("G##2")
-          assert_equal(2, note.mod)
+          assert_equal(2, note.value.mod)
         end
 
       end
@@ -310,7 +310,7 @@ class MusicTheory::Note::InstanceTest < Minitest::Test
 
         should "reflect no mode for natural" do
           note = MusicTheory::Note.new("B1")
-          assert_equal(0, note.mod)
+          assert_equal(0, note.value.mod)
         end
 
       end

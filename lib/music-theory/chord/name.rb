@@ -8,7 +8,7 @@ module MusicTheory
         :abbrev => /(#{Dictionary.abbreviations.map(&:to_s).join('|')})$/i
       }
 
-      attr_reader :abbrev, :root_symbol
+      attr_reader :abbrev, :root
 
       def initialize(obj)
         case obj
@@ -30,20 +30,20 @@ module MusicTheory
       private
 
       def string_from_properties
-        "#{@root_symbol.name}#{@root_symbol.accidental}#{@abbrev}"
+        "#{@root.name}#{@root.accidental}#{@abbrev}"
       end
 
       def populate_from_string(string)
         string = string.downcase
         name = MusicTheory::Note::Symbol::Parser.name(string)
         accidental = MusicTheory::Note::Symbol::Parser.accidental(string)
-        @root_symbol = MusicTheory::Note::Symbol.find("#{name}#{accidental}")
+        @root = MusicTheory::Note::Symbol.find("#{name}#{accidental}")
         @abbrev = self.class.parse_abbrev(string)
       end
 
       def populate_from_voicing(voicing)
         @abbrev = voicing.dictionary[:abbrev].to_s
-        @root_symbol = voicing.root.symbol
+        @root = voicing.root
       end
 
     end

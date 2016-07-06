@@ -27,11 +27,11 @@ module MusicTheory
       private
 
       def process_args(*args)
-        args.each do |item|
-          case item
-          when Array then process_args(*item)
-          when Note then @members << item
-          else @members << Note.new(item)
+        args.each do |obj|
+          case obj
+          when Array then process_args(*obj)
+          when Note::Symbol then @members << obj
+          else @members << Note::Symbol.find(obj)
           end
         end
       end

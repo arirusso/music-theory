@@ -13,7 +13,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "reflect correct root" do
-          assert_equal 13, @id.root.midi_note_num
+          assert_equal 13, @id.root.value.number
         end
 
       end
@@ -25,7 +25,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "reflect correct root" do
-          assert_equal 13, @id.root.midi_note_num
+          assert_equal 13, @id.root.value.number
         end
 
       end
@@ -37,7 +37,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "reflect correct root" do
-          assert_equal 13, @id.root.midi_note_num
+          assert_equal 13, @id.root.value.number
         end
 
       end
@@ -49,7 +49,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "reflect correct root" do
-          assert_equal 13, @id.root.midi_note_num
+          assert_equal 13, @id.root.value.number
         end
 
       end
@@ -61,7 +61,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "reflect correct root" do
-          assert_equal 25, @id.root.midi_note_num
+          assert_equal 25, @id.root.value.number
         end
       end
 
@@ -248,7 +248,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have correct root" do
-          assert_equal 13, @chord.root.midi_note_num
+          assert_equal 13, @chord.root.value.number
         end
 
         should "have correct inversion" do
@@ -269,7 +269,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have correct root" do
-          assert_equal 13, @chord.root.midi_note_num
+          assert_equal 13, @chord.root.value.number
         end
 
         should "have correct inversion" do
@@ -290,7 +290,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have correct root" do
-          assert_equal 13, @chord.root.midi_note_num
+          assert_equal 13, @chord.root.value.number
         end
 
         should "have correct inversion" do
@@ -311,7 +311,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have correct root" do
-          assert_equal 13, @chord.root.midi_note_num
+          assert_equal 13, @chord.root.value.number
         end
 
         should "have correct inversion" do
@@ -332,7 +332,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have correct root" do
-          assert_equal 25, @chord.root.midi_note_num
+          assert_equal 25, @chord.root.value.number
         end
 
         should "have correct inversion" do
@@ -358,7 +358,7 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
         end
 
         should "have correct root" do
-          assert_equal 12, @chord.root.midi_note_num
+          assert_equal 12, @chord.root.value.number
         end
 
         should "have correct inversion" do

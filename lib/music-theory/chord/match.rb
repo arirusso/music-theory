@@ -22,7 +22,7 @@ module MusicTheory
           extended_indexes.compact!
           extended_notes = extended_indexes.map { |i| notes[i] }
           root = notes.at(root_index)
-          extended_notes.all? { |note| note.midi_note_num - root.midi_note_num > 12 }
+          extended_notes.all? { |note| note.value.number - root.value.number > 12 }
         end
       end
 
