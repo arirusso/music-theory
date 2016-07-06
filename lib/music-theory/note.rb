@@ -26,14 +26,15 @@ module MusicTheory
       num <=> o.num
     end
 
-    def num(options = {})
+    def number(options = {})
       octave = options[:octave] || @symbol.octave
       unless octave.nil?
         octave_start = (12 * octave) + 12
         octave_start + interval_above_c
       end
     end
-    alias_method :midi_note_num, :num
+    alias_method :num, :number
+    alias_method :midi_note_num, :number
 
     # The intervalic value of this note's accidental
     # @return [Fixnum]
@@ -51,7 +52,9 @@ module MusicTheory
     end
 
     def interval_above_c
-      as_c_major_scale_degree + mod
+      scale_degree = Symbol::NAME.keys.index(@symbol.name.downcase.to_sym)
+      number = Scale::Analysis::SCALE[:major][scale_degree]
+      number + mod
     end
 
     def abstract?
@@ -66,15 +69,6 @@ module MusicTheory
       o.class == self.class && @symbol == o.symbol
     end
     alias_method :eql?, :==
-
-    private
-
-    # The interval of this note above C (in C Major)
-    # @return [Fixnum]
-    def as_c_major_scale_degree
-      scale_degree = Symbol::NAME.keys.index(@symbol.name.downcase.to_sym)
-      Scale::Analysis::SCALE[:major][scale_degree]
-    end
 
   end
 
