@@ -40,7 +40,16 @@ module MusicTheory
         end
 
         def find_by_string(string, options = {})
-          new(string, options)
+          @symbols ||= {}
+          if @symbols[string].nil?
+            symbol_hash = Parser.parse(string)
+            symbol_options = symbol_hash.merge!(options)
+            if @symbols[symbol_options].nil?
+              @symbols[symbol_options] = new(symbol_options[:name], symbol_options)
+            end
+            @symbols[string] = @symbols[symbol_options]
+          end
+          @symbols[string]
         end
 
       end
@@ -115,6 +124,14 @@ module MusicTheory
           :name => /^[#{NAME.values.join(',')}]/i,
           :octave => /\d+$/
         }.freeze
+
+        def parse(string)
+          {
+            accidental: accidental(string),
+            name: name(string),
+            octave: octave(string)
+          }
+        end
 
         def accidental(string)
           if string.match(MATCH[:accidental])
