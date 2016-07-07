@@ -81,12 +81,9 @@ module MusicTheory
 
       def ==(o)
         if o.kind_of?(::String)
-          self === Name.find(o)
+          to_s === Parser.parse_to_string(o)
         else
-          super ||
-          to_s === o.to_s ||
-          (abstract? && o.abstract? && value.interval_above_c == o.value.interval_above_c) ||
-          (!abstract? && !o.abstract? && value.number == o.value.number)
+          to_s === o.to_s
         end
       end
       alias_method :eql?, :==
@@ -101,8 +98,8 @@ module MusicTheory
       end
 
       def populate_accidental(string, options = {})
-        @accidental = Parser.accidental(string)
-        @accidental ||= options[:accidental]
+        @accidental = options[:accidental]
+        @accidental ||= Parser.accidental(string)
         @accidental
       end
 
@@ -111,8 +108,8 @@ module MusicTheory
       end
 
       def populate_octave(string, options = {})
-        @octave = Parser.octave(string)
-        @octave ||= options[:octave]
+        @octave = options[:octave]
+        @octave ||= Parser.octave(string)
         @octave
       end
 
@@ -132,6 +129,11 @@ module MusicTheory
             letter: letter(string),
             octave: octave(string)
           }
+        end
+
+        def parse_to_string(string)
+          hash = parse(string)
+          "#{hash[:letter]}#{hash[:accidental]}#{hash[:octave]}"
         end
 
         def accidental(string)
