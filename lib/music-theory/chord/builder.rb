@@ -16,7 +16,7 @@ module MusicTheory
       private
 
       def notes(chord_name, dictionary)
-        root_number = chord_name.root.value.number
+        root_number = chord_name.root.value.number || chord_name.root.value.interval_above_c
         intervals = (dictionary[:intervals] + (dictionary[:optional_intervals] || [])).sort!
         note_numbers = intervals.map { |n| n + root_number }
         note_numbers.map { |n| Note.find(n) }
