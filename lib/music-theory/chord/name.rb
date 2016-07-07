@@ -4,34 +4,34 @@ module MusicTheory
 
     class Name < String
 
-      attr_reader :abbrev, :root
+      attr_reader :abbreviation, :root
 
-      def initialize(obj)
-        populate(obj)
+      def initialize(obj, options = {})
+        populate(obj, options)
         super(to_s)
         freeze
       end
 
       def to_s
-        "#{@root.letter}#{@root.accidental}#{@abbrev}"
+        "#{@root.letter}#{@root.accidental}#{@abbreviation}"
       end
 
       private
 
-      def populate(obj)
+      def populate(obj, options = {})
         case obj
-        when String then populate_from_string(obj)
+        when String then populate_from_string(obj, options)
         when Voicing then populate_from_voicing(obj)
         end
       end
 
-      def populate_from_string(string)
-        @root = Parser.root_note_name(string)
-        @abbrev = Parser.abbreviation(string)
+      def populate_from_string(string, options = {})
+        @root = Parser.root_note_name(string, options)
+        @abbreviation = Parser.abbreviation(string)
       end
 
       def populate_from_voicing(voicing)
-        @abbrev = voicing.dictionary[:abbrev].to_s
+        @abbreviation = voicing.dictionary[:abbrev].to_s
         @root = voicing.root
       end
 
@@ -51,10 +51,10 @@ module MusicTheory
           end
         end
 
-        def root_note_name(string)
+        def root_note_name(string, options = {})
           unless (letter = MusicTheory::Note::Name::Parser.letter(string)).nil?
             accidental = MusicTheory::Note::Name::Parser.accidental(string)
-            MusicTheory::Note::Name.find("#{letter}#{accidental}")
+            MusicTheory::Note::Name.find("#{letter}#{accidental}", options)
           end
         end
 

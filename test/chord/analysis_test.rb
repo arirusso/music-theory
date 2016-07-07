@@ -248,11 +248,6 @@ class MusicTheory::Chord::AnalysisTest < Minitest::Test
           refute_nil @chord
         end
 
-        should "have seventh chord" do
-          assert @chord.seventh?
-          assert_equal 4, @chord.members.size
-        end
-
         should "have correct root" do
           assert_equal 12, @chord.root.value.number
         end

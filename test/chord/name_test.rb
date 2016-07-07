@@ -9,9 +9,9 @@ class MusicTheory::Chord::NameTest < Minitest::Test
       should "init from string" do
         @name = MusicTheory::Chord::Name.new("DMaj7")
         refute_nil @name
-        refute_nil @name.abbrev
+        refute_nil @name.abbreviation
         refute_nil @name.root
-        assert_equal "Maj7", @name.abbrev
+        assert_equal "Maj7", @name.abbreviation
         assert_equal @name.root, "D"
       end
 

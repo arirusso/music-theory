@@ -9,19 +9,33 @@ module MusicTheory
 
   module Chord
 
-    def self.new(*args)
-      Raw.new(*args)
+    extend self
+
+    def new(*args)
+      if builder_args?(args)
+        Builder.build(args[0], :octave => args[1])
+      else
+        Raw.new(*args)
+      end
     end
 
-    def self.name(*notes)
+    def name(*notes)
       chord = identify(*notes)
       chord.name unless chord.nil?
     end
 
-    def self.identify(*notes)
+    def identify(*notes)
       notes = [notes].flatten
       notes = notes.map { |note| note.kind_of?(Note) ? note : Note.new(note) }
       Raw.analyze(notes)
+    end
+
+    private
+
+    def builder_args?(args)
+      args.size <= 2 &&
+        (args[0].kind_of?(String) || args[0].kind_of?(Symbol)) &&
+        (args[1].nil? || args[1].kind_of?(Fixnum))
     end
 
   end

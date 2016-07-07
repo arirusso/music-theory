@@ -4,7 +4,7 @@ module MusicTheory
 
     class Voicing
 
-      attr_reader :intervals, :inversion, :members, :name, :type
+      attr_reader :dictionary, :intervals, :inversion, :members, :name, :type
 
       class << self
 
@@ -18,7 +18,7 @@ module MusicTheory
           @cache ||= {}
           @cache[type] ||= {}
           @cache[type][notes] ||= permutations(type, notes).map do |permutation|
-            new(type, permutation[:name], notes, :root_index => permutation[:root_index])
+            new(permutation[:dictionary], notes, :root_index => permutation[:root_index])
           end
         end
 
@@ -28,7 +28,7 @@ module MusicTheory
               permutation_sets.uniq.map do |set|
                 {
                   root_index: set.index(0),
-                  name: name
+                  dictionary: dictionary
                 }
               end
             end
@@ -38,9 +38,9 @@ module MusicTheory
 
       end
 
-      def initialize(type, dictionary_key, notes, options = {})
-        @dictionary_key = dictionary_key
-        @type = type.to_sym
+      def initialize(dictionary, notes, options = {})
+        @dictionary = dictionary
+        @type = Dictionary.type_for(dictionary)
         populate(notes, :root_index => options[:root_index])
       end
 
@@ -80,10 +80,6 @@ module MusicTheory
 
       def lowest_note
         @members.sort_by(&:midi_note_num).first
-      end
-
-      def dictionary
-        DICTIONARY[@type][@dictionary_key]
       end
 
       private
