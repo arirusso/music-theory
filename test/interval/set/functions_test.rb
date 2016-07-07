@@ -1,13 +1,13 @@
 require "helper"
 
-class MusicTheory::IntervalTest < Minitest::Test
+class MusicTheory::Interval::Set::FunctionsTest < Minitest::Test
 
-  context "MusicTheory::Interval" do
+  context "MusicTheory::Interval::Set::Functions" do
 
     context ".sequential" do
 
       setup do
-        @result = MusicTheory::Interval.sequential([15,13,17,11])
+        @result = MusicTheory::Interval::Set::Functions.sequential([15,13,17,11])
       end
 
       should "reflect sequential differences" do
@@ -21,7 +21,7 @@ class MusicTheory::IntervalTest < Minitest::Test
       context "with rating" do
 
         setup do
-          @result = MusicTheory::Interval.index_of_lowest([15,13,17,11], :rating => 2)
+          @result = MusicTheory::Interval::Set::Functions.index_of_lowest([15,13,17,11], :rating => 2)
         end
 
         should "reflect the index of the second lowest value" do
@@ -33,7 +33,7 @@ class MusicTheory::IntervalTest < Minitest::Test
       context "without rating" do
 
         setup do
-          @result = MusicTheory::Interval.index_of_lowest([15,13,17,11])
+          @result = MusicTheory::Interval::Set::Functions.index_of_lowest([15,13,17,11])
         end
 
         should "reflect the index of the lowest value" do
@@ -47,7 +47,7 @@ class MusicTheory::IntervalTest < Minitest::Test
     context ".reduce" do
 
       setup do
-        @result = MusicTheory::Interval.reduce([15,13,17,11])
+        @result = MusicTheory::Interval::Set::Functions.reduce([15,13,17,11])
       end
 
       should "reflect correct intervals" do
@@ -59,7 +59,7 @@ class MusicTheory::IntervalTest < Minitest::Test
     context ".reduce_relative" do
 
       setup do
-        @result = MusicTheory::Interval.reduce_relative([15,13,17,35])
+        @result = MusicTheory::Interval::Set::Functions.reduce_relative([15,13,17,35])
       end
 
       should "reflect correct intervals" do
@@ -71,7 +71,7 @@ class MusicTheory::IntervalTest < Minitest::Test
     context ".center" do
 
       setup do
-        @result = MusicTheory::Interval.center([0, 1, 8, 16])
+        @result = MusicTheory::Interval::Set::Functions.center([0, 1, 8, 16])
       end
 
       should "reflect correct intervals center over zero" do
@@ -83,7 +83,7 @@ class MusicTheory::IntervalTest < Minitest::Test
     context ".normalize" do
 
       setup do
-        @result = MusicTheory::Interval.normalize([15,13,17])
+        @result = MusicTheory::Interval::Set::Functions.normalize([15,13,17])
       end
 
       should "reflect numbers in relation to lowest in the set" do

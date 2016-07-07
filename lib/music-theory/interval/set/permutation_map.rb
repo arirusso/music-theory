@@ -2,7 +2,7 @@ module MusicTheory
 
   module Interval
 
-    module Set
+    class Set
 
       class PermutationMap
 
@@ -42,8 +42,8 @@ module MusicTheory
           end
 
           def next_centered_permutation(set)
-            index = Interval.index_of_lowest(set, :rating => 2)
-            Interval.center(set, :index => index)
+            index = Interval::Set.index_of_lowest(set, :rating => 2)
+            Interval::Set.center(set, :index => index)
           end
 
           def centered(intervals)

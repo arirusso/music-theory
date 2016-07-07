@@ -27,10 +27,10 @@ module MusicTheory
       end
 
       def control_sets(dictionary)
-        controls = [dictionary[:intervals], Interval.reduce(dictionary[:intervals])]
+        controls = [dictionary[:intervals], Interval::Set.reduce(dictionary[:intervals])]
         unless (optional_intervals = dictionary[:optional_intervals]).nil?
           controls << (dictionary[:intervals] + optional_intervals)
-          controls << Interval.reduce(dictionary[:intervals] + optional_intervals)
+          controls << Interval::Set.reduce(dictionary[:intervals] + optional_intervals)
         end
         controls
       end

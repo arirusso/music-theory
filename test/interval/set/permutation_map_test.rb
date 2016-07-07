@@ -25,7 +25,7 @@ class MusicTheory::Interval::Set::PermutationMapTest < Minitest::Test
       context "starting on zero" do
 
         setup do
-          @set = MusicTheory::Interval::Set::Base.new(0, 2, 4, 5, 7, 9, 11)
+          @set = MusicTheory::Interval::Set.new(0, 2, 4, 5, 7, 9, 11)
           @map = MusicTheory::Interval::Set::PermutationMap.new(@set)
           @result = @map.calculate
         end
@@ -40,7 +40,7 @@ class MusicTheory::Interval::Set::PermutationMapTest < Minitest::Test
       context "not starting on zero" do
 
         setup do
-          @set = MusicTheory::Interval::Set::Base.new(5, 9, 7, 10, 14, 16, 24)
+          @set = MusicTheory::Interval::Set.new(5, 9, 7, 10, 14, 16, 24)
           @map = MusicTheory::Interval::Set::PermutationMap.new(@set)
           @result = @map.calculate
         end

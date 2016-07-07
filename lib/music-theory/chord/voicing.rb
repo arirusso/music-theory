@@ -101,7 +101,7 @@ module MusicTheory
       end
 
       def reduced_dictionary_intervals
-        @reduced_dictionary_intervals ||= Interval.reduce(dictionary_intervals)
+        @reduced_dictionary_intervals ||= Interval::Set.reduce(dictionary_intervals)
       end
 
       def populate(notes, options = {})
