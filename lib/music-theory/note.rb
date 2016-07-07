@@ -5,8 +5,13 @@ module MusicTheory
 
   module Note
 
-    def self.new(*args)
-      Note::Name.find(*args)
+    class << self
+
+      def new(*args)
+        Note::Name.find(*args)
+      end
+      alias_method :find, :new
+
     end
 
   end

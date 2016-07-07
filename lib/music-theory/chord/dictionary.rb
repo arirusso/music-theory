@@ -111,13 +111,7 @@ module MusicTheory
       end
 
       def find_by_abbreviation(abbreviation)
-        DICTIONARY.values.map(&:values).flatten.find { |type| type[:abbrev] == abbreviation }
-      end
-
-      def find_all_intervals_by_abbreviation(abbreviation)
-        type = find_by_abbreviation(abbreviation)
-        intervals = type[:intervals] + type[:optional_intervals]
-        intervals.sort!
+        DICTIONARY.values.map(&:values).flatten.find { |type| type[:abbrev].to_s.downcase == abbreviation.to_s.downcase }
       end
 
       def type_for(dictionary)

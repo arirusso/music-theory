@@ -41,15 +41,13 @@ module MusicTheory
 
         def find_by_string(string, options = {})
           @names ||= {}
-          if @names[string].nil?
+          @names[string] ||= {}
+          if @names[string][options].nil?
             name_hash = Parser.parse(string)
             name_options = name_hash.merge!(options)
-            if @names[name_options].nil?
-              @names[name_options] = new(name_options[:letter], name_options)
-            end
-            @names[string] = @names[name_options]
+            @names[string][options] = new(name_options[:letter], name_options)
           end
-          @names[string]
+          @names[string][options]
         end
 
       end

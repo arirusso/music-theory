@@ -46,9 +46,12 @@ module MusicTheory
 
         def number(name)
           unless name.abstract?
-            octave_start = (12 * name.octave) + 12
-            octave_start + interval_above_c(name)
+            octave_start(name.octave) + interval_above_c(name)
           end
+        end
+
+        def octave_start(octave)
+          (12 * octave) + 12
         end
 
         # The intervalic value of this note's accidental

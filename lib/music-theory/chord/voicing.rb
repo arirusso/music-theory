@@ -18,7 +18,8 @@ module MusicTheory
           @cache ||= {}
           @cache[type] ||= {}
           @cache[type][notes] ||= permutations(type, notes).map do |permutation|
-            new(permutation[:dictionary], notes, :root_index => permutation[:root_index])
+            root = notes.at(permutation[:root_index])
+            new(permutation[:dictionary], notes, root)
           end
         end
 
@@ -38,10 +39,10 @@ module MusicTheory
 
       end
 
-      def initialize(dictionary, notes, options = {})
+      def initialize(dictionary, notes, root, options = {})
         @dictionary = dictionary
         @type = Dictionary.type_for(dictionary)
-        populate(notes, :root_index => options[:root_index])
+        populate(notes, root)
       end
 
       def root
@@ -100,9 +101,7 @@ module MusicTheory
         @reduced_dictionary_intervals ||= Interval::Set.reduce(dictionary_intervals)
       end
 
-      def populate(notes, options = {})
-        root_index = options[:root_index]
-        root = notes[root_index]
+      def populate(notes, root)
         @intervals = {}
         @members = notes.select do |note|
           interval = (note.value.interval_above_c + 12) - root.value.interval_above_c
