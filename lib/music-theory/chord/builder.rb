@@ -6,14 +6,20 @@ module MusicTheory
 
       extend self
 
-      def self.build(name, options = {})
-        name = Name.new(name, octave: options[:octave])
-        root_number = name.root.value.number
+      def build(name, options = {})
+        name = Chord::Name.new(name, octave: options[:octave])
         dictionary = Dictionary.find_by_abbreviation(name.abbreviation)
+        notes = notes(name, dictionary)
+        Voicing.new(dictionary, notes, name.root, octave: options[:octave])
+      end
+
+      private
+
+      def notes(chord_name, dictionary)
+        root_number = chord_name.root.value.number
         intervals = (dictionary[:intervals] + (dictionary[:optional_intervals] || [])).sort!
         note_numbers = intervals.map { |n| n + root_number }
-        notes = note_numbers.map { |n| Note.find(n) }
-        Voicing.new(dictionary, notes, name.root, octave: options[:octave])
+        note_numbers.map { |n| Note.find(n) }
       end
 
     end
