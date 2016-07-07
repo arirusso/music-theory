@@ -11,7 +11,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
         context "with high chars" do
 
           setup do
-            @note = MusicTheory::Note::Name.new("F♯2")
+            @note = MusicTheory::Note::Name.find("F♯2")
           end
 
           should "parse octave" do
@@ -39,7 +39,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
         context "without high chars" do
 
           setup do
-            @note = MusicTheory::Note::Name.new("G#3")
+            @note = MusicTheory::Note::Name.find("G#3")
           end
 
           should "parse octave" do
@@ -69,7 +69,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
       context "without accidental" do
 
         setup do
-          @note = MusicTheory::Note::Name.new("E2")
+          @note = MusicTheory::Note::Name.find("E2")
         end
 
         should "parse octave" do
@@ -101,7 +101,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
         context "with high chars" do
 
           setup do
-            @note = MusicTheory::Note::Name.new("B♭")
+            @note = MusicTheory::Note::Name.find("B♭")
           end
 
           should "parse octave" do
@@ -128,7 +128,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
         context "without high chars" do
 
           setup do
-            @note = MusicTheory::Note::Name.new("Eb")
+            @note = MusicTheory::Note::Name.find("Eb")
           end
 
           should "parse octave" do
@@ -157,7 +157,7 @@ class MusicTheory::Note::NameTest < Minitest::Test
       context "without accidental" do
 
         setup do
-          @note = MusicTheory::Note::Name.new("F")
+          @note = MusicTheory::Note::Name.find("F")
         end
 
         should "parse octave" do

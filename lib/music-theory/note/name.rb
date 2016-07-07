@@ -52,8 +52,10 @@ module MusicTheory
 
       end
 
-      def initialize(string, options = {})
-        populate(string.downcase, options)
+      def initialize(letter, options = {})
+        @accidental = options[:accidental]
+        @octave = options[:octave]
+        @letter = letter.to_s
         @value = Value.for_name(self)
         freeze
       end
@@ -85,31 +87,6 @@ module MusicTheory
         end
       end
       alias_method :eql?, :==
-
-      private
-
-      def populate(string, options = {})
-        string = string.downcase
-        populate_accidental(string, options)
-        populate_letter(string)
-        populate_octave(string, options)
-      end
-
-      def populate_accidental(string, options = {})
-        @accidental = options[:accidental]
-        @accidental ||= Parser.accidental(string)
-        @accidental
-      end
-
-      def populate_letter(string)
-        @letter = Parser.letter(string)
-      end
-
-      def populate_octave(string, options = {})
-        @octave = options[:octave]
-        @octave ||= Parser.octave(string)
-        @octave
-      end
 
       module Parser
 

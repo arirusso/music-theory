@@ -4,6 +4,24 @@ class MusicTheory::ChordTest < Minitest::Test
 
   context "MusicTheory::Chord" do
 
+    context ".build" do
+
+      context "triad" do
+
+        context "major" do
+
+          should "build using chord name" do
+            @chord = MusicTheory::Chord.build("DMaj")
+            assert_equal "DMaj", @chord.name
+            assert_equal 0, @chord.inversion
+          end
+
+        end
+
+      end
+
+    end
+
     context ".identify" do
 
       context "triad" do
