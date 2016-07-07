@@ -4,6 +4,9 @@ module MusicTheory
 
     class Name < String
 
+      extend Forwardable
+
+      def_delegators :@root, :accidental, :letter
       attr_reader :abbreviation, :root
 
       def initialize(obj, options = {})
