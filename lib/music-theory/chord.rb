@@ -31,6 +31,10 @@ module MusicTheory
       Raw.analyze(notes)
     end
 
+    def build(string, options = {})
+      Builder.build(string, options)
+    end
+
     private
 
     def builder_args?(args)
