@@ -10,10 +10,20 @@ class MusicTheory::ChordTest < Minitest::Test
 
         context "major" do
 
-          should "build using chord name" do
+          should "build without octave" do
             @chord = MusicTheory::Chord.build("DMaj")
             assert_equal "DMaj", @chord.name
             assert_equal 0, @chord.inversion
+            assert_equal "D", @chord.root.to_s
+            assert_equal %w{D F♯ A}, @chord.members.map(&:to_s)
+          end
+
+          should "build with octave" do
+            @chord = MusicTheory::Chord.build("DMaj", octave: 2)
+            assert_equal "DMaj", @chord.name
+            assert_equal 0, @chord.inversion
+            assert_equal "D2", @chord.root.to_s
+            assert_equal %w{D2 F♯2 A2}, @chord.members.map(&:to_s)
           end
 
         end
