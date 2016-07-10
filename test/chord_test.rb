@@ -10,20 +10,64 @@ class MusicTheory::ChordTest < Minitest::Test
 
         context "major" do
 
-          should "build without octave" do
-            @chord = MusicTheory::Chord.build("DMaj")
-            assert_equal "DMaj", @chord.name
-            assert_equal 0, @chord.inversion
-            assert_equal "D", @chord.root.to_s
-            assert_equal %w{D F♯ A}, @chord.members.map(&:to_s)
-          end
+          context "triad" do
 
-          should "build with octave" do
-            @chord = MusicTheory::Chord.build("DMaj", octave: 2)
-            assert_equal "DMaj", @chord.name
-            assert_equal 0, @chord.inversion
-            assert_equal "D2", @chord.root.to_s
-            assert_equal %w{D2 F♯2 A2}, @chord.members.map(&:to_s)
+            context "abstract" do
+
+              should "build" do
+                @chord = MusicTheory::Chord.build("DMaj")
+                assert_equal "DMaj", @chord.name
+                assert_equal 0, @chord.inversion
+                assert_equal "D", @chord.root.to_s
+                assert_equal %w{D F♯ A}, @chord.members.map(&:to_s)
+              end
+
+              should "build in first inversion" do
+                @chord = MusicTheory::Chord.build("CMaj", :inversion => 1)
+                assert_equal "CMaj", @chord.name
+                assert_equal 1, @chord.inversion
+                assert_equal "C", @chord.root.to_s
+                assert_equal %w{E G C}, @chord.members.map(&:to_s)
+              end
+
+              should "build in second inversion" do
+                @chord = MusicTheory::Chord.build("F#Min", :inversion => 2)
+                assert_equal "F♯Min", @chord.name
+                assert_equal 2, @chord.inversion
+                assert_equal "F♯", @chord.root.to_s
+                assert_equal %w{C♯ F♯ A}, @chord.members.map(&:to_s)
+              end
+
+            end
+
+            context "with octave" do
+
+              should "build with octave" do
+                @chord = MusicTheory::Chord.build("EMin", octave: 2)
+                assert_equal "EMin", @chord.name
+                assert_equal 0, @chord.inversion
+                assert_equal "E2", @chord.root.to_s
+                assert_equal %w{E2 G2 B2}, @chord.members.map(&:to_s)
+              end
+
+              should "build with octave in first inversion" do
+                @chord = MusicTheory::Chord.build("GDim", octave: 2, inversion: 1)
+                assert_equal "GDim", @chord.name
+                assert_equal 1, @chord.inversion
+                assert_equal "G2", @chord.root.to_s
+                #assert_equal %w{Bb2 Db2 G2}, @chord.members.map(&:to_s)
+              end
+
+              should "build with octave in second inversion" do
+                @chord = MusicTheory::Chord.build("EMin", octave: 2)
+                assert_equal "EMin", @chord.name
+                assert_equal 0, @chord.inversion
+                assert_equal "E2", @chord.root.to_s
+                assert_equal %w{E2 G2 B2}, @chord.members.map(&:to_s)
+              end
+
+            end
+
           end
 
         end
