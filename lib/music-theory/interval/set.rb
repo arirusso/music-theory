@@ -11,14 +11,28 @@ module MusicTheory
       extend Functions
 
       attr_reader :members
-      def_delegators :@members, :size, :to_a
+      def_delegators :@members, :[], :at, :first, :index, :last, :size, :to_a
 
       def initialize(*members)
         @members = members.flatten
       end
 
+      def ==(o)
+        super || @members == o
+      end
+      alias_method :eql?, :==
+
       def permutations
         PermutationMap.calculate(self)
+      end
+
+      def rotate
+        Set.new(@members.rotate)
+      end
+
+      def rotate!
+        @members.rotate!
+        self
       end
 
       def reduce
