@@ -38,8 +38,8 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
           @analysis = MusicTheory::Scale::Analysis.new(@set)
         end
 
-        should "identify scale" do
-          assert_equal :major, @analysis.scale
+        should "identify traits" do
+          assert_equal [:heptatonic, :diatonic, :major], @analysis.scale
         end
 
       end
@@ -53,8 +53,8 @@ class MusicTheory::Scale::AnalysisTest < Minitest::Test
             @analysis = MusicTheory::Scale::Analysis.new(@set)
           end
 
-          should "identify scale" do
-            assert_equal({ :minor => :natural }, @analysis.scale)
+          should "identify traits" do
+            assert_equal [:heptatonic, :diatonic, :minor, :natural], @analysis.scale
           end
 
         end
