@@ -67,16 +67,6 @@ module MusicTheory
         super
       end
 
-      def flatten(options = {})
-        factor = options.fetch(:factor, 1)
-        tonality = options.fetch(:tonality, Scale.build("C", :major))
-      end
-
-      def sharp(options = {})
-        factor = options.fetch(:factor, 1)
-        tonality = options.fetch(:tonality, Scale.build("C", :major))
-      end
-
       def octave?
         !@octave.nil?
       end

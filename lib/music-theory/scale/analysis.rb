@@ -1,6 +1,6 @@
 module MusicTheory
 
-  module Scale
+  class Scale
 
     class Analysis
 

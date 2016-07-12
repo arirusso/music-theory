@@ -5,12 +5,14 @@ require "music-theory/scale/dictionary"
 
 module MusicTheory
 
-  module Scale
+  class Scale
 
-    extend self
+    class << self
 
-    def build(name, options = {})
-      Builder.build(name, options)
+      def build(name, options = {})
+        Builder.build(name, options)
+      end
+
     end
 
   end
